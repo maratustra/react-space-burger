@@ -6,7 +6,7 @@ export default function Header() {
     <header className="header">
       <nav className="nav">
         <ul className="nav-links">
-          <li className="nav-link">
+          <li className="nav-link ] p-4">
             <BurgerIcon type="primary" />
             <p className="text text_type_main-default">Конструктор</p>
           </li>
@@ -18,7 +18,7 @@ export default function Header() {
         <div className="logo-container">
           <Logo />
         </div>
-        <div className="account">
+        <div className="account p-4">
           <ProfileIcon type="primary" />
           <p className="text text_type_main-default">Личный кабинет</p>
         </div>
