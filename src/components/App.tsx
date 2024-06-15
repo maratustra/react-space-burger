@@ -1,7 +1,8 @@
 import './App.css'
+import data from './utils/data.json'
 import BurgerIngredients from './burger-ingredients/burger-ingredients'
 import BurgerConstructor from './burger-constructor/burger-constructor'
-import Header  from './header/header'
+import Header from './app-header/app-header'
 
 function App() {
   return (
@@ -9,12 +10,12 @@ function App() {
       <Header />
       <section className="container">
         <div className="content">
-          <BurgerIngredients />
-          <BurgerConstructor />
+          <BurgerIngredients ingredients={data} />
+          <BurgerConstructor ingredients={data} />
         </div>
       </section>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

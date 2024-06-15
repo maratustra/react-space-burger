@@ -52,6 +52,13 @@
   align-items: center;
   list-style: none;
   gap: 4px;
+  max-width: 272px;
+} 
+
+.ingredient-description {
+  font-size: 16px !important;
+  line-height: 24px !important;
+  text-align: center;
 }
 
 .header-сounter {
@@ -69,6 +76,8 @@
 .price > .counter {
   position: relative !important;
   background: transparent !important;
+  font-size: 28px !important;
+  line-height: 24px !important;
 }
 
 

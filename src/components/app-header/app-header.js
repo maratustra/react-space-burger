@@ -1,12 +1,17 @@
-import './header.css'
-import { BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components'
+import './app-header.css'
+import {
+  BurgerIcon,
+  ListIcon,
+  ProfileIcon,
+  Logo,
+} from '@ya.praktikum/react-developer-burger-ui-components'
 
 export default function Header() {
   return (
-    <header className="header">
+    <header className="header pt-4 pb-4">
       <nav className="nav">
         <ul className="nav-links">
-          <li className="nav-link ] p-4">
+          <li className="nav-link p-4">
             <BurgerIcon type="primary" />
             <p className="text text_type_main-default">Конструктор</p>
           </li>
