@@ -6,7 +6,7 @@ import {
   Logo,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
-export default function Header() {
+function Header() {
   return (
     <header className="header pt-4 pb-4">
       <nav className="nav">
@@ -31,3 +31,5 @@ export default function Header() {
     </header>
   )
 }
+
+export default Header

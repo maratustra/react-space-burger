@@ -9,7 +9,9 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { ingredientType } from '../utils/types'
 
-export default function BurgerConstructor({ ingredients }) {
+function BurgerConstructor({ ingredients }) {
+  const burgerBun = ingredients[0]
+
   return (
     <section className="burger-components">
       <div className="main-block-components">
@@ -17,9 +19,9 @@ export default function BurgerConstructor({ ingredients }) {
         <ConstructorElement
           type="top"
           isLocked={true}
-          text={ingredients[0].name + " (верх)"}
-          price={ingredients[0].price}
-          thumbnail={ingredients[0].image}
+          text={`${burgerBun.name} (верх)`}
+          price={burgerBun.price}
+          thumbnail={burgerBun.image}
         />
       </div>
       <div className="constructor-wrapper">
@@ -27,7 +29,10 @@ export default function BurgerConstructor({ ingredients }) {
           className="main-constructor"
           style={{ display: "flex", flexDirection: "column", gap: "10px" }}
         >
-          {ingredients.slice(1).map((ingredient) => (
+          {ingredients
+            .slice(1)
+            .filter(ingredient => !ingredient.name.toLowerCase().includes('булка'))
+            .map(ingredient => (
             <div key={ingredient._id} className="constructor-item">
               <DragIcon type="primary" />
               <ConstructorElement
@@ -43,9 +48,9 @@ export default function BurgerConstructor({ ingredients }) {
         <ConstructorElement
           type="bottom"
           isLocked={true}
-          text={ingredients[0].name + " (низ)"}
-          price={ingredients[0].price}
-          thumbnail={ingredients[0].image}
+          text={`${burgerBun.name} (низ)`}
+          price={burgerBun.price}
+          thumbnail={burgerBun.image}
         />
       </div>
       </div>
@@ -65,3 +70,5 @@ export default function BurgerConstructor({ ingredients }) {
 BurgerConstructor.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientType).isRequired
 }
+
+export default BurgerConstructor

@@ -1,21 +1,21 @@
-import './burger-ingredients.css'
-import PropTypes from 'prop-types'
+import "./burger-ingredients.css"
+import PropTypes from "prop-types"
 import {
   Counter,
   CurrencyIcon,
   Tab,
-} from '@ya.praktikum/react-developer-burger-ui-components'
-import { ingredientType } from '../utils/types'
+} from "@ya.praktikum/react-developer-burger-ui-components"
+import { ingredientType } from "../utils/types"
 
-const typeNames = {
-  bun: 'Булки',
-  sauce: 'Соусы',
-  main: 'Начинки'
-}
+function BurgerIngredients({ ingredients }) {
+  const buns = ingredients.filter(ingredient => ingredient.name.toLowerCase().includes("булка"))
+  const sauces = ingredients.filter(ingredient => ingredient.name.toLowerCase().includes("соус"))
+  const mains = ingredients.filter(
+    ingredient => !ingredient.name.toLowerCase().includes("булка") && !ingredient.name.toLowerCase().includes("соус")
+  )
 
-export default function BurgerIngredients({ ingredients }) {
   return (
-    <div className="burger-ingredients">
+    <section className="burger-ingredients">
       <p className="text text_type_main-large pt-10 pb-5">Соберите бургер</p>
       <div className="tab-container pb-10">
         <Tab value="one" active={"one"} className="tab">
@@ -29,42 +29,82 @@ export default function BurgerIngredients({ ingredients }) {
         </Tab>
       </div>
       <div className="ingredients">
-        {Object.keys(typeNames).map((type) => (
-          <section key={type}>
-            <p className="ingredient-header text text_type_main-medium">
-              {typeNames[type]}
-            </p>
-            <ul className="ingredients-list mt-6 mb-10 pl-0">
-              {ingredients
-                .filter((ingredient) => ingredient.type === type)
-                .map((ingredient, index) => (
-                  <li key={ingredient._id} className="ingredient-item ml-4">
-                    {(type === 'bun' && index === 0) || (type === 'sauce' && index === 2) ? (
-                      <div className="header-counter">
-                        <Counter count={1} size="default" extraClass="counter" />
-                      </div>
-                    ) : null}
-                    <div className="pl-4 pr-4">
-                      <img src={ingredient.image} alt={ingredient.name} />
-                    </div>
-                    <div className="price">
-                      <Counter count={20} size="default" />
-                      <CurrencyIcon type="primary" />
-                    </div>
-                    <p className="ingredient-description text text_type_main-small pb-15">
-                      {ingredient.name}
-                    </p>
-                  </li>
-                ))}
-            </ul>
-          </section>
-        ))}
+        <section>
+          <p className="ingredient-header text text_type_main-medium">Булки</p>
+          <ul className="ingredients-list mt-6 mb-15 pl-0">
+            {buns.map((ingredient, index) => (
+              <li key={ingredient._id} className={`ingredient-item ${index % 2 === 0 ? "ml-4" : ""}`}>
+                {index === 0 && (
+                  <div className="header-counter">
+                    <Counter count={1} size="default" extraClass="counter" />
+                  </div>
+                )}
+                <div className="pl-4 pr-4">
+                  <img src={ingredient.image} alt="Булка" />
+                </div>
+                <div className="price">
+                  <Counter count={ingredient.price} size="default" />
+                  <CurrencyIcon type="primary" />
+                </div>
+                <p className="ingredient-description text text_type_main-small">
+                  {ingredient.name}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section>
+          <p className="ingredient-header text text_type_main-medium">Соусы</p>
+          <ul className="ingredients-list mt-6 mb-15 pl-0">
+            {sauces.map((ingredient, index) => (
+              <li key={ingredient._id} className={`ingredient-item ${index % 2 === 0 ? "ml-4" : ""}`}>
+                {index === 2 && (
+                  <div className="header-counter">
+                    <Counter count={1} size="default" extraClass="counter" />
+                  </div>
+                )}
+                <div className="pl-4 pr-4">
+                  <img src={ingredient.image} alt="Соус"/>
+                </div>
+                <div className="price">
+                  <Counter count={ingredient.price} size="default" />
+                  <CurrencyIcon type="primary" />
+                </div>
+                <p className="ingredient-description text text_type_main-small">
+                  {ingredient.name}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section>
+          <p className="ingredient-header text text_type_main-medium">Начинки</p>
+          <ul className="ingredients-list mt-6 mb-15 pl-0">
+            {mains.map(ingredient => (
+              <li key={ingredient._id} className="ingredient-item">
+                <div className="pl-4 pr-4">
+                  <img src={ingredient.image} alt="Начинка" />
+                </div>
+                <div className="price">
+                  <Counter count={ingredient.price} size="default" />
+                  <CurrencyIcon type="primary" />
+                </div>
+                <p className="ingredient-description text text_type_main-small">
+                  {ingredient.name}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
       </div>
-    </div>
+    </section>
   )
 }
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientType).isRequired
+  ingredients: PropTypes.arrayOf(ingredientType).isRequired,
 }
 
+export default BurgerIngredients
