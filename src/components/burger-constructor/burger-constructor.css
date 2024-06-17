@@ -5,7 +5,7 @@
 .main-block-components {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: end;
 }
 
 .constructor-wrapper {
@@ -34,10 +34,9 @@
 .constructor-wrapper::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
-
-.constructor-fixed-top {
+.constructor-fixed-top,
+.constructor-fixed-bottom {
   position: sticky;
-  top: 0;
   z-index: 1;
   display: flex;
   justify-content: center;
@@ -45,30 +44,31 @@
   box-sizing: border-box;
 }
 
+.constructor-fixed-top {
+  top: 0;
+}
+
 .constructor-fixed-bottom {
-  position: sticky;
   bottom: 0;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  width: 536px;
-  box-sizing: border-box;
 }
 
 .main-constructor {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .constructor-item {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 536px;
   box-sizing: border-box;
   gap: 8px;
+  width: 100%;
+  flex-shrink: 0;
+  flex-grow: 1;
 }
 
 .total {
