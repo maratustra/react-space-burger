@@ -1,4 +1,5 @@
-import './burger-constructor.css'
+import { useEffect, useRef } from 'react'
+import styles from './burger-constructor.module.css'
 import PropTypes from 'prop-types'
 import {
   Button,
@@ -9,31 +10,53 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { ingredientType } from '../utils/types'
 
-function BurgerConstructor({ ingredients }) {
-  const burgerBun = ingredients[0]
+function BurgerConstructor({ ingredients, onOrderClick }) {
+  const burgerBun = ingredients.find(ingredient => ingredient.type === 'bun')
+  const constructorWrapperRef = useRef(null)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (constructorWrapperRef.current && constructorWrapperRef.current.scrollTop > 0) {
+        constructorWrapperRef.current.classList.add(styles.scrolling)
+      } else if (constructorWrapperRef.current) {
+        constructorWrapperRef.current.classList.remove(styles.scrolling)
+      }
+    }
+
+    const wrapper = constructorWrapperRef.current
+    if (wrapper) {
+      wrapper.addEventListener('scroll', handleScroll)
+    }
+
+    return () => {
+      if (wrapper) {
+        wrapper.removeEventListener('scroll', handleScroll)
+      }
+    }
+  }, [])
 
   return (
-    <section className="burger-components">
-      <div className="main-block-components">
-      <div className="constructor-fixed-top mt-25">
+    <section className={styles['burger-components']}>
+      <div className={styles['main-block-components']}>
+      <div className={`${styles['constructor-fixed-top']} mt-25`}>
         <ConstructorElement
           type="top"
           isLocked={true}
-          text={`${burgerBun.name} (верх)`}
-          price={burgerBun.price}
-          thumbnail={burgerBun.image}
+          text={`${burgerBun?.name} (верх)`}
+          price={burgerBun?.price}
+          thumbnail={burgerBun?.image}
         />
       </div>
-      <div className="constructor-wrapper">
+      <div className={styles['constructor-wrapper']} ref={constructorWrapperRef}>
         <div
-          className="main-constructor"
+          className={styles['main-constructor']}
           style={{ display: "flex", flexDirection: "column", gap: "10px" }}
         >
           {ingredients
             .slice(1)
-            .filter(ingredient => !ingredient.name.toLowerCase().includes('булка'))
+            .filter(ingredient => ingredient.type !== 'bun')
             .map(ingredient => (
-            <div key={ingredient._id} className="constructor-item">
+            <div key={ingredient._id} className={styles['constructor-item']}>
               <DragIcon type="primary" />
               <ConstructorElement
                 text={ingredient.name}
@@ -44,22 +67,22 @@ function BurgerConstructor({ ingredients }) {
           ))}
         </div>
       </div>
-      <div className="constructor-fixed-bottom">
+      <div className={styles['constructor-fixed-bottom']}>
         <ConstructorElement
           type="bottom"
           isLocked={true}
-          text={`${burgerBun.name} (низ)`}
-          price={burgerBun.price}
-          thumbnail={burgerBun.image}
+          text={`${burgerBun?.name} (низ)`}
+          price={burgerBun?.price}
+          thumbnail={burgerBun?.image}
         />
       </div>
       </div>
-      <div className="total pt-10">
-        <div className="total-price">
-          <Counter count={610} size="default" />
+      <div className={`${styles.total} pt-10`}>
+        <div className={styles['total-price']}>
+          <Counter count={610} size="default" extraClass={styles.counter} />
           <CurrencyIcon type="primary" size="36" />
         </div>
-        <Button htmlType="button" type="primary" size="large">
+        <Button htmlType="button" type="primary" size="large" onClick={onOrderClick}>
           Оформить заказ
         </Button>
       </div>
@@ -68,7 +91,8 @@ function BurgerConstructor({ ingredients }) {
 }
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientType).isRequired
+  ingredients: PropTypes.arrayOf(ingredientType).isRequired,
+  onOrderClick: PropTypes.func.isRequired,
 }
 
 export default BurgerConstructor

@@ -1,0 +1,36 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1010;
+  background-color: #1C1C21;
+  padding: 40px 40px 0;
+  border-radius: 40px;
+  width: 720px;
+  height: 718px;
+  color: #F2F2F3;
+  text-align: center;
+}
+
+.modal-no-title {
+  height: 539px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header-no-title {
+  justify-content: end;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: #F2F2F3;
+  font-size: 24px;
+  cursor: pointer;
+}

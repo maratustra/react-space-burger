@@ -1,4 +1,4 @@
-import './app-header.css'
+import styles from './app-header.module.css'
 import {
   BurgerIcon,
   ListIcon,
@@ -8,22 +8,22 @@ import {
 
 function Header() {
   return (
-    <header className="header pt-4 pb-4">
-      <nav className="nav">
-        <ul className="nav-links">
-          <li className="nav-link p-4">
+    <header className={`${styles.header} pt-4 pb-4`}>
+      <nav className={styles.nav}>
+        <ul className={styles['nav-links']}>
+          <li className={`${styles['nav-link']} p-4`}>
             <BurgerIcon type="primary" />
             <p className="text text_type_main-default">Конструктор</p>
           </li>
-          <li className="nav-link">
+          <li className={styles['nav-link']}>
             <ListIcon type="primary" />
             <p className="text text_type_main-default">Лента заказов</p>
           </li>
         </ul>
-        <div className="logo-container">
+        <div className={styles['logo-container']}>
           <Logo />
         </div>
-        <div className="account p-4">
+        <div className={`${styles.account} p-4`}>
           <ProfileIcon type="primary" />
           <p className="text text_type_main-default">Личный кабинет</p>
         </div>

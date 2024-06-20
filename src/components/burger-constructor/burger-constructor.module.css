@@ -9,30 +9,36 @@
 }
 
 .constructor-wrapper {
-  height: 463px;
+  height: 440px;
   overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #888 #444;
   padding-top: 10px;
   padding-bottom: 10px;
+  scrollbar-width: none;
 }
 
-.constructor-wrapper::-webkit-scrollbar {
+.constructor-wrapper:hover,
+.constructor-wrapper.scrolling {
+  scrollbar-width: thin;
+}
+
+.constructor-wrapper:hover::-webkit-scrollbar,
+.constructor-wrapper.scrolling::-webkit-scrollbar {
+  display: block;
   width: 12px;
 }
 
 .constructor-wrapper::-webkit-scrollbar-track {
-  background: #444;
+  background: #1C1C21;
   border-radius: 6px;
 }
 
 .constructor-wrapper::-webkit-scrollbar-thumb {
   border-radius: 6px;
-  border: 2px solid #444;
+  border: 2px solid #1C1C21;
 }
 
 .constructor-wrapper::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
+  background-color: #8585AD;
 }
 .constructor-fixed-top,
 .constructor-fixed-bottom {
