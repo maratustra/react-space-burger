@@ -4,21 +4,26 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients"
 import BurgerConstructor from "../burger-constructor/burger-constructor"
 import Header from "../app-header/app-header"
 import Modal from "../modal/modal"
-import ModalOverlay from "../modal/modal-overlay"
 import OrderDetails from "../order-details/order-details"
 import IngredientDetails from "../ingredient-details/ingredient-details"
+import { useModal } from '../../hooks/useModal'
 
 const API_URL = 'https://norma.nomoreparties.space/api/ingredients'
 
 function App() {
   const [ingredients, setIngredients] = useState([])
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const { isModalOpen, openModal, closeModal } = useModal()
   const [modalContent, setModalContent] = useState(null)
   const [modalTitle, setModalTitle] = useState('')
 
   useEffect(() => {
     fetch(API_URL)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`Ошибка: ${res.status}`)
+        }
+        return res.json()
+      })
       .then(data => {
         if (data.success) {
           setIngredients(data.data)
@@ -34,18 +39,13 @@ function App() {
   const handleIngredientClick = ingredient => {
     setModalContent(<IngredientDetails ingredient={ingredient} />)
     setModalTitle('Детали ингридиента')
-    setIsModalOpen(true)
+    openModal()
   }
 
   const handleOrderClick = () => {
     setModalContent(<OrderDetails />)
     setModalTitle('')
-    setIsModalOpen(true)
-  }
-
-  const closeModal = () => {
-    setIsModalOpen(false)
-    setModalContent(null)
+    openModal()
   }
 
   return (
@@ -58,7 +58,6 @@ function App() {
         </div>
         {isModalOpen && (
           <>
-            <ModalOverlay onClick={closeModal} />
             <Modal title={modalTitle} onClose={closeModal}>
               {modalContent}
             </Modal>
