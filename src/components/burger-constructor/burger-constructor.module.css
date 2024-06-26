@@ -1,0 +1,97 @@
+.burger-components {
+  flex: 1;
+}
+
+.main-block-components {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.constructor-wrapper {
+  height: 440px;
+  overflow-y: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  scrollbar-width: none;
+}
+
+.constructor-wrapper:hover,
+.constructor-wrapper.scrolling {
+  scrollbar-width: thin;
+}
+
+.constructor-wrapper:hover::-webkit-scrollbar,
+.constructor-wrapper.scrolling::-webkit-scrollbar {
+  display: block;
+  width: 12px;
+}
+
+.constructor-wrapper::-webkit-scrollbar-track {
+  background: #1C1C21;
+  border-radius: 6px;
+}
+
+.constructor-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  border: 2px solid #1C1C21;
+}
+
+.constructor-wrapper::-webkit-scrollbar-thumb:hover {
+  background-color: #8585AD;
+}
+.constructor-fixed-top,
+.constructor-fixed-bottom {
+  position: sticky;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  width: 536px;
+  box-sizing: border-box;
+}
+
+.constructor-fixed-top {
+  top: 0;
+}
+
+.constructor-fixed-bottom {
+  bottom: 0;
+}
+
+.main-constructor {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.constructor-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  gap: 8px;
+  width: 100%;
+  flex-shrink: 0;
+  flex-grow: 1;
+}
+
+.total {
+  display: flex;
+  justify-content: end;
+  gap: 40px;
+}
+
+.total-price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.total-price > .counter {
+  position: relative !important;
+  background: transparent !important;
+  font-size: 48px !important;
+  line-height: 36px !important;
+}

@@ -1,0 +1,48 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.nav-links {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  gap: 8px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.nav-link p {
+  color: white;
+}
+
+.logo-container {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.account p {
+  color: white;
+}
