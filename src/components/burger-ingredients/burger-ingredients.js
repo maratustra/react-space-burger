@@ -1,4 +1,5 @@
-import { useContext, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
 
@@ -8,10 +9,8 @@ import {
   Tab,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { IngredientsContext } from "../../context/ingredientsContext";
-
 function BurgerIngredients({ onIngredientClick }) {
-  const { ingredients } = useContext(IngredientsContext);
+  const ingredients = useSelector(store => store.ingredients.ingredients);
 
   const buns = ingredients.filter((ingredient) =>
     ingredient.name.toLowerCase().includes("булка")

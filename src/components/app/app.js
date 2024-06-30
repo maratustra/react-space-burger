@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./app.module.css";
 
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
@@ -9,13 +10,15 @@ import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 
 import { useModal } from "../../hooks/useModal";
-import { IngredientsContext } from "../../context/ingredientsContext";
 import { ModalContext } from "../../context/modalContext";
+import { SET_INGREDIENTS } from "../../services/actions/ingredients";
 
 const API_URL = "https://norma.nomoreparties.space/api/ingredients";
 
 function App() {
-  const [ingredients, setIngredients] = useState([]);
+  const dispatch = useDispatch();
+  const ingredients = useSelector(state => state.ingredients.ingredients);
+
   const { isModalOpen, openModal, closeModal } = useModal();
   const [modalContent, setModalContent] = useState(null);
   const [modalTitle, setModalTitle] = useState("");
@@ -30,7 +33,7 @@ function App() {
       })
       .then((data) => {
         if (data.success) {
-          setIngredients(data.data);
+          dispatch({ type: SET_INGREDIENTS, payload: data.data });
         } else {
           throw new Error("Данные не получены");
         }
@@ -57,18 +60,12 @@ function App() {
       <Header />
       <main className={styles.container}>
         <div className={styles.content}>
-          <IngredientsContext.Provider value={{ ingredients, setIngredients }}>
-            <BurgerIngredients onIngredientClick={handleIngredientClick} />
-            <BurgerConstructor onOrderClick={handleOrderClick} />
-          </IngredientsContext.Provider>
+          <BurgerIngredients onIngredientClick={handleIngredientClick} />
+          <BurgerConstructor onOrderClick={handleOrderClick} />
         </div>
         <ModalContext.Provider value={{ isModalOpen, closeModal }}>
           {isModalOpen && (
-            <>
-              <Modal title={modalTitle}>
-                {modalContent}
-              </Modal>
-            </>
+            <Modal title={modalTitle}>{modalContent}</Modal>
           )}
         </ModalContext.Provider>
       </main>

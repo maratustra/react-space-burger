@@ -1,4 +1,5 @@
-import { useContext, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.css";
 
@@ -10,10 +11,8 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { IngredientsContext } from "../../context/ingredientsContext";
-
 function BurgerConstructor({ onOrderClick }) {
-  const { ingredients } = useContext(IngredientsContext)
+  const ingredients = useSelector(store => store.ingredients.constructorIngredients);
 
   const burgerBun = ingredients.find((ingredient) => ingredient.type === "bun");
   const constructorWrapperRef = useRef(null);
