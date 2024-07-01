@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
+import { addIngredient } from "../../services/actions/ingredients";
+import { openModal } from "../../services/actions/modal";
 
 import {
   Counter,
@@ -10,6 +12,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function BurgerIngredients({ onIngredientClick }) {
+  const dispatch = useDispatch();
   const ingredients = useSelector(store => store.ingredients.ingredients);
 
   const buns = ingredients.filter((ingredient) =>
@@ -25,6 +28,10 @@ function BurgerIngredients({ onIngredientClick }) {
   );
 
   const ingredientsWrapperRef = useRef(null);
+
+  const onAdd = (ingredient) => {
+    dispatch(addIngredient(ingredient));
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,7 +85,10 @@ function BurgerIngredients({ onIngredientClick }) {
                 className={`${styles["ingredient-item"]} ${
                   index % 2 === 0 ? " ml-4" : ""
                 }`}
-                onClick={() => onIngredientClick(ingredient)}
+                onClick={() => {
+                  onAdd(ingredient)
+                  dispatch(openModal("ingredientDetails", { ingredient }, "Детали ингредиента"));
+                }}
               >
                 {index === 0 && (
                   <div className={styles["header-counter"]}>
@@ -123,7 +133,10 @@ function BurgerIngredients({ onIngredientClick }) {
                 className={`${styles["ingredient-item"]} ${
                   index % 2 === 0 ? " ml-4" : ""
                 }`}
-                onClick={() => onIngredientClick(ingredient)}
+                onClick={() => {
+                  onAdd(ingredient)
+                  dispatch(openModal("ingredientDetails", { ingredient }, "Детали ингредиента"));
+                }}
               >
                 {index === 2 && (
                   <div className={styles["header-counter"]}>
@@ -166,7 +179,10 @@ function BurgerIngredients({ onIngredientClick }) {
               <li
                 key={ingredient._id}
                 className={styles["ingredient-item"]}
-                onClick={() => onIngredientClick(ingredient)}
+                onClick={() => {
+                  onAdd(ingredient)
+                  dispatch(openModal("ingredientDetails", { ingredient }, "Детали ингредиента"));
+                }}
               >
                 <div className="pl-4 pr-4">
                   <img src={ingredient.image} alt="Начинка" />

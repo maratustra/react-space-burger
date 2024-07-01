@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./burger-constructor.module.css";
+import { removeIngredient } from "../../services/actions/ingredients";
+import { updateOrderTotal, sendOrder } from "../../services/actions/order";
 
 import {
   Button,
@@ -11,11 +12,28 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-function BurgerConstructor({ onOrderClick }) {
+function BurgerConstructor() {
+  const dispatch = useDispatch();
   const ingredients = useSelector(store => store.ingredients.constructorIngredients);
+  const orderTotal = useSelector(store => store.order.orderTotal);
+  console.log('orderTotal: ', orderTotal);
 
   const burgerBun = ingredients.find((ingredient) => ingredient.type === "bun");
   const constructorWrapperRef = useRef(null);
+
+  const onDelete = (ingredient) => {
+    dispatch(removeIngredient(ingredient));
+    dispatch(updateOrderTotal());
+  };
+
+  const handleOrderClick = () => {
+    const ingredientIds = ingredients.map((ingredient) => ingredient._id);
+    dispatch(sendOrder(ingredientIds));
+  };
+
+  useEffect(() => {
+    dispatch(updateOrderTotal());
+  }, [ingredients, dispatch]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,6 +86,7 @@ function BurgerConstructor({ onOrderClick }) {
                 <div
                   key={ingredient._id}
                   className={styles["constructor-item"]}
+                  onClick={() => onDelete(ingredient)}
                 >
                   <DragIcon type="primary" />
                   <ConstructorElement
@@ -91,14 +110,14 @@ function BurgerConstructor({ onOrderClick }) {
       </div>
       <div className={`${styles.total} pt-10`}>
         <div className={styles["total-price"]}>
-          <Counter count={610} size="default" extraClass={styles.counter} />
+          <Counter count={orderTotal} size="default" extraClass={styles.counter} />
           <CurrencyIcon type="primary" size="36" />
         </div>
         <Button
           htmlType="button"
           type="primary"
           size="large"
-          onClick={onOrderClick}
+          onClick={handleOrderClick}
         >
           Оформить заказ
         </Button>
@@ -106,9 +125,5 @@ function BurgerConstructor({ onOrderClick }) {
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  onOrderClick: PropTypes.func.isRequired,
-};
 
 export default BurgerConstructor;

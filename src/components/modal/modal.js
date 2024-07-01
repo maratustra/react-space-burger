@@ -1,17 +1,20 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
 import styles from "./modal.module.css";
 
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import ModalOverlay from "../modal/modal-overlay";
-import { ModalContext } from "../../context/modalContext";
+import { closeModal } from "../../services/actions/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import OrderDetails from "../order-details/order-details";
 
 const modalRoot = document.getElementById("react-modals");
 
-const Modal = ({ title, children }) => {
-  const { closeModal } = useContext(ModalContext);
+const Modal = () => {
+  const dispatch = useDispatch();
+  const { isOpen, contentType, contentProps, title } = useSelector((state) => state.modal.isOpen);
 
   const modalClasses = title
     ? `${styles.modal} ${styles["modal-no-title"]}`
@@ -23,7 +26,7 @@ const Modal = ({ title, children }) => {
   useEffect(() => {
     const handleEscKey = (e) => {
       if (e.key === "Escape") {
-        closeModal();
+        dispatch(closeModal());
       }
     };
     document.addEventListener("keydown", handleEscKey);
@@ -31,28 +34,37 @@ const Modal = ({ title, children }) => {
     return () => {
       document.removeEventListener("keydown", handleEscKey);
     };
-  }, [closeModal]);
+  }, [dispatch]);
+
+  if (!isOpen) return null;
+
+  const renderContent = () => {
+    if (contentType === "ingredientDetails") {
+      return <IngredientDetails {...contentProps} />;
+    } else if (contentType === "orderDetails") {
+      return <OrderDetails {...contentProps} />;
+    }
+    return null;
+  };
 
   return ReactDOM.createPortal(
     <>
-      <ModalOverlay />
+      <ModalOverlay onClick={() => dispatch(closeModal())} />
       <div className={modalClasses}>
         <div className={modalHeaderClasses}>
           {title && <p className="text text_type_main-large">{title}</p>}
-          <button onClick={closeModal} className={styles["modal-close"]}>
+          <button
+            onClick={() => dispatch(closeModal())}
+            className={styles["modal-close"]}
+          >
             <CloseIcon type="primary" />
           </button>
         </div>
-        <div>{children}</div>
+        <div>{renderContent()}</div>
       </div>
     </>,
     modalRoot
   );
-};
-
-Modal.propTypes = {
-  title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
 };
 
 export default Modal;
