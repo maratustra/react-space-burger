@@ -4,6 +4,7 @@ import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
 import { addIngredient } from "../../services/actions/ingredients";
 import { openModal } from "../../services/actions/modal";
+import { TAB_SWITCH } from "../../services/actions/tabs";
 
 import {
   Counter,
@@ -11,9 +12,11 @@ import {
   Tab,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-function BurgerIngredients({ onIngredientClick }) {
+function BurgerIngredients() {
   const dispatch = useDispatch();
-  const ingredients = useSelector(store => store.ingredients.ingredients);
+  const ingredients = useSelector((store) => store.ingredients.ingredients);
+  const currentTab = useSelector((store) => store.tabs.currentTab);
+  console.log("currentTab: ", currentTab);
 
   const buns = ingredients.filter((ingredient) =>
     ingredient.name.toLowerCase().includes("булка")
@@ -27,52 +30,99 @@ function BurgerIngredients({ onIngredientClick }) {
       !ingredient.name.toLowerCase().includes("соус")
   );
 
+  const bunsRef = useRef(null);
+  const saucesRef = useRef(null);
+  const mainsRef = useRef(null);
   const ingredientsWrapperRef = useRef(null);
+
+  const switchTab = (tab) => {
+    dispatch({ type: TAB_SWITCH, payload: tab });
+
+    switch (tab) {
+      case "buns":
+        if (bunsRef.current)
+          bunsRef.current.scrollIntoView({ behavior: "smooth" });
+        break;
+      case "sauces":
+        if (saucesRef.current)
+          saucesRef.current.scrollIntoView({ behavior: "smooth" });
+        break;
+      case "mains":
+        if (mainsRef.current)
+          mainsRef.current.scrollIntoView({ behavior: "smooth" });
+        break;
+      default:
+        break;
+    }
+  };
 
   const onAdd = (ingredient) => {
     dispatch(addIngredient(ingredient));
   };
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (
-        ingredientsWrapperRef.current &&
-        ingredientsWrapperRef.current.scrollTop > 0
-      ) {
-        ingredientsWrapperRef.current.classList.add(styles.scrolling);
-      } else if (ingredientsWrapperRef.current) {
-        ingredientsWrapperRef.current.classList.remove(styles.scrolling);
-      }
+    const observerOptions = {
+      root: ingredientsWrapperRef.current,
+      rootMargin: "0px",
+      threshold: [0, 0.25, 0.5, 0.75, 1],
     };
 
-    const wrapper = ingredientsWrapperRef.current;
-    if (wrapper) {
-      wrapper.addEventListener("scroll", handleScroll);
-    }
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          dispatch({ type: TAB_SWITCH, payload: id });
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions
+    );
+
+    if (bunsRef.current) observer.observe(bunsRef.current);
+    if (saucesRef.current) observer.observe(saucesRef.current);
+    if (mainsRef.current) observer.observe(mainsRef.current);
 
     return () => {
-      if (wrapper) {
-        wrapper.removeEventListener("scroll", handleScroll);
-      }
+      if (bunsRef.current) observer.unobserve(bunsRef.current);
+      if (saucesRef.current) observer.unobserve(saucesRef.current);
+      if (mainsRef.current) observer.unobserve(mainsRef.current);
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <section className={styles["burger-ingredients"]}>
       <p className="text text_type_main-large pt-10 pb-5">Соберите бургер</p>
       <div className={`${styles["tab-container"]} pb-10`}>
-        <Tab value="one" active={"one"} className={styles.tab}>
+        <Tab
+          value="buns"
+          active={currentTab === "buns"}
+          className={styles.tab}
+          onClick={() => switchTab("buns")}
+        >
           Булки
         </Tab>
-        <Tab value="two" className={styles.tab}>
+        <Tab
+          value="sauces"
+          active={currentTab === "sauces"}
+          className={styles.tab}
+          onClick={() => switchTab("sauces")}
+        >
           Соусы
         </Tab>
-        <Tab value="three" className={styles.tab}>
+        <Tab
+          value="mains"
+          active={currentTab === "mains"}
+          className={styles.tab}
+          onClick={() => switchTab("mains")}
+        >
           Начинки
         </Tab>
       </div>
       <div ref={ingredientsWrapperRef} className={styles.ingredients}>
-        <section>
+        <section id="buns" ref={bunsRef}>
           <p
             className={`${styles["ingredient-header"]} text text_type_main-medium`}
           >
@@ -86,8 +136,14 @@ function BurgerIngredients({ onIngredientClick }) {
                   index % 2 === 0 ? " ml-4" : ""
                 }`}
                 onClick={() => {
-                  onAdd(ingredient)
-                  dispatch(openModal("ingredientDetails", { ingredient }, "Детали ингредиента"));
+                  onAdd(ingredient);
+                  dispatch(
+                    openModal(
+                      "ingredientDetails",
+                      { ingredient },
+                      "Детали ингредиента"
+                    )
+                  );
                 }}
               >
                 {index === 0 && (
@@ -120,7 +176,7 @@ function BurgerIngredients({ onIngredientClick }) {
           </ul>
         </section>
 
-        <section>
+        <section id="sauces" ref={saucesRef}>
           <p
             className={`${styles["ingredient-header"]} text text_type_main-medium`}
           >
@@ -134,8 +190,14 @@ function BurgerIngredients({ onIngredientClick }) {
                   index % 2 === 0 ? " ml-4" : ""
                 }`}
                 onClick={() => {
-                  onAdd(ingredient)
-                  dispatch(openModal("ingredientDetails", { ingredient }, "Детали ингредиента"));
+                  onAdd(ingredient);
+                  dispatch(
+                    openModal(
+                      "ingredientDetails",
+                      { ingredient },
+                      "Детали ингредиента"
+                    )
+                  );
                 }}
               >
                 {index === 2 && (
@@ -168,7 +230,7 @@ function BurgerIngredients({ onIngredientClick }) {
           </ul>
         </section>
 
-        <section>
+        <section id="mains" ref={mainsRef}>
           <p
             className={`${styles["ingredient-header"]} text text_type_main-medium`}
           >
@@ -180,8 +242,14 @@ function BurgerIngredients({ onIngredientClick }) {
                 key={ingredient._id}
                 className={styles["ingredient-item"]}
                 onClick={() => {
-                  onAdd(ingredient)
-                  dispatch(openModal("ingredientDetails", { ingredient }, "Детали ингредиента"));
+                  onAdd(ingredient);
+                  dispatch(
+                    openModal(
+                      "ingredientDetails",
+                      { ingredient },
+                      "Детали ингредиента"
+                    )
+                  );
                 }}
               >
                 <div className="pl-4 pr-4">
@@ -208,9 +276,5 @@ function BurgerIngredients({ onIngredientClick }) {
     </section>
   );
 }
-
-BurgerIngredients.propTypes = {
-  onIngredientClick: PropTypes.func.isRequired,
-};
 
 export default BurgerIngredients;

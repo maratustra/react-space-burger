@@ -3,11 +3,13 @@ import { thunk } from "redux-thunk";
 import ingredientsReducer from "./reducers/ingredients";
 import modalReducer from "./reducers/modal";
 import orderReducer from "./reducers/order";
+import tabReducer from "./reducers/tabs";
 
 const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   modal: modalReducer,
-  order: orderReducer
+  order: orderReducer,
+  tabs: tabReducer
 });
 
 export const store = createStore(
