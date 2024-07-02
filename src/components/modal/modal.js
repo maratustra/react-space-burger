@@ -14,7 +14,7 @@ const modalRoot = document.getElementById("react-modals");
 
 const Modal = () => {
   const dispatch = useDispatch();
-  const { isOpen, contentType, contentProps, title } = useSelector((state) => state.modal.isOpen);
+  const { isOpen, contentType, contentProps, title } = useSelector((state) => state.modal);
 
   const modalClasses = title
     ? `${styles.modal} ${styles["modal-no-title"]}`

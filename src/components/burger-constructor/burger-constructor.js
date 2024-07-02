@@ -1,8 +1,14 @@
 import { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useDrop } from "react-dnd";
 import styles from "./burger-constructor.module.css";
-import { removeIngredient } from "../../services/actions/ingredients";
 import { updateOrderTotal, sendOrder } from "../../services/actions/order";
+import {
+  addIngredient,
+  removeIngredient,
+  incrementCount,
+  decrementCount
+} from "../../services/actions/constructor";
 
 import {
   Button,
@@ -14,15 +20,26 @@ import {
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
-  const ingredients = useSelector(store => store.ingredients.constructorIngredients);
-  const orderTotal = useSelector(store => store.order.orderTotal);
-  console.log('orderTotal: ', orderTotal);
-
-  const burgerBun = ingredients.find((ingredient) => ingredient.type === "bun");
+  const burgerBun = useSelector((store) => store.constructorReducer.bun);
+  const ingredients = useSelector(
+    (store) => store.constructorReducer.constructorIngredients
+  );
+  const orderTotal = useSelector((store) => store.order.orderTotal);
   const constructorWrapperRef = useRef(null);
 
+  const [, dropRef] = useDrop(() => ({
+    accept: "ingredient",
+    drop: (item) => {
+      dispatch(addIngredient(item));
+      dispatch(incrementCount(item._id));
+      dispatch(updateOrderTotal());
+      return { name: "BurgerConstructor" };
+    },
+  }));
+
   const onDelete = (ingredient) => {
-    dispatch(removeIngredient(ingredient));
+    dispatch(removeIngredient(ingredient.key));
+    dispatch(decrementCount(ingredient._id));
     dispatch(updateOrderTotal());
   };
 
@@ -61,14 +78,14 @@ function BurgerConstructor() {
 
   return (
     <section className={styles["burger-components"]}>
-      <div className={styles["main-block-components"]}>
+      <div ref={dropRef} className={styles["main-block-components"]}>
         <div className={`${styles["constructor-fixed-top"]} mt-25`}>
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={`${burgerBun?.name} (верх)`}
-            price={burgerBun?.price}
-            thumbnail={burgerBun?.image}
+            text={burgerBun ? `${burgerBun.name} (верх)` : "Выберите булку"}
+            price={burgerBun ? burgerBun.price : 0}
+            thumbnail={burgerBun ? burgerBun.image : ""}
           />
         </div>
         <div
@@ -80,19 +97,18 @@ function BurgerConstructor() {
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
             {ingredients
-              .slice(1)
               .filter((ingredient) => ingredient.type !== "bun")
               .map((ingredient) => (
                 <div
-                  key={ingredient._id}
+                  key={ingredient.key}
                   className={styles["constructor-item"]}
-                  onClick={() => onDelete(ingredient)}
                 >
                   <DragIcon type="primary" />
                   <ConstructorElement
                     text={ingredient.name}
                     price={ingredient.price}
                     thumbnail={ingredient.image}
+                    handleClose={() => onDelete(ingredient)}
                   />
                 </div>
               ))}
@@ -102,15 +118,19 @@ function BurgerConstructor() {
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={`${burgerBun?.name} (низ)`}
-            price={burgerBun?.price}
-            thumbnail={burgerBun?.image}
+            text={burgerBun ? `${burgerBun.name} (низ)` : "Выберите булку"}
+            price={burgerBun ? burgerBun.price : 0}
+            thumbnail={burgerBun ? burgerBun.image : ''}
           />
         </div>
       </div>
       <div className={`${styles.total} pt-10`}>
         <div className={styles["total-price"]}>
-          <Counter count={orderTotal} size="default" extraClass={styles.counter} />
+          <Counter
+            count={orderTotal}
+            size="default"
+            extraClass={styles.counter}
+          />
           <CurrencyIcon type="primary" size="36" />
         </div>
         <Button

@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./app.module.css";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
@@ -14,16 +16,20 @@ import { openModal, closeModal } from "../../services/actions/modal";
 
 function App() {
   const dispatch = useDispatch();
-  const ingredients = useSelector(state => state.ingredients.ingredients);
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
   const { isOpen, content, title } = useSelector((state) => state.modal);
-  console.log('isOpen: ', isOpen);
 
   useEffect(() => {
-    dispatch(getIngredients())
+    dispatch(getIngredients());
   }, [dispatch]);
 
   const handleIngredientClick = (ingredient) => {
-    dispatch(openModal(<IngredientDetails ingredient={ingredient} />, "Детали ингредиента"));
+    dispatch(
+      openModal(
+        <IngredientDetails ingredient={ingredient} />,
+        "Детали ингредиента"
+      )
+    );
   };
 
   const handleOrderClick = () => {
@@ -35,14 +41,16 @@ function App() {
       <Header />
       <main className={styles.container}>
         <div className={styles.content}>
-          <BurgerIngredients onIngredientClick={handleIngredientClick} />
-          <BurgerConstructor onOrderClick={handleOrderClick} />
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients onIngredientClick={handleIngredientClick} />
+            <BurgerConstructor onOrderClick={handleOrderClick} />
+          </DndProvider>
         </div>
-          {isOpen && (
-            <Modal title={title} onClose={() => dispatch(closeModal())}>
-              {content}
-            </Modal>
-          )}
+        {isOpen && (
+          <Modal title={title} onClose={() => dispatch(closeModal())}>
+            {content}
+          </Modal>
+        )}
       </main>
     </div>
   );

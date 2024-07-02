@@ -20,9 +20,9 @@ export const createOrderFailure = (error) => ({
 });
 
 export const updateOrderTotal = () => (dispatch, getState) => {
-  const ingredients = getState().ingredients.constructorIngredients;
-  const total = ingredients.reduce((sum, ingredient) => sum + ingredient.price, 0);
-  dispatch({ type: UPDATE_ORDER_TOTAL, payload: total });
+  const { bun, constructorIngredients } = getState().constructorReducer;
+  const ingredientsTotal = constructorIngredients.reduce((sum, ingredient) => sum + ingredient.price, 0);
+  dispatch({ type: UPDATE_ORDER_TOTAL, payload: ingredientsTotal });
 };
 
 export const sendOrder = (ingredients) => (dispatch) => {
@@ -30,8 +30,9 @@ export const sendOrder = (ingredients) => (dispatch) => {
   createOrder(ingredients)
     .then((orderNumber) => {
       console.log('### 1 orderNumber: ', orderNumber);
+
       dispatch(createOrderSuccess(orderNumber));
-      dispatch(openModal("orderDetails", {}, "Номер заказа"));
+      dispatch(openModal("orderDetails", {}, null));
     })
     .catch((error) => {
       dispatch(createOrderFailure(error.message));

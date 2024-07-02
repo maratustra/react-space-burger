@@ -9,7 +9,8 @@
 }
 
 .constructor-wrapper {
-  height: 440px;
+  height: auto;
+  max-height: 440px;
   overflow-y: auto;
   padding-top: 10px;
   padding-bottom: 10px;

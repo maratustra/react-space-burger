@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { fetchIngredients } from "../../utils/api";
 
 export const SET_INGREDIENTS = "SET_INGREDIENTS";
@@ -17,7 +18,7 @@ export const setIngredients = (ingredients) => ({
 
 export const addIngredient = (ingredient) => ({
   type: ADD_INGREDIENT,
-  payload: ingredient,
+  payload: { ...ingredient, key: uuidv4() }
 });
 
 export const removeIngredient = (ingredient) => ({
