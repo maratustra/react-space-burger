@@ -18,6 +18,8 @@ import {
 import DraggableIngredient from "./draggable-ingredient";
 import { selectOrderTotal } from "../selectors/orderSelector";
 
+import emptyBun from "../../images/bars.svg";
+
 function BurgerConstructor() {
   const dispatch = useDispatch();
   const burgerBun = useSelector((store) => store.constructorReducer.bun);
@@ -69,6 +71,8 @@ function BurgerConstructor() {
     };
   }, []);
 
+  const isOrderButtonDisabled = !burgerBun || ingredients.length === 0;
+
   return (
     <section className={styles["burger-components"]}>
       <div ref={dropRef} className={styles["main-block-components"]}>
@@ -78,7 +82,7 @@ function BurgerConstructor() {
             isLocked={true}
             text={burgerBun ? `${burgerBun.name} (верх)` : "Выберите булку"}
             price={burgerBun ? burgerBun.price : 0}
-            thumbnail={burgerBun ? burgerBun.image : ""}
+            thumbnail={burgerBun ? burgerBun.image : emptyBun}
           />
         </div>
         <div
@@ -108,7 +112,7 @@ function BurgerConstructor() {
             isLocked={true}
             text={burgerBun ? `${burgerBun.name} (низ)` : "Выберите булку"}
             price={burgerBun ? burgerBun.price : 0}
-            thumbnail={burgerBun ? burgerBun.image : ''}
+            thumbnail={burgerBun ? burgerBun.image : emptyBun}
           />
         </div>
       </div>
@@ -126,6 +130,7 @@ function BurgerConstructor() {
           type="primary"
           size="large"
           onClick={handleOrderClick}
+          disabled={isOrderButtonDisabled}
         >
           Оформить заказ
         </Button>
