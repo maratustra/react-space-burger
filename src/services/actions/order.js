@@ -5,8 +5,6 @@ export const CREATE_ORDER_REQUEST = "CREATE_ORDER_REQUEST";
 export const CREATE_ORDER_SUCCESS = "CREATE_ORDER_SUCCESS";
 export const CREATE_ORDER_FAILURE = "CREATE_ORDER_FAILURE";
 
-export const UPDATE_ORDER_TOTAL = "UPDATE_ORDER_TOTAL";
-
 export const createOrderRequest = () => ({ type: CREATE_ORDER_REQUEST });
 
 export const createOrderSuccess = (orderNumber) => ({
@@ -19,18 +17,10 @@ export const createOrderFailure = (error) => ({
   payload: error,
 });
 
-export const updateOrderTotal = () => (dispatch, getState) => {
-  const { bun, constructorIngredients } = getState().constructorReducer;
-  const ingredientsTotal = constructorIngredients.reduce((sum, ingredient) => sum + ingredient.price, 0);
-  dispatch({ type: UPDATE_ORDER_TOTAL, payload: ingredientsTotal });
-};
-
 export const sendOrder = (ingredients) => (dispatch) => {
   dispatch(createOrderRequest());
   createOrder(ingredients)
     .then((orderNumber) => {
-      console.log('### 1 orderNumber: ', orderNumber);
-
       dispatch(createOrderSuccess(orderNumber));
       dispatch(openModal("orderDetails", {}, null));
     })

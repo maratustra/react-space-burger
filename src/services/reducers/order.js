@@ -1,8 +1,7 @@
 import {
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
-  CREATE_ORDER_FAILURE,
-  UPDATE_ORDER_TOTAL
+  CREATE_ORDER_FAILURE
 } from "../actions/order";
 
 const initialState = {
@@ -32,11 +31,6 @@ const orderReducer = (state = initialState, action) => {
         isLoading: false,
         error: action.payload,
         orderNumber: null,
-      };
-    case UPDATE_ORDER_TOTAL:
-      return {
-        ...state,
-        orderTotal: action.payload,
       };
     default:
       return state;

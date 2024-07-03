@@ -1,13 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
 import styles from "./burger-constructor.module.css";
-import { updateOrderTotal, sendOrder } from "../../services/actions/order";
+import { sendOrder } from "../../services/actions/order";
 import {
   addIngredient,
-  removeIngredient,
   incrementCount,
-  decrementCount
+  moveIngredient
 } from "../../services/actions/constructor";
 
 import {
@@ -15,16 +14,15 @@ import {
   Counter,
   ConstructorElement,
   CurrencyIcon,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import DraggableIngredient from "./draggable-ingredient";
+import { selectOrderTotal } from "../selectors/orderSelector";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
   const burgerBun = useSelector((store) => store.constructorReducer.bun);
-  const ingredients = useSelector(
-    (store) => store.constructorReducer.constructorIngredients
-  );
-  const orderTotal = useSelector((store) => store.order.orderTotal);
+  const ingredients = useSelector((store) => store.constructorReducer?.constructorIngredients);
+  const orderTotal = useSelector(selectOrderTotal);
   const constructorWrapperRef = useRef(null);
 
   const [, dropRef] = useDrop(() => ({
@@ -32,25 +30,20 @@ function BurgerConstructor() {
     drop: (item) => {
       dispatch(addIngredient(item));
       dispatch(incrementCount(item._id));
-      dispatch(updateOrderTotal());
       return { name: "BurgerConstructor" };
     },
   }));
 
-  const onDelete = (ingredient) => {
-    dispatch(removeIngredient(ingredient.key));
-    dispatch(decrementCount(ingredient._id));
-    dispatch(updateOrderTotal());
-  };
+  const moveCard = useCallback((dragIndex, hoverIndex) => {
+      dispatch(moveIngredient(dragIndex, hoverIndex));
+    },
+    [dispatch]
+  );
 
   const handleOrderClick = () => {
     const ingredientIds = ingredients.map((ingredient) => ingredient._id);
     dispatch(sendOrder(ingredientIds));
   };
-
-  useEffect(() => {
-    dispatch(updateOrderTotal());
-  }, [ingredients, dispatch]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -98,19 +91,14 @@ function BurgerConstructor() {
           >
             {ingredients
               .filter((ingredient) => ingredient.type !== "bun")
-              .map((ingredient) => (
-                <div
+              .map((ingredient, index) => (
+                <DraggableIngredient
                   key={ingredient.key}
-                  className={styles["constructor-item"]}
-                >
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                    text={ingredient.name}
-                    price={ingredient.price}
-                    thumbnail={ingredient.image}
-                    handleClose={() => onDelete(ingredient)}
-                  />
-                </div>
+                  index={index}
+                  id={ingredient.key}
+                  ingredient={ingredient}
+                  moveCard={moveCard}
+                />
               ))}
           </div>
         </div>
@@ -127,7 +115,7 @@ function BurgerConstructor() {
       <div className={`${styles.total} pt-10`}>
         <div className={styles["total-price"]}>
           <Counter
-            count={orderTotal}
+            count={isNaN(orderTotal) ? 0 : orderTotal}
             size="default"
             extraClass={styles.counter}
           />

@@ -1,8 +1,6 @@
 export const fetchIngredients = () => {
   return fetch("https://norma.nomoreparties.space/api/ingredients")
     .then((res) => {
-      console.log('res: ', res);
-
       if (!res.ok) {
         throw new Error(`Ошибка: ${res.status}`);
       }

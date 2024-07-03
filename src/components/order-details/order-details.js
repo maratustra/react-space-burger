@@ -5,8 +5,7 @@ import acceptedPic from "../../images/order_accpeted.svg";
 
 const OrderDetails = () => {
   const orderNumber = useSelector((state) => state.order.orderNumber);
-  console.log('@@@@ orderNumber: ', orderNumber);
-
+  
   return (
     <div className={`${styles["order-details"]} pt-4`}>
       <span
