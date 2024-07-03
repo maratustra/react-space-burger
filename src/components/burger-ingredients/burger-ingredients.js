@@ -1,10 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./burger-ingredients.module.css";
-import { addIngredient } from "../../services/actions/ingredients";
 import { openModal } from "../../services/actions/modal";
 import { TAB_SWITCH } from "../../services/actions/tabs";
-import Ingredient from './ingredient';
+import Ingredient from "./ingredient";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -52,38 +51,42 @@ function BurgerIngredients() {
   };
 
   const onIngredientClick = (ingredient) => {
-    dispatch(openModal("ingredientDetails", { ingredient }, "Детали ингредиента"));
+    dispatch(
+      openModal("ingredientDetails", { ingredient }, "Детали ингредиента")
+    );
   };
 
   useEffect(() => {
-    const observerOptions = {
-      root: ingredientsWrapperRef.current,
-      rootMargin: "0px",
-      threshold: [0, 0.25, 0.5, 0.75, 1],
+    const handleScroll = () => {
+      const bunsTop = bunsRef.current?.getBoundingClientRect().top;
+      const saucesTop = saucesRef.current?.getBoundingClientRect().top;
+      const mainsTop = mainsRef.current?.getBoundingClientRect().top;
+      const wrapperTop =
+        ingredientsWrapperRef.current?.getBoundingClientRect().top;
+
+      const distanceBuns = Math.abs(bunsTop - wrapperTop);
+      const distanceSauces = Math.abs(saucesTop - wrapperTop);
+      const distanceMains = Math.abs(mainsTop - wrapperTop);
+
+      if (distanceBuns < distanceSauces && distanceBuns < distanceMains) {
+        dispatch({ type: TAB_SWITCH, payload: "buns" });
+      } else if (
+        distanceSauces < distanceBuns &&
+        distanceSauces < distanceMains
+      ) {
+        dispatch({ type: TAB_SWITCH, payload: "sauces" });
+      } else if (
+        distanceMains < distanceBuns &&
+        distanceMains < distanceSauces
+      ) {
+        dispatch({ type: TAB_SWITCH, payload: "mains" });
+      }
     };
 
-    const observerCallback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-          dispatch({ type: TAB_SWITCH, payload: id });
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(
-      observerCallback,
-      observerOptions
-    );
-
-    if (bunsRef.current) observer.observe(bunsRef.current);
-    if (saucesRef.current) observer.observe(saucesRef.current);
-    if (mainsRef.current) observer.observe(mainsRef.current);
+    ingredientsWrapperRef.current.addEventListener("scroll", handleScroll);
 
     return () => {
-      if (bunsRef.current) observer.unobserve(bunsRef.current);
-      if (saucesRef.current) observer.unobserve(saucesRef.current);
-      if (mainsRef.current) observer.unobserve(mainsRef.current);
+      ingredientsWrapperRef.current.removeEventListener("scroll", handleScroll);
     };
   }, [dispatch]);
 
@@ -125,7 +128,11 @@ function BurgerIngredients() {
           </p>
           <ul className={`${styles["ingredients-list"]} mt-6 mb-15 ml-4 pl-0`}>
             {buns.map((ingredient) => (
-              <Ingredient key={ingredient._id} ingredient={ingredient} onIngredientClick={onIngredientClick} />
+              <Ingredient
+                key={ingredient._id}
+                ingredient={ingredient}
+                onIngredientClick={onIngredientClick}
+              />
             ))}
           </ul>
         </section>
@@ -138,7 +145,11 @@ function BurgerIngredients() {
           </p>
           <ul className={`${styles["ingredients-list"]} mt-6 mb-15 ml-4 pl-0`}>
             {sauces.map((ingredient) => (
-              <Ingredient key={ingredient._id} ingredient={ingredient} onIngredientClick={onIngredientClick} />
+              <Ingredient
+                key={ingredient._id}
+                ingredient={ingredient}
+                onIngredientClick={onIngredientClick}
+              />
             ))}
           </ul>
         </section>
@@ -151,7 +162,11 @@ function BurgerIngredients() {
           </p>
           <ul className={`${styles["ingredients-list"]} mt-6 mb-15 ml-4 pl-0`}>
             {mains.map((ingredient) => (
-              <Ingredient key={ingredient._id} ingredient={ingredient} onIngredientClick={onIngredientClick} />
+              <Ingredient
+                key={ingredient._id}
+                ingredient={ingredient}
+                onIngredientClick={onIngredientClick}
+              />
             ))}
           </ul>
         </section>
