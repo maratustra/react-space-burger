@@ -4,6 +4,7 @@ import {
   INCREMENT_COUNT,
   DECREMENT_COUNT,
   MOVE_INGREDIENT,
+  CLEAR_CONSTRUCTOR
 } from "../actions/constructor";
 import update from "immutability-helper";
 
@@ -67,6 +68,8 @@ const constructorReducer = (state = initialState, action) => {
       });
 
       return newState;
+    case CLEAR_CONSTRUCTOR:
+        return initialState;
 
     default:
       return state;
