@@ -1,10 +1,17 @@
 import { OPEN_MODAL, CLOSE_MODAL } from "../actions/modal";
+import OrderDetails from "../../components/order-details/order-details";
+import IngredientDetails from "../../components/ingredient-details/ingredient-details";
 
 const initialState = {
   isOpen: false,
   contentType: null,
   contentProps: null,
   title: "",
+};
+
+const componentMap = {
+  ingredientDetails: IngredientDetails,
+  orderDetails: OrderDetails,
 };
 
 const modalReducer = (state = initialState, action) => {
@@ -31,3 +38,4 @@ const modalReducer = (state = initialState, action) => {
 };
 
 export default modalReducer;
+export { componentMap };

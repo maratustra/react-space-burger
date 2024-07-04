@@ -8,16 +8,14 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Header from "../app-header/app-header";
 import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 
 import { getIngredients } from "../../services/actions/ingredients";
 import { openModal, closeModal } from "../../services/actions/modal";
+import { componentMap } from "../../services/reducers/modal";
 
 function App() {
   const dispatch = useDispatch();
-  const ingredients = useSelector((state) => state.ingredients.ingredients);
-  const { isOpen, content, title } = useSelector((state) => state.modal);
+  const { isOpen, contentType, contentProps, title } = useSelector((state) => state.modal);
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -25,16 +23,23 @@ function App() {
 
   const handleIngredientClick = (ingredient) => {
     dispatch(
-      openModal(
-        <IngredientDetails ingredient={ingredient} />,
-        "Детали ингредиента"
-      )
+      openModal({
+        contentType: "ingredientDetails",
+        contentProps: { ingredient },
+        title: "Детали ингредиента",
+      })
     );
   };
 
   const handleOrderClick = () => {
-    dispatch(openModal(<OrderDetails />, ""));
+    dispatch(openModal({
+      contentType: "orderDetails",
+      contentProps: {},
+      title: "",
+    }));
   };
+
+  const ContentComponent = componentMap[contentType];
 
   return (
     <div className={styles.main}>
@@ -46,9 +51,9 @@ function App() {
             <BurgerConstructor onOrderClick={handleOrderClick} />
           </DndProvider>
         </div>
-        {isOpen && (
+        {isOpen && ContentComponent && (
           <Modal title={title} onClose={() => dispatch(closeModal())}>
-            {content}
+            <ContentComponent {...contentProps} />
           </Modal>
         )}
       </main>
