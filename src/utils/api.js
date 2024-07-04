@@ -1,39 +1,15 @@
+import request from "./apiClient";
+
 export const fetchIngredients = () => {
-  return fetch("https://norma.nomoreparties.space/api/ingredients")
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error(`Ошибка: ${res.status}`);
-      }
-      return res.json();
-    })
-    .then((data) => {
-      if (data.success) {
-        return data.data;
-      } else {
-        throw new Error("Данные не получены");
-      }
-    });
-}
+  return request("ingredients").then((data) => data.data);
+};
 
 export const createOrder = (ingredients) => {
-  return fetch("https://norma.nomoreparties.space/api/orders", {
+  return request("orders", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ ingredients }),
-  })
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error(`Ошибка: ${res.status}`);
-      }
-      return res.json();
-    })
-    .then((data) => {
-      if (data.success) {
-        return data.order.number;
-      } else {
-        throw new Error("Заказ не создан");
-      }
-    });
+  }).then((data) => data.order.number);
 };
