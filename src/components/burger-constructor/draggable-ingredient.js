@@ -4,6 +4,7 @@ import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burg
 import styles from "./draggable-ingredient.module.css";
 import { useDispatch } from "react-redux";
 import { removeIngredient, decrementCount } from "../../services/actions/constructor";
+import throttle from 'lodash.throttle';
  
 const DraggableIngredient = ({ ingredient, index, id, moveCard }) => {
   const ref = useRef(null)
@@ -24,7 +25,7 @@ const DraggableIngredient = ({ ingredient, index, id, moveCard }) => {
         handlerId: monitor.getHandlerId(),
       }
     },
-    hover: (draggedItem, monitor) => {
+    hover: throttle((draggedItem, monitor) => {
       if (!ref.current) {
         return
       }
@@ -51,8 +52,9 @@ const DraggableIngredient = ({ ingredient, index, id, moveCard }) => {
         return
       }
       
-      moveCard(dragIndex, hoverIndex)
-    },
+      moveCard(dragIndex, hoverIndex);
+      draggedItem.index = hoverIndex;
+    }, 50),
   });
 
   dragRef(dropRef(ref))
