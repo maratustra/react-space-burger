@@ -5,9 +5,11 @@ import styles from "./ingredients.module.css";
 import { useSelector } from 'react-redux';
 
 const Ingredient = ({ ingredient, onIngredientClick }) => {
-  const count = useSelector((store) =>
-    store.constructorReducer.constructorIngredients.find((item) => item._id === ingredient._id)?.count || 0
-  );
+  const count = useSelector((store) => {
+    const ingredientCount = store.constructorReducer.constructorIngredients.filter((item) => item._id === ingredient._id).length;
+    const bunCount = store.constructorReducer.bun?._id === ingredient._id ? 1 : 0;
+    return ingredientCount + bunCount;
+  });
 
   const [, dragRef] = useDrag({
     type: 'ingredient',
