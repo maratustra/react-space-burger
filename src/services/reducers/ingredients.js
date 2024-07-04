@@ -1,7 +1,5 @@
 import {
   SET_INGREDIENTS,
-  ADD_INGREDIENT,
-  REMOVE_INGREDIENT,
   SET_CURRENT_INGREDIENT,
   SET_ORDER,
   GET_INGREDIENTS_REQUEST,
@@ -46,29 +44,7 @@ const ingredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         ingredients: action.payload,
-      };
-    case ADD_INGREDIENT: {
-      let newConstructorIngredients = []
-
-      if (state.constructorIngredients.length > 0) {
-        newConstructorIngredients = [...state.constructorIngredients, action.payload]
-      } else {
-        newConstructorIngredients = [action.payload]
-      }
-
-      return {
-        ...state,
-        constructorIngredients: newConstructorIngredients,
-      };
-    }
-    case REMOVE_INGREDIENT: {
-      const newConstructorIngredients = state.constructorIngredients.filter(({_id}) => _id !== action.payload._id)
-      
-      return {
-        ...state,
-        constructorIngredients: newConstructorIngredients,
-      };
-    }
+     };
     case SET_CURRENT_INGREDIENT:
       return {
         ...state,
