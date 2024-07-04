@@ -41,6 +41,9 @@ const DraggableIngredient = ({ ingredient, index, id, moveCard }) => {
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
       // Determine mouse position
       const clientOffset = monitor.getClientOffset()
+      if (!clientOffset) {
+        return;
+      }
       // Get pixels to the top
       const hoverClientY = clientOffset.y - hoverBoundingRect.top
       // Dragging downwards
