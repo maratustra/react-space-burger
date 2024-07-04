@@ -83,12 +83,12 @@ function BurgerIngredients() {
       }
     };
 
-    ingredientsWrapperRef.current.addEventListener("scroll", handleScroll);
+    const currentIngredients = ingredientsWrapperRef.current
 
-    return () => {
-      ingredientsWrapperRef.current.removeEventListener("scroll", handleScroll);
-    };
-  }, [dispatch]);
+    currentIngredients.addEventListener("scroll", handleScroll)
+
+    return () => currentIngredients.removeEventListener("scroll", handleScroll)
+  }, [dispatch])
 
   return (
     <section className={styles["burger-ingredients"]}>

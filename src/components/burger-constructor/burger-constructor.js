@@ -27,7 +27,7 @@ function BurgerConstructor() {
   const orderTotal = useSelector(selectOrderTotal);
   const constructorWrapperRef = useRef(null);
 
-  const [, dropRef] = useDrop(() => ({
+  const [{ handlerId }, dropRef] = useDrop(() => ({
     accept: "ingredient",
     drop: (item) => {
       dispatch(addIngredient(item));
@@ -75,7 +75,7 @@ function BurgerConstructor() {
 
   return (
     <section className={styles["burger-components"]}>
-      <div ref={dropRef} className={styles["main-block-components"]}>
+      <div ref={dropRef} className={styles["main-block-components"]} data-handler-id={handlerId}>
         <div className={`${styles["constructor-fixed-top"]} mt-25`}>
           <ConstructorElement
             type="top"
@@ -91,7 +91,6 @@ function BurgerConstructor() {
         >
           <div
             className={styles["main-constructor"]}
-            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
             {ingredients
               .filter((ingredient) => ingredient.type !== "bun")
