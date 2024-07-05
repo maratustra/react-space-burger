@@ -31,7 +31,7 @@ const Modal = ({ title, children, onClose }) => {
 
   return ReactDOM.createPortal(
     <>
-      <ModalOverlay onClick={onClose} />
+      <ModalOverlay onClose={onClose} />
       <div className={modalClasses}>
         <div className={modalHeaderClasses}>
           {title && <p className="text text_type_main-large">{title}</p>}
