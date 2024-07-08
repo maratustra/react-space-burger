@@ -1,135 +1,178 @@
-import { useEffect, useRef } from "react"
-import styles from "./burger-ingredients.module.css"
-import PropTypes from "prop-types"
-import {
-  Counter,
-  CurrencyIcon,
-  Tab,
-} from "@ya.praktikum/react-developer-burger-ui-components"
-import { ingredientType } from "../utils/types"
+import { useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import styles from "./burger-ingredients.module.css";
+import { openModal } from "../../services/actions/modal";
+import { TAB_SWITCH } from "../../services/actions/tabs";
+import Ingredient from "./ingredient";
 
-function BurgerIngredients({ ingredients, onIngredientClick }) {
-  const buns = ingredients.filter(ingredient => ingredient.name.toLowerCase().includes("булка"))
-  const sauces = ingredients.filter(ingredient => ingredient.name.toLowerCase().includes("соус"))
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+
+function BurgerIngredients() {
+  const dispatch = useDispatch();
+  const ingredients = useSelector((store) => store.ingredients.ingredients);
+  const currentTab = useSelector((store) => store.tabs.currentTab);
+
+  const buns = ingredients.filter((ingredient) =>
+    ingredient.name.toLowerCase().includes("булка")
+  );
+  const sauces = ingredients.filter((ingredient) =>
+    ingredient.name.toLowerCase().includes("соус")
+  );
   const mains = ingredients.filter(
-    ingredient => !ingredient.name.toLowerCase().includes("булка") && !ingredient.name.toLowerCase().includes("соус")
-  )
+    (ingredient) =>
+      !ingredient.name.toLowerCase().includes("булка") &&
+      !ingredient.name.toLowerCase().includes("соус")
+  );
 
-  const ingredientsWrapperRef = useRef(null)
+  const bunsRef = useRef(null);
+  const saucesRef = useRef(null);
+  const mainsRef = useRef(null);
+  const ingredientsWrapperRef = useRef(null);
+
+  const switchTab = (tab) => {
+    dispatch({ type: TAB_SWITCH, payload: tab });
+
+    switch (tab) {
+      case "buns":
+        if (bunsRef.current)
+          bunsRef.current.scrollIntoView({ behavior: "smooth" });
+        break;
+      case "sauces":
+        if (saucesRef.current)
+          saucesRef.current.scrollIntoView({ behavior: "smooth" });
+        break;
+      case "mains":
+        if (mainsRef.current)
+          mainsRef.current.scrollIntoView({ behavior: "smooth" });
+        break;
+      default:
+        break;
+    }
+  };
+
+  const onIngredientClick = (ingredient) => {
+    dispatch(
+      openModal("ingredientDetails", { ingredient }, "Детали ингредиента")
+    );
+  };
 
   useEffect(() => {
     const handleScroll = () => {
-      if (ingredientsWrapperRef.current && ingredientsWrapperRef.current.scrollTop > 0) {
-        ingredientsWrapperRef.current.classList.add(styles.scrolling)
-      } else if (ingredientsWrapperRef.current) {
-        ingredientsWrapperRef.current.classList.remove(styles.scrolling)
+      const bunsTop = bunsRef.current?.getBoundingClientRect().top;
+      const saucesTop = saucesRef.current?.getBoundingClientRect().top;
+      const mainsTop = mainsRef.current?.getBoundingClientRect().top;
+      const wrapperTop =
+        ingredientsWrapperRef.current?.getBoundingClientRect().top;
+
+      const distanceBuns = Math.abs(bunsTop - wrapperTop);
+      const distanceSauces = Math.abs(saucesTop - wrapperTop);
+      const distanceMains = Math.abs(mainsTop - wrapperTop);
+
+      if (distanceBuns < distanceSauces && distanceBuns < distanceMains) {
+        dispatch({ type: TAB_SWITCH, payload: "buns" });
+      } else if (
+        distanceSauces < distanceBuns &&
+        distanceSauces < distanceMains
+      ) {
+        dispatch({ type: TAB_SWITCH, payload: "sauces" });
+      } else if (
+        distanceMains < distanceBuns &&
+        distanceMains < distanceSauces
+      ) {
+        dispatch({ type: TAB_SWITCH, payload: "mains" });
       }
     };
 
-    const wrapper = ingredientsWrapperRef.current
-      if (wrapper) {
-        wrapper.addEventListener("scroll", handleScroll)
-      }
+    const currentIngredients = ingredientsWrapperRef.current
 
-      return () => {
-        if (wrapper) {
-          wrapper.removeEventListener("scroll", handleScroll)
-        }
-      }
-  }, [])
+    currentIngredients.addEventListener("scroll", handleScroll)
+
+    return () => currentIngredients.removeEventListener("scroll", handleScroll)
+  }, [dispatch])
 
   return (
-    <section className={styles['burger-ingredients']}>
+    <section className={styles["burger-ingredients"]}>
       <p className="text text_type_main-large pt-10 pb-5">Соберите бургер</p>
-      <div className={`${styles['tab-container']} pb-10`}>
-        <Tab value="one" active={"one"} className={styles.tab}>
+      <div className={`${styles["tab-container"]} pb-10`}>
+        <Tab
+          value="buns"
+          active={currentTab === "buns"}
+          className={styles.tab}
+          onClick={() => switchTab("buns")}
+        >
           Булки
         </Tab>
-        <Tab value="two" className={styles.tab}>
+        <Tab
+          value="sauces"
+          active={currentTab === "sauces"}
+          className={styles.tab}
+          onClick={() => switchTab("sauces")}
+        >
           Соусы
         </Tab>
-        <Tab value="three" className={styles.tab}>
+        <Tab
+          value="mains"
+          active={currentTab === "mains"}
+          className={styles.tab}
+          onClick={() => switchTab("mains")}
+        >
           Начинки
         </Tab>
       </div>
       <div ref={ingredientsWrapperRef} className={styles.ingredients}>
-        <section>
-          <p className={`${styles['ingredient-header']} text text_type_main-medium`}>Булки</p>
-          <ul className={`${styles['ingredients-list']} mt-6 mb-15 pl-0`}>
-            {buns.map((ingredient, index) => (
-              <li key={ingredient._id} className={`${styles['ingredient-item']} ${index % 2 === 0 ? ' ml-4' : ""}`} onClick={() => onIngredientClick(ingredient)}>
-                {index === 0 && (
-                  <div className={styles['header-counter']}>
-                    <Counter count={1} size="default" extraClass={styles.counter} />
-                  </div>
-                )}
-                <div className="pl-4 pr-4">
-                  <img src={ingredient.image} alt="Булка" />
-                </div>
-                <div className={styles.price}>
-                  <Counter count={ingredient.price} size="default" extraClass={styles.counter} />
-                  <CurrencyIcon type="primary" />
-                </div>
-                <p className={`${styles['ingredient-description']} text text_type_main-small`}>
-                  {ingredient.name}
-                </p>
-              </li>
+        <section id="buns" ref={bunsRef}>
+          <p
+            className={`${styles["ingredient-header"]} text text_type_main-medium`}
+          >
+            Булки
+          </p>
+          <ul className={`${styles["ingredients-list"]} mt-6 mb-15 ml-4 pl-0`}>
+            {buns.map((ingredient) => (
+              <Ingredient
+                key={ingredient._id}
+                ingredient={ingredient}
+                onIngredientClick={onIngredientClick}
+              />
             ))}
           </ul>
         </section>
 
-        <section>
-          <p className={`${styles['ingredient-header']} text text_type_main-medium`}>Соусы</p>
-          <ul className={`${styles['ingredients-list']} mt-6 mb-15 pl-0`}>
-            {sauces.map((ingredient, index) => (
-              <li key={ingredient._id} className={`${styles['ingredient-item']} ${index % 2 === 0 ? ' ml-4' : ""}`} onClick={() => onIngredientClick(ingredient)}>
-                {index === 2 && (
-                  <div className={styles['header-counter']}>
-                    <Counter count={1} size="default" extraClass={styles.counter} />
-                  </div>
-                )}
-                <div className="pl-4 pr-4">
-                  <img src={ingredient.image} alt="Соус"/>
-                </div>
-                <div className={styles.price}>
-                  <Counter count={ingredient.price} size="default" extraClass={styles.counter} />
-                  <CurrencyIcon type="primary" />
-                </div>
-                <p className={`${styles['ingredient-description']} text text_type_main-small`}>
-                  {ingredient.name}
-                </p>
-              </li>
+        <section id="sauces" ref={saucesRef}>
+          <p
+            className={`${styles["ingredient-header"]} text text_type_main-medium`}
+          >
+            Соусы
+          </p>
+          <ul className={`${styles["ingredients-list"]} mt-6 mb-15 ml-4 pl-0`}>
+            {sauces.map((ingredient) => (
+              <Ingredient
+                key={ingredient._id}
+                ingredient={ingredient}
+                onIngredientClick={onIngredientClick}
+              />
             ))}
           </ul>
         </section>
 
-        <section>
-          <p className={`${styles['ingredient-header']} text text_type_main-medium`}>Начинки</p>
-          <ul className={`${styles['ingredients-list']} mt-6 mb-15 pl-0`}>
-            {mains.map(ingredient => (
-              <li key={ingredient._id} className={styles['ingredient-item']} onClick={() => onIngredientClick(ingredient)}>
-                <div className="pl-4 pr-4">
-                  <img src={ingredient.image} alt="Начинка" />
-                </div>
-                <div className={styles.price}>
-                  <Counter count={ingredient.price} size="default" extraClass={styles.counter} />
-                  <CurrencyIcon type="primary" />
-                </div>
-                <p className={`${styles['ingredient-description']} text text_type_main-small`}>
-                  {ingredient.name}
-                </p>
-              </li>
+        <section id="mains" ref={mainsRef}>
+          <p
+            className={`${styles["ingredient-header"]} text text_type_main-medium`}
+          >
+            Начинки
+          </p>
+          <ul className={`${styles["ingredients-list"]} mt-6 mb-15 ml-4 pl-0`}>
+            {mains.map((ingredient) => (
+              <Ingredient
+                key={ingredient._id}
+                ingredient={ingredient}
+                onIngredientClick={onIngredientClick}
+              />
             ))}
           </ul>
         </section>
       </div>
     </section>
-  )
+  );
 }
 
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientType).isRequired,
-  onIngredientClick: PropTypes.func.isRequired,
-}
-
-export default BurgerIngredients
+export default BurgerIngredients;

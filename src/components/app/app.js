@@ -1,71 +1,64 @@
-import { useEffect, useState } from 'react'
-import styles from "./app.module.css"
-import BurgerIngredients from "../burger-ingredients/burger-ingredients"
-import BurgerConstructor from "../burger-constructor/burger-constructor"
-import Header from "../app-header/app-header"
-import Modal from "../modal/modal"
-import OrderDetails from "../order-details/order-details"
-import IngredientDetails from "../ingredient-details/ingredient-details"
-import { useModal } from '../../hooks/useModal'
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import styles from "./app.module.css";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
-const API_URL = 'https://norma.nomoreparties.space/api/ingredients'
+import BurgerIngredients from "../burger-ingredients/burger-ingredients";
+import BurgerConstructor from "../burger-constructor/burger-constructor";
+import Header from "../app-header/app-header";
+import Modal from "../modal/modal";
+
+import { getIngredients } from "../../services/actions/ingredients";
+import { openModal, closeModal } from "../../services/actions/modal";
+import { componentMap } from "../../services/reducers/modal";
 
 function App() {
-  const [ingredients, setIngredients] = useState([])
-  const { isModalOpen, openModal, closeModal } = useModal()
-  const [modalContent, setModalContent] = useState(null)
-  const [modalTitle, setModalTitle] = useState('')
+  const dispatch = useDispatch();
+  const { isOpen, contentType, contentProps, title } = useSelector((state) => state.modal);
 
   useEffect(() => {
-    fetch(API_URL)
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(`Ошибка: ${res.status}`)
-        }
-        return res.json()
-      })
-      .then(data => {
-        if (data.success) {
-          setIngredients(data.data)
-        } else {
-          throw new Error('Данные не получены')
-        }
-      })
-      .catch(error => {
-        console.error('Ошибка в получении данных ingredients:', error)
-      })
-  }, [])
+    dispatch(getIngredients());
+  }, [dispatch]);
 
-  const handleIngredientClick = ingredient => {
-    setModalContent(<IngredientDetails ingredient={ingredient} />)
-    setModalTitle('Детали ингридиента')
-    openModal()
-  }
+  const handleIngredientClick = (ingredient) => {
+    dispatch(
+      openModal({
+        contentType: "ingredientDetails",
+        contentProps: { ingredient },
+        title: "Детали ингредиента",
+      })
+    );
+  };
 
   const handleOrderClick = () => {
-    setModalContent(<OrderDetails />)
-    setModalTitle('')
-    openModal()
-  }
+    dispatch(openModal({
+      contentType: "orderDetails",
+      contentProps: {},
+      title: "",
+    }));
+  };
+
+  const ContentComponent = componentMap[contentType];
 
   return (
     <div className={styles.main}>
       <Header />
       <main className={styles.container}>
         <div className={styles.content}>
-          <BurgerIngredients ingredients={ingredients} onIngredientClick={handleIngredientClick} />
-          <BurgerConstructor ingredients={ingredients} onOrderClick={handleOrderClick} />
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients onIngredientClick={handleIngredientClick} />
+            <BurgerConstructor onOrderClick={handleOrderClick} />
+          </DndProvider>
         </div>
-        {isModalOpen && (
-          <>
-            <Modal title={modalTitle} onClose={closeModal}>
-              {modalContent}
-            </Modal>
-          </>
+        {isOpen && ContentComponent && (
+          <Modal title={title} onClose={() => dispatch(closeModal())}>
+            <ContentComponent {...contentProps} />
+          </Modal>
         )}
       </main>
     </div>
   );
 }
 
-export default App
+export default App;
