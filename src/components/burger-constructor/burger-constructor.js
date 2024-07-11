@@ -18,7 +18,7 @@ import {
 import DraggableIngredient from "./draggable-ingredient";
 import { selectOrderTotal } from "../selectors/orderSelector";
 
-import emptyBun from "../../images/bars.svg";
+import emptyBun from "../../images/burger.svg";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
