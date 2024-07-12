@@ -25,10 +25,16 @@
   display: flex;
   align-items: center;
   gap: 9px;
+  color: #8585AD;
+  text-decoration: none;
 }
 
 .nav-link p {
-  color: white;
+  color: inherit;
+}
+
+.nav-link svg {
+  fill: currentColor;
 }
 
 .logo-container {
@@ -37,12 +43,6 @@
   justify-content: center;
 }
 
-.account {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-
-.account p {
+.active {
   color: white;
 }

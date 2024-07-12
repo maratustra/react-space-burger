@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from "./app-header.module.css";
 import {
   BurgerIcon,
@@ -12,22 +12,37 @@ function Header() {
     <header className={`${styles.header} pt-4 pb-4`}>
       <nav className={styles.nav}>
         <ul className={styles["nav-links"]}>
-          <Link to="/" className={`${styles["nav-link"]} p-4`}>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `${styles["nav-link"]} p-4 ${isActive ? styles.active : ""}`
+            }
+          >
             <BurgerIcon type="primary" />
             <p className="text text_type_main-default">Конструктор</p>
-          </Link>
+          </NavLink>
           <li className={styles["nav-link"]}>
             <ListIcon type="primary" />
             <p className="text text_type_main-default">Лента заказов</p>
           </li>
         </ul>
-        <Link to="/" className={styles["logo-container"]}>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `${styles["nav-link"]} p-4 ${isActive ? styles.active : ""}`
+          }
+        >
           <Logo />
-        </Link>
-        <Link to="/profile" className={`${styles.account} p-4`}>
+        </NavLink>
+        <NavLink
+          to="/profile"
+          className={({ isActive }) =>
+            `${styles["nav-link"]} p-4 ${isActive ? styles.active : ""}`
+          }
+        >
           <ProfileIcon type="primary" />
           <p className="text text_type_main-default">Личный кабинет</p>
-        </Link>
+        </NavLink>
       </nav>
     </header>
   );

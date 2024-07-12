@@ -1,42 +1,25 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import styles from "./profile.module.css";
-import {
-  EmailInput,
-  Input,
-  PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
 
 function ProfilePage() {
-  const [name, setName] = useState("Марк");
-  const [login, setLogin] = useState("mail@stellar.burgers");
-  const [password, setPassword] = useState("password");
-
-  const onChangeName = (e) => {
-    setName(e.target.value);
-  };
-
-  const onChangeLogin = (e) => {
-    setLogin(e.target.value);
-  };
-
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
-
   return (
     <main className={styles.wrapper}>
-      <div className={styles.navContainer}>
-        <ul className={styles.navLinks}>
-          <li
-            className={`${styles.navLink} ${styles.activeLink} text text_type_main-medium`}
+      <div className={styles["nav-container"]}>
+        <ul className={styles["nav-links"]}>
+          <NavLink
+            to="/profile"
+            end
+            className={({ isActive }) => `${styles["nav-link"]} text text_type_main-medium ${isActive ? styles.active : ""}`}
           >
             Профиль
-          </li>
-          <li className={`${styles.navLink} text text_type_main-medium`}>
+          </NavLink>
+          <NavLink 
+            to="/profile/orders" 
+            className={({ isActive }) => `${styles["nav-link"]} text text_type_main-medium ${isActive ? styles.active : ""}`}
+          >
             История заказов
-          </li>
-          <li className={`${styles.navLink} text text_type_main-medium`}>
+          </NavLink>
+          <li className={`${styles["nav-link"]} text text_type_main-medium`}>
             Выход
           </li>
         </ul>
@@ -44,32 +27,7 @@ function ProfilePage() {
           В этом разделе вы можете изменить свои персональные данные
         </p>
       </div>
-      <div className={styles.formContainer}>
-        <form className={styles.form}>
-          <Input
-            type={"text"}
-            placeholder={"Имя"}
-            onChange={onChangeName}
-            value={name}
-            name={"name"}
-            icon={'EditIcon'}
-          />
-          <EmailInput
-            onChange={onChangeLogin}
-            value={login}
-            name={"login"}
-            placeholder="Логин"
-            isIcon={true}
-          />
-          <PasswordInput
-            onChange={onChangePassword}
-            value={password}
-            name={"password"}
-            placeholder="Пароль"
-            icon="EditIcon"
-          />
-        </form>
-      </div>
+      <Outlet />
     </main>
   );
 }
