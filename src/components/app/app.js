@@ -7,15 +7,15 @@ import { Routes, Route } from "react-router-dom";
 
 import Header from "../app-header/app-header";
 import Modal from "../modal/modal";
-import HomePage from '../../pages/home';
-import LoginPage from '../../pages/login';
-import RegistrationPage from '../../pages/registration';
-import ForgotPasswordPage from '../../pages/forgot-password';
-import ResetPasswordPage from '../../pages/reset-password';
-import ProfilePage from '../../pages/profile';
-import ProfileFormPage from '../../pages/profile-form';
-import ProfileOrdersPage from "../../pages/profile-orders";
-import NotFoundPage from '../../pages/404';
+import HomePage from '../../pages/home/home';
+import LoginPage from '../../pages/login/login';
+import RegistrationPage from '../../pages/registration/registration';
+import ForgotPasswordPage from '../../pages/forgot-password/forgot-password';
+import ResetPasswordPage from '../../pages/reset-password/reset-password';
+import ProfilePage from '../../pages/profile/profile';
+import ProfileFormPage from '../../pages/profile/profile-form';
+import ProfileOrdersPage from "../../pages/profile/profile-orders";
+import NotFoundPage from '../../pages/not-found/not-found';
 
 import { getIngredients } from "../../services/actions/ingredients";
 import { openModal, closeModal } from "../../services/actions/modal";

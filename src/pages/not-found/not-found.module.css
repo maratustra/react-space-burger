@@ -28,7 +28,7 @@
 .illustration {
   width: 150px;
   height: 150px;
-  background-image: url('../images/fruits.png');
+  background-image: url('../../images/fruits.png');
   background-size: cover;
   background-position: center;
   margin-bottom: 2rem;

@@ -5,7 +5,7 @@ import {
   Button,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { resetPassword } from "../utils/api";
+import { resetPassword } from "../../utils/api";
 
 function ForgotPasswordPage() {
   const [email, setEmail] = useState('');

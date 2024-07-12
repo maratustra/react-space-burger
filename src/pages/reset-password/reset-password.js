@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import styles from "./forgot.module.css";
+import styles from "../forgot-password/forgot.module.css";
 import {
   Button,
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { resetPasswordWithToken } from "../utils/api";
+import { resetPasswordWithToken } from "../../utils/api";
 
 function ResetPasswordPage() {
   const [code, setCode] = useState('');
