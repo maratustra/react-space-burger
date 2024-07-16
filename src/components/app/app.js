@@ -21,7 +21,7 @@ import { getIngredients } from "../../services/actions/ingredients";
 import { openModal, closeModal } from "../../services/actions/modal";
 import { componentMap } from "../../services/reducers/modal";
 import { checkUserAuth } from "../../services/actions/auth";
-import { Protected } from "../protected-route";
+import { ProtectedRouteElement, OnlyUnAuth } from "../protected-route";
 
 function App() {
   const dispatch = useDispatch();
@@ -75,7 +75,7 @@ function App() {
               <Route
                 path="/login"
                 element={
-                  <Protected onlyUnAuth={true} component={<LoginPage />} />
+                  <ProtectedRouteElement onlyUnAuth={true} component={<LoginPage />} />
                 }
               />
               <Route path="/registration" element={<RegistrationPage />} />
@@ -83,7 +83,7 @@ function App() {
               <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route
                 path="/profile"
-                element={<Protected component={<ProfilePage />} />}
+                element={<ProtectedRouteElement component={<ProfilePage />} />}
               >
                 <Route index element={<ProfileFormPage />} />
                 <Route path="orders" element={<ProfileOrdersPage />} />
