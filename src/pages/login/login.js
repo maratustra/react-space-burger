@@ -1,13 +1,18 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./login.module.css";
 import {
   Button,
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { login } from '../../services/actions/auth';
 
 function LoginPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -19,11 +24,16 @@ function LoginPage() {
     setPassword(e.target.value);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(login(email, password)).then(() => navigate('/'));
+  };
+
   return (
     <main className={styles.wrapper}>
       <div className={styles.container}>
         <p className="text text_type_main-medium">Вход</p>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <EmailInput
             onChange={onChangeEmail}
             value={email}
@@ -36,7 +46,7 @@ function LoginPage() {
             name={"password"}
             placeholder="Пароль"
           />
-          <Button htmlType="button" type="primary" size="medium">
+          <Button htmlType="submit" type="primary" size="medium">
             Войти
           </Button>
         </form>

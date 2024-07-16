@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from "./registration.module.css";
 import {
   Button,
@@ -7,8 +8,12 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { register } from '../../services/actions/auth';
 
 function RegistrationPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,11 +32,16 @@ function RegistrationPage() {
     setPassword(e.target.value);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(register(email, password, name)).then(() => navigate('/'));
+  };
+
   return (
     <main className={styles.wrapper}>
       <div className={styles.container}>
         <p className="text text_type_main-medium">Регистрация</p>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <Input
             type={"text"}
             placeholder={"Имя"}
@@ -52,7 +62,7 @@ function RegistrationPage() {
             name={"password"}
             placeholder="Пароль"
           />
-          <Button htmlType="button" type="primary" size="medium">
+          <Button htmlType="submit" type="primary" size="medium">
             Зарегистрироваться
           </Button>
         </form>

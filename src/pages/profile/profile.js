@@ -1,7 +1,15 @@
+import { useDispatch } from 'react-redux';
 import { NavLink, Outlet } from "react-router-dom";
 import styles from "./profile.module.css";
+import { logout } from '../../services/actions/auth';
 
 function ProfilePage() {
+  const dispatch = useDispatch();
+  
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <main className={styles.wrapper}>
       <div className={styles["nav-container"]}>
@@ -19,7 +27,10 @@ function ProfilePage() {
           >
             История заказов
           </NavLink>
-          <li className={`${styles["nav-link"]} text text_type_main-medium`}>
+          <li 
+            className={`${styles["nav-link"]} text text_type_main-medium`}
+            onClick={handleLogout}
+          >
             Выход
           </li>
         </ul>

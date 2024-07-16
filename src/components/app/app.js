@@ -7,19 +7,21 @@ import { Routes, Route } from "react-router-dom";
 
 import Header from "../app-header/app-header";
 import Modal from "../modal/modal";
-import HomePage from '../../pages/home/home';
-import LoginPage from '../../pages/login/login';
-import RegistrationPage from '../../pages/registration/registration';
-import ForgotPasswordPage from '../../pages/forgot-password/forgot-password';
-import ResetPasswordPage from '../../pages/reset-password/reset-password';
-import ProfilePage from '../../pages/profile/profile';
-import ProfileFormPage from '../../pages/profile/profile-form';
+import HomePage from "../../pages/home/home";
+import LoginPage from "../../pages/login/login";
+import RegistrationPage from "../../pages/registration/registration";
+import ForgotPasswordPage from "../../pages/forgot-password/forgot-password";
+import ResetPasswordPage from "../../pages/reset-password/reset-password";
+import ProfilePage from "../../pages/profile/profile";
+import ProfileFormPage from "../../pages/profile/profile-form";
 import ProfileOrdersPage from "../../pages/profile/profile-orders";
-import NotFoundPage from '../../pages/not-found/not-found';
+import NotFoundPage from "../../pages/not-found/not-found";
 
 import { getIngredients } from "../../services/actions/ingredients";
 import { openModal, closeModal } from "../../services/actions/modal";
 import { componentMap } from "../../services/reducers/modal";
+import { checkUserAuth } from "../../services/actions/auth";
+import { Protected } from "../protected-route";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +30,7 @@ function App() {
   );
 
   useEffect(() => {
+    dispatch(checkUserAuth());
     dispatch(getIngredients());
   }, [dispatch]);
 
@@ -60,12 +63,28 @@ function App() {
         <div className={styles.content}>
           <DndProvider backend={HTML5Backend}>
             <Routes>
-              <Route path="/" element={<HomePage onIngredientClick={handleIngredientClick} onOrderClick={handleOrderClick} />} />
-              <Route path="/login" element={<LoginPage />} />
+              <Route
+                path="/"
+                element={
+                  <HomePage
+                    onIngredientClick={handleIngredientClick}
+                    onOrderClick={handleOrderClick}
+                  />
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <Protected onlyUnAuth={true} component={<LoginPage />} />
+                }
+              />
               <Route path="/registration" element={<RegistrationPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/reset-password" element={<ResetPasswordPage />} />
-              <Route path="/profile" element={<ProfilePage />}>
+              <Route
+                path="/profile"
+                element={<Protected component={<ProfilePage />} />}
+              >
                 <Route index element={<ProfileFormPage />} />
                 <Route path="orders" element={<ProfileOrdersPage />} />
               </Route>
