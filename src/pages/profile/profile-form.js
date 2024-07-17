@@ -8,14 +8,17 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { getUser, updateUser } from '../../services/actions/auth';
+import Loader from "../../components/loader";
 
 function ProfileFormPage() {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user.user);
+  const { user, loading, updateSuccess, error } = useSelector(state => state.user);
 
   const [name, setName] = useState("");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     dispatch(getUser());
@@ -28,6 +31,13 @@ function ProfileFormPage() {
       setPassword('');
     }
   }, [user]);
+
+  useEffect(() => {
+    if (updateSuccess) {
+      setSuccessMessage('Данные успешно изменены!');
+      setTimeout(() => setSuccessMessage(''), 3000);
+    }
+  }, [updateSuccess]);
 
   const onChangeName = (e) => {
     setName(e.target.value);
@@ -71,8 +81,10 @@ function ProfileFormPage() {
             placeholder="Пароль"
             icon="EditIcon"
           />
+          {successMessage && <p className='input__error text_type_main-default'>{successMessage}</p>}
+          {error && <p className='input__error text_type_main-default'>{error}</p>}
           <Button htmlType="submit" type="primary" size="medium">
-            Сохранить
+            {loading ? <Loader /> : 'Сохранить'}
           </Button>
         </form>
       </div>

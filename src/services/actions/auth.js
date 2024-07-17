@@ -14,6 +14,12 @@ export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const REGISTER_REQUEST = "REGISTER_REQUEST";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAILURE = "REGISTER_FAILURE";
+export const GET_USER_REQUEST = "GET_USER_REQUEST";
+export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
+export const GET_USER_FAILURE = "GET_USER_FAILURE";
+export const UPDATE_USER_REQUEST = "UPDATE_USER_REQUEST";
+export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
+export const UPDATE_USER_FAILURE = "UPDATE_USER_FAILURE";
 
 export const setAuthChecked = (value) => ({
   type: SET_AUTH_CHECKED,
@@ -28,13 +34,14 @@ export const setUser = (user) => ({
 export const login = (email, password) => {
   return (dispatch) => {
     dispatch({ type: LOGIN_REQUEST });
-    return apiLogin(email, password).then((res) => {
-      localStorage.setItem("accessToken", res.accessToken);
-      localStorage.setItem("refreshToken", res.refreshToken);
-      dispatch(setUser(res.user));
-      dispatch(setAuthChecked(true));
-      dispatch({ type: LOGIN_SUCCESS });
-    })
+    return apiLogin(email, password)
+      .then((res) => {
+        localStorage.setItem("accessToken", res.accessToken);
+        localStorage.setItem("refreshToken", res.refreshToken);
+        dispatch(setUser(res.user));
+        dispatch(setAuthChecked(true));
+        dispatch({ type: LOGIN_SUCCESS });
+      })
       .catch((error) => {
         dispatch({ type: LOGIN_FAILURE, payload: error.message });
       });
@@ -44,13 +51,14 @@ export const login = (email, password) => {
 export const register = (email, password, name) => {
   return (dispatch) => {
     dispatch({ type: REGISTER_REQUEST });
-    return apiRegister({ email, password, name }).then((res) => {
-      localStorage.setItem("accessToken", res.accessToken);
-      localStorage.setItem("refreshToken", res.refreshToken);
-      dispatch(setUser(res.user));
-      dispatch(setAuthChecked(true));
-      dispatch({ type: REGISTER_SUCCESS });
-    })
+    return apiRegister({ email, password, name })
+      .then((res) => {
+        localStorage.setItem("accessToken", res.accessToken);
+        localStorage.setItem("refreshToken", res.refreshToken);
+        dispatch(setUser(res.user));
+        dispatch(setAuthChecked(true));
+        dispatch({ type: REGISTER_SUCCESS });
+      })
       .catch((error) => {
         dispatch({ type: REGISTER_FAILURE, payload: error.message });
       });
@@ -86,16 +94,26 @@ export const logout = () => {
 
 export const getUser = () => {
   return (dispatch) => {
-    return apiGetUser().then((res) => {
-      dispatch(setUser(res.user));
-    });
+    dispatch({ type: GET_USER_REQUEST });
+    return apiGetUser()
+      .then((res) => {
+        dispatch({ type: GET_USER_SUCCESS, payload: res.user });
+      })
+      .catch((error) => {
+        dispatch({ type: GET_USER_FAILURE, payload: error.message });
+      });
   };
 };
 
 export const updateUser = (email, name, password) => {
   return (dispatch) => {
-    return apiUpdateUser(email, name, password).then((res) => {
-      dispatch(setUser(res.user));
-    });
+    dispatch({ type: UPDATE_USER_REQUEST });
+    return apiUpdateUser(email, name, password)
+      .then((res) => {
+        dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
+      })
+      .catch((error) => {
+        dispatch({ type: UPDATE_USER_FAILURE, payload: error.message });
+      });
   };
 };
