@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./forgot.module.css";
 import {
@@ -6,30 +7,24 @@ import {
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { resetPassword } from "../../utils/api";
+import Loader from "../../components/loader";
 
 function ForgotPasswordPage() {
-  const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const [email, setEmail] = useState('');
+  const { loading, error } = useSelector((state) => state.user);
 
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
   };
 
   const handleSubmit = (e) => {
-    console.log('e: ', e);
     e.preventDefault();
-    setLoading(true);
     resetPassword(email)
       .then(() => {
-        setLoading(false);
         navigate("/reset-password");
       })
-      .catch((err) => {
-        setLoading(false);
-        console.error(err);
-        // TODO: добавить обработку ошибок
-      });
   };
 
   return (
@@ -44,7 +39,7 @@ function ForgotPasswordPage() {
             placeholder="Укажите e-mail"
           />
           <Button htmlType="submit" type="primary" size="medium" disabled={loading}>
-            {loading ? "Загрузка..." : "Восстановить"}
+            {loading ? <Loader /> : "Восстановить"}
           </Button>
         </form>
         <div className={styles.links}>

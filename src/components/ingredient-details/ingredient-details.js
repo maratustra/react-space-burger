@@ -5,9 +5,11 @@ const IngredientDetails = ({ ingredient }) => {
   return (
     <section className={styles['ingredient-details']}>
       <div className={styles['ingredient-card']}>
-        <img src={ingredient.image} alt="Фото ингридиента" />
+        <div>
+          <img src={ingredient.image} alt="Фото ингридиента" />
+        </div>
 
-        <p className="text text_type_main-medium mt-4 mb-8">
+        <p className={`${styles['ingredient-name']} text text_type_main-medium mt-4 mb-8`}>
           {ingredient.name}
         </p>
 

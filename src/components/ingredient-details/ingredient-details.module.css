@@ -8,6 +8,12 @@
 
 .ingredient-card {
   width: 520px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ingredient-name {
+  text-align: center;
 }
 
 .ingredient-info {

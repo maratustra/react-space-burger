@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./app.module.css";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 
 import Header from "../app-header/app-header";
 import Modal from "../modal/modal";
@@ -21,10 +21,19 @@ import { getIngredients } from "../../services/actions/ingredients";
 import { openModal, closeModal } from "../../services/actions/modal";
 import { componentMap } from "../../services/reducers/modal";
 import { checkUserAuth } from "../../services/actions/auth";
-import { ProtectedRouteElement, OnlyUnAuth } from "../protected-route";
+import {
+  ProtectedRouteElement,
+  OnlyAuth,
+  OnlyUnAuth,
+} from "../protected-route";
+import IngredientDetailsWrapper from "../ingredient-details/ingredient-details-wrapper";
 
 function App() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const background = location.state?.background;
+
   const { isOpen, contentType, contentProps, title } = useSelector(
     (state) => state.modal
   );
@@ -54,6 +63,11 @@ function App() {
     );
   };
 
+  const handleCloseModal = () => {
+    dispatch(closeModal());
+    navigate(-1);
+  };
+
   const ContentComponent = componentMap[contentType];
 
   return (
@@ -62,7 +76,7 @@ function App() {
       <main className={styles.container}>
         <div className={styles.content}>
           <DndProvider backend={HTML5Backend}>
-            <Routes>
+            <Routes location={background || location}>
               <Route
                 path="/"
                 element={
@@ -75,12 +89,39 @@ function App() {
               <Route
                 path="/login"
                 element={
-                  <ProtectedRouteElement onlyUnAuth={true} component={<LoginPage />} />
+                  <ProtectedRouteElement
+                    onlyUnAuth={true}
+                    component={<LoginPage />}
+                  />
                 }
               />
-              <Route path="/registration" element={<RegistrationPage />} />
-              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-              <Route path="/reset-password" element={<ResetPasswordPage />} />
+              <Route
+                path="/registration"
+                element={
+                  <ProtectedRouteElement
+                    onlyUnAuth={true}
+                    component={<RegistrationPage />}
+                  />
+                }
+              />
+              <Route
+                path="/forgot-password"
+                element={
+                  <ProtectedRouteElement
+                    onlyUnAuth={true}
+                    component={<ForgotPasswordPage />}
+                  />
+                }
+              />
+              <Route
+                path="/reset-password"
+                element={
+                  <ProtectedRouteElement
+                    onlyUnAuth={true}
+                    component={<ResetPasswordPage />}
+                  />
+                }
+              />
               <Route
                 path="/profile"
                 element={<ProtectedRouteElement component={<ProfilePage />} />}
@@ -88,12 +129,28 @@ function App() {
                 <Route index element={<ProfileFormPage />} />
                 <Route path="orders" element={<ProfileOrdersPage />} />
               </Route>
+              <Route
+                path="/ingredients/:id"
+                element={<IngredientDetailsWrapper />}
+              />
               <Route path="/*" element={<NotFoundPage />} />
             </Routes>
           </DndProvider>
         </div>
-        {isOpen && ContentComponent && (
-          <Modal title={title} onClose={() => dispatch(closeModal())}>
+        {background && (
+          <Routes>
+            <Route
+              path="/ingredients/:id"
+              element={
+                <Modal title="Детали ингредиента" onClose={handleCloseModal}>
+                  <IngredientDetailsWrapper />
+                </Modal>
+              }
+            />
+          </Routes>
+        )}
+        {isOpen && (
+          <Modal title={title} onClose={handleCloseModal}>
             <ContentComponent {...contentProps} />
           </Modal>
         )}

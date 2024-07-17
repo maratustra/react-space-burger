@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./registration.module.css";
 import {
   Button,
@@ -8,17 +8,21 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { register } from '../../services/actions/auth';
+import { register } from "../../services/actions/auth";
+import Loader from "../../components/loader";
 
 function RegistrationPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const inputRef = useRef(null);
+  const { loading, error } = useSelector((state) => state.user);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const inputRef = useRef(null);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onChangeName = (e) => {
     setName(e.target.value);
@@ -34,7 +38,20 @@ function RegistrationPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(register(email, password, name)).then(() => navigate('/'));
+    setErrorMessage("");
+    setSuccessMessage("");
+    dispatch(register(email, password, name))
+      .then((res) => {
+        if (res.success) {
+          setSuccessMessage(
+            "Регистрация успешна! Перенаправляем на страницу входа"
+          );
+          setTimeout(() => navigate("/login"), 3000);
+        } else {
+          setErrorMessage("Ошибка регистрации");
+        }
+      })
+      .catch((err) => setErrorMessage("Ошибка регистрации"));
   };
 
   return (
@@ -62,8 +79,11 @@ function RegistrationPage() {
             name={"password"}
             placeholder="Пароль"
           />
+          {successMessage && <p className='input__error text_type_main-default'>{successMessage}</p>}
+          {errorMessage && <p className='input__error text_type_main-default'>{errorMessage}</p>}
+
           <Button htmlType="submit" type="primary" size="medium">
-            Зарегистрироваться
+            {loading ? <Loader /> : "Зарегистрироваться"}
           </Button>
         </form>
         <div className={styles.links}>

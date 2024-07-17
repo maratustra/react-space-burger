@@ -1,12 +1,13 @@
 import { useEffect, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useDrop } from "react-dnd";
 import styles from "./burger-constructor.module.css";
 import { sendOrder } from "../../services/actions/order";
 import {
   addIngredient,
   incrementCount,
-  moveIngredient
+  moveIngredient,
 } from "../../services/actions/constructor";
 
 import {
@@ -17,14 +18,20 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import DraggableIngredient from "./draggable-ingredient";
 import { selectOrderTotal } from "../selectors/orderSelector";
+import Loader from "../loader";
 
 import emptyBun from "../../images/burger.svg";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const burgerBun = useSelector((store) => store.constructorReducer.bun);
-  const ingredients = useSelector((store) => store.constructorReducer?.constructorIngredients);
+  const ingredients = useSelector(
+    (store) => store.constructorReducer?.constructorIngredients
+  );
   const orderTotal = useSelector(selectOrderTotal);
+  const isUserAuth = useSelector((store) => store.user.user);
+  const isOrderSending = useSelector((store) => store.order.isLoading);
   const constructorWrapperRef = useRef(null);
 
   const [{ handlerId }, dropRef] = useDrop(() => ({
@@ -36,13 +43,17 @@ function BurgerConstructor() {
     },
   }));
 
-  const moveCard = useCallback((dragIndex, hoverIndex) => {
+  const moveCard = useCallback(
+    (dragIndex, hoverIndex) => {
       dispatch(moveIngredient(dragIndex, hoverIndex));
     },
     [dispatch]
   );
 
   const handleOrderClick = () => {
+    if (!isUserAuth) {
+      navigate("/login");
+    }
     const ingredientIds = ingredients.map((ingredient) => ingredient._id);
     dispatch(sendOrder(ingredientIds));
   };
@@ -75,7 +86,11 @@ function BurgerConstructor() {
 
   return (
     <section className={styles["burger-components"]}>
-      <div ref={dropRef} className={styles["main-block-components"]} data-handler-id={handlerId}>
+      <div
+        ref={dropRef}
+        className={styles["main-block-components"]}
+        data-handler-id={handlerId}
+      >
         <div className={`${styles["constructor-fixed-top"]} mt-25`}>
           <ConstructorElement
             type="top"
@@ -89,9 +104,7 @@ function BurgerConstructor() {
           className={styles["constructor-wrapper"]}
           ref={constructorWrapperRef}
         >
-          <div
-            className={styles["main-constructor"]}
-          >
+          <div className={styles["main-constructor"]}>
             {ingredients
               .filter((ingredient) => ingredient.type !== "bun")
               .map((ingredient, index) => (
@@ -129,9 +142,9 @@ function BurgerConstructor() {
           type="primary"
           size="large"
           onClick={handleOrderClick}
-          disabled={isOrderButtonDisabled}
+          disabled={isOrderButtonDisabled || isOrderSending}
         >
-          Оформить заказ
+          {isOrderSending ? <Loader /> : 'Оформить заказ'}
         </Button>
       </div>
     </section>

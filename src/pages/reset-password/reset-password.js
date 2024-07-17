@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../forgot-password/forgot.module.css";
 import {
@@ -7,12 +8,16 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { resetPasswordWithToken } from "../../utils/api";
+import Loader from "../../components/loader";
 
 function ResetPasswordPage() {
-  const [code, setCode] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [code, setCode] = useState("");
+  const [password, setPassword] = useState("");
+  const { loading, error } = useSelector((state) => state.user);
+
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onChangePassword = (e) => {
     setPassword(e.target.value);
@@ -24,17 +29,20 @@ function ResetPasswordPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
+    setErrorMessage("");
+    setSuccessMessage("");
     resetPasswordWithToken(password, code)
-      .then(() => {
-        setLoading(false);
-        navigate("/login");
+      .then((res) => {
+        if (res.success) {
+          setSuccessMessage(
+            "Пароль успешно перезаписан! Перенаправляем на страницу входа"
+          );
+          setTimeout(() => navigate("/login"), 3000);
+        } else {
+          setErrorMessage("Ошибка сброса пароля");
+        }
       })
-      .catch((err) => {
-        setLoading(false);
-        console.error(err);
-        // TODO: добавить обработку ошибок
-      });
+      .catch((err) => setErrorMessage(err.message));
   };
 
   return (
@@ -55,10 +63,18 @@ function ResetPasswordPage() {
             value={code}
             name={"code"}
           />
-          <Button htmlType="submit" type="primary" size="medium" disabled={loading}>
-            {loading ? "Загрузка..." : "Сохранить"}
+          {successMessage && <p className='input__error text_type_main-default'>{successMessage}</p>}
+          {errorMessage && <p className='input__error text_type_main-default'>{errorMessage}</p>}
+          <Button
+            htmlType="submit"
+            type="primary"
+            size="medium"
+            disabled={loading}
+          >
+            {loading ? <Loader /> : "Сохранить"}
           </Button>
         </form>
+
         <div className={styles.links}>
           <p className="text text_type_main-default text_color_inactive">
             Вспомнили пароль?

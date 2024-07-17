@@ -19,6 +19,7 @@ export const ProtectedRouteElement = ({ onlyUnAuth = false, component }) => {
     return <Navigate to={from} />;
   }
 
+  // Пользователь не авторизован, но роут предназначен для авторизованного пользователя
   if (!onlyUnAuth && !user) {
     return <Navigate to="/login" state={{ from: location }} />;
   }

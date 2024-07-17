@@ -18,7 +18,13 @@ export const createOrderFailure = (error) => ({
   payload: error,
 });
 
-export const sendOrder = (ingredients) => (dispatch) => {
+export const sendOrder = (ingredients) => (dispatch, getState) => {
+  const {user} = getState().user;
+
+  if (!user) {
+    return;
+  }
+
   dispatch(createOrderRequest());
   createOrder(ingredients)
     .then((orderNumber) => {
