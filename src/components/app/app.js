@@ -21,11 +21,7 @@ import { getIngredients } from "../../services/actions/ingredients";
 import { openModal, closeModal } from "../../services/actions/modal";
 import { componentMap } from "../../services/reducers/modal";
 import { checkUserAuth } from "../../services/actions/auth";
-import {
-  ProtectedRouteElement,
-  OnlyAuth,
-  OnlyUnAuth,
-} from "../protected-route";
+import { ProtectedRouteElement } from "../protected-route";
 import IngredientDetailsWrapper from "../ingredient-details/ingredient-details-wrapper";
 
 function App() {
