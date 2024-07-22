@@ -1,35 +1,51 @@
-import styles from './app-header.module.css'
+import { NavLink } from "react-router-dom";
+import styles from "./app-header.module.css";
 import {
   BurgerIcon,
   ListIcon,
   ProfileIcon,
   Logo,
-} from '@ya.praktikum/react-developer-burger-ui-components'
+} from "@ya.praktikum/react-developer-burger-ui-components";
 
 function Header() {
   return (
     <header className={`${styles.header} pt-4 pb-4`}>
       <nav className={styles.nav}>
-        <ul className={styles['nav-links']}>
-          <li className={`${styles['nav-link']} p-4`}>
+        <ul className={styles["nav-links"]}>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `${styles["nav-link"]} p-4 ${isActive ? styles.active : ""}`
+            }
+          >
             <BurgerIcon type="primary" />
             <p className="text text_type_main-default">Конструктор</p>
-          </li>
-          <li className={styles['nav-link']}>
+          </NavLink>
+          <li className={styles["nav-link"]}>
             <ListIcon type="primary" />
             <p className="text text_type_main-default">Лента заказов</p>
           </li>
         </ul>
-        <div className={styles['logo-container']}>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `${styles["nav-link"]} p-4 ${isActive ? styles.active : ""}`
+          }
+        >
           <Logo />
-        </div>
-        <div className={`${styles.account} p-4`}>
+        </NavLink>
+        <NavLink
+          to="/profile"
+          className={({ isActive }) =>
+            `${styles["nav-link"]} p-4 ${isActive ? styles.active : ""}`
+          }
+        >
           <ProfileIcon type="primary" />
           <p className="text text_type_main-default">Личный кабинет</p>
-        </div>
+        </NavLink>
       </nav>
     </header>
-  )
+  );
 }
 
-export default Header
+export default Header;
