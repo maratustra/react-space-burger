@@ -18,12 +18,18 @@ import ProfileOrdersPage from "../../pages/profile/profile-orders";
 import NotFoundPage from "../../pages/not-found/not-found";
 
 import { getIngredients } from "../../services/actions/ingredients";
-import { openModal, closeModal } from "../../services/actions/modal";
+import { closeModal } from "../../services/actions/modal";
 import { componentMap } from "../../services/reducers/modal";
 import { checkUserAuth } from "../../services/actions/auth";
 import { ProtectedRouteElement } from "../protected-route";
 import IngredientDetailsWrapper from "../ingredient-details/ingredient-details-wrapper";
-import { ModalContentType, ModalContentProps, IIngredient } from "../../types";
+import { IIngredient } from "../../types";
+
+export type ModalContentType = "ingredientDetails" | "orderDetails";
+
+export interface ModalContentProps {
+  ingredient?: IIngredient; 
+}
 
 const App: React.FC = () => {
   const dispatch: any = useDispatch();
@@ -37,26 +43,6 @@ const App: React.FC = () => {
     dispatch(checkUserAuth());
     dispatch(getIngredients());
   }, [dispatch]);
-
-  const handleIngredientClick = (ingredient: IIngredient) => {
-    dispatch(
-      openModal({
-        contentType: "ingredientDetails",
-        contentProps: { ingredient },
-        title: "Детали ингредиента",
-      })
-    );
-  };
-
-  const handleOrderClick = () => {
-    dispatch(
-      openModal({
-        contentType: "orderDetails",
-        contentProps: {},
-        title: "",
-      })
-    );
-  };
 
   const handleCloseModal = () => {
     dispatch(closeModal());
