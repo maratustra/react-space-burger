@@ -3,8 +3,8 @@ import { NavLink, Outlet } from "react-router-dom";
 import styles from "./profile.module.css";
 import { logout } from '../../services/actions/auth';
 
-function ProfilePage() {
-  const dispatch = useDispatch();
+const ProfilePage: React.FC = () => {
+  const dispatch: any = useDispatch();
   
   const handleLogout = () => {
     dispatch(logout());

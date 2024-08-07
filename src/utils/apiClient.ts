@@ -1,20 +1,24 @@
 export const BASE_URL = "https://norma.nomoreparties.space/api/";
 
-const checkResponse = (res) => {
+interface SuccessResponse extends Response {
+  success: boolean;
+}
+
+const checkResponse = (res: Response): Promise<any> => {
   if (res.ok) {
     return res.json();
   }
   return Promise.reject(`Ошибка ${res.status}`);
 };
 
-const checkSuccess = (res) => {
+const checkSuccess = (res: SuccessResponse): SuccessResponse => {
   if (res && res.success) {
     return res;
   }
-  return Promise.reject(`Ответ не success: ${res}`);
+  throw new Error(`Ответ не success: ${res}`);
 };
 
-const request = (endpoint, options) => {
+const request = (endpoint: string, options?: RequestInit): Promise<any> => {
   return fetch(`${BASE_URL}${endpoint}`, options)
     .then(checkResponse)
     .then(checkSuccess);

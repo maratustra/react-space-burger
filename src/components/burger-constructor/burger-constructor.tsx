@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useDrop } from "react-dnd";
+import { useDrop, DropTargetMonitor } from "react-dnd";
 import styles from "./burger-constructor.module.css";
 import { sendOrder } from "../../services/actions/order";
 import {
@@ -19,24 +19,28 @@ import {
 import DraggableIngredient from "./draggable-ingredient";
 import { selectOrderTotal } from "../selectors/orderSelector";
 import Loader from "../loader";
+import { IIngredient, ItemTypes } from "../../types";
 
 import emptyBun from "../../images/burger.svg";
 
-function BurgerConstructor() {
-  const dispatch = useDispatch();
+const BurgerConstructor: React.FC = () => {
+  const dispatch: any = useDispatch();
   const navigate = useNavigate();
-  const burgerBun = useSelector((store) => store.constructorReducer.bun);
+  const burgerBun = useSelector((store: any) => store.constructorReducer.bun);
   const ingredients = useSelector(
-    (store) => store.constructorReducer?.constructorIngredients
+    (store: any) => store.constructorReducer?.constructorIngredients
   );
   const orderTotal = useSelector(selectOrderTotal);
-  const isUserAuth = useSelector((store) => store.user.user);
-  const isOrderSending = useSelector((store) => store.order.isLoading);
-  const constructorWrapperRef = useRef(null);
+  const isUserAuth = useSelector((store: any) => store.user.user);
+  const isOrderSending = useSelector((store: any) => store.order.isLoading);
+  const constructorWrapperRef = useRef<HTMLDivElement | null>(null);
 
   const [{ handlerId }, dropRef] = useDrop(() => ({
-    accept: "ingredient",
-    drop: (item) => {
+    accept: ItemTypes.INGREDIENT,
+    collect: (monitor: DropTargetMonitor) => ({
+      handlerId: monitor.getHandlerId(),
+    }),
+    drop: (item: IIngredient) => {
       dispatch(addIngredient(item));
       dispatch(incrementCount(item._id));
       return { name: "BurgerConstructor" };
@@ -44,7 +48,7 @@ function BurgerConstructor() {
   }));
 
   const moveCard = useCallback(
-    (dragIndex, hoverIndex) => {
+    (dragIndex: number, hoverIndex: number) => {
       dispatch(moveIngredient(dragIndex, hoverIndex));
     },
     [dispatch]
@@ -54,7 +58,7 @@ function BurgerConstructor() {
     if (!isUserAuth) {
       navigate("/login");
     }
-    const ingredientIds = ingredients.map((ingredient) => ingredient._id);
+    const ingredientIds = ingredients.map((ingredient: IIngredient) => ingredient._id);
     dispatch(sendOrder(ingredientIds));
   };
 
@@ -106,8 +110,8 @@ function BurgerConstructor() {
         >
           <div className={styles["main-constructor"]}>
             {ingredients
-              .filter((ingredient) => ingredient.type !== "bun")
-              .map((ingredient, index) => (
+              .filter((ingredient: IIngredient) => ingredient.type !== "bun")
+              .map((ingredient: IIngredient, index: number) => (
                 <DraggableIngredient
                   key={ingredient.key}
                   index={index}
@@ -135,7 +139,8 @@ function BurgerConstructor() {
             size="default"
             extraClass={styles.counter}
           />
-          <CurrencyIcon type="primary" size="36" />
+          {/* <CurrencyIcon type="primary" size="36" /> TODO fix */} 
+          <CurrencyIcon type="primary" /> 
         </div>
         <Button
           htmlType="button"

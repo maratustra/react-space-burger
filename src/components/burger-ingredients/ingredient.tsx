@@ -7,14 +7,20 @@ import {
 import styles from "./ingredients.module.css";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { IIngredient } from "../../types";
 
-const Ingredient = ({ ingredient, onIngredientClick }) => {
+interface IngredientProps {
+  ingredient: IIngredient;
+  onIngredientClick: (ingredient: IIngredient) => void;
+}
+
+const Ingredient: React.FC<IngredientProps> = ({ ingredient, onIngredientClick }) => {
   const location = useLocation();
 
-  const count = useSelector((store) => {
+  const count = useSelector((store: any) => {
     const ingredientCount =
       store.constructorReducer.constructorIngredients.filter(
-        (item) => item._id === ingredient._id
+        (item: IIngredient) => item._id === ingredient._id
       ).length;
     const bunCount =
       store.constructorReducer.bun?._id === ingredient._id ? 1 : 0;

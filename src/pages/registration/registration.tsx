@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, ChangeEvent, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./registration.module.css";
@@ -11,37 +11,37 @@ import {
 import { register } from "../../services/actions/auth";
 import Loader from "../../components/loader";
 
-function RegistrationPage() {
-  const dispatch = useDispatch();
+const RegistrationPage: React.FC = () => {
+  const dispatch: any = useDispatch();
   const navigate = useNavigate();
-  const inputRef = useRef(null);
-  const { loading, error } = useSelector((state) => state.user);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const { loading } = useSelector((state: any) => state.user);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const onChangeName = (e) => {
+  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
 
-  const onChangeEmail = (e) => {
+  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
-  const onChangePassword = (e) => {
+  const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");
     dispatch(register(email, password, name))
-      .then((res) => {
+      .then((res: { success: boolean }) => {
         if (res.success) {
           setSuccessMessage(
             "Регистрация успешна! Перенаправляем на страницу входа"
@@ -51,7 +51,7 @@ function RegistrationPage() {
           setErrorMessage("Ошибка регистрации");
         }
       })
-      .catch((err) => setErrorMessage("Ошибка регистрации"));
+      .catch(() => setErrorMessage("Ошибка регистрации"));
   };
 
   return (

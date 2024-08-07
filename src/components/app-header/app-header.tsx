@@ -7,7 +7,7 @@ import {
   Logo,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-function Header() {
+const Header: React.FC = () => {
   return (
     <header className={`${styles.header} pt-4 pb-4`}>
       <nav className={styles.nav}>

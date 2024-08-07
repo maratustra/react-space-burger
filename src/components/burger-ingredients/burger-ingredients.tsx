@@ -4,32 +4,35 @@ import styles from "./burger-ingredients.module.css";
 import { openModal } from "../../services/actions/modal";
 import { TAB_SWITCH } from "../../services/actions/tabs";
 import Ingredient from "./ingredient";
+import { IIngredient } from "../../types";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-function BurgerIngredients() {
-  const dispatch = useDispatch();
-  const ingredients = useSelector((store) => store.ingredients.ingredients);
-  const currentTab = useSelector((store) => store.tabs.currentTab);
+const BurgerIngredients: React.FC = () => {
+  const dispatch: any = useDispatch();
+  const ingredients = useSelector(
+    (store: any) => store.ingredients.ingredients
+  );
+  const currentTab = useSelector((store: any) => store.tabs.currentTab);
 
-  const buns = ingredients.filter((ingredient) =>
+  const buns = ingredients.filter((ingredient: IIngredient) =>
     ingredient.name.toLowerCase().includes("булка")
   );
-  const sauces = ingredients.filter((ingredient) =>
+  const sauces = ingredients.filter((ingredient: IIngredient) =>
     ingredient.name.toLowerCase().includes("соус")
   );
   const mains = ingredients.filter(
-    (ingredient) =>
+    (ingredient: IIngredient) =>
       !ingredient.name.toLowerCase().includes("булка") &&
       !ingredient.name.toLowerCase().includes("соус")
   );
 
-  const bunsRef = useRef(null);
-  const saucesRef = useRef(null);
-  const mainsRef = useRef(null);
-  const ingredientsWrapperRef = useRef(null);
+  const bunsRef = useRef<HTMLDivElement | null>(null);
+  const saucesRef = useRef<HTMLDivElement | null>(null);
+  const mainsRef = useRef<HTMLDivElement | null>(null);
+  const ingredientsWrapperRef = useRef<HTMLDivElement  | null>(null);
 
-  const switchTab = (tab) => {
+  const switchTab = (tab: string) => {
     dispatch({ type: TAB_SWITCH, payload: tab });
 
     switch (tab) {
@@ -50,7 +53,7 @@ function BurgerIngredients() {
     }
   };
 
-  const onIngredientClick = (ingredient) => {
+  const onIngredientClick = (ingredient: IIngredient) => {
     dispatch(
       openModal("ingredientDetails", { ingredient }, "Детали ингредиента")
     );
@@ -58,11 +61,11 @@ function BurgerIngredients() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const bunsTop = bunsRef.current?.getBoundingClientRect().top;
-      const saucesTop = saucesRef.current?.getBoundingClientRect().top;
-      const mainsTop = mainsRef.current?.getBoundingClientRect().top;
+      const bunsTop = bunsRef.current?.getBoundingClientRect().top ?? 0;
+      const saucesTop = saucesRef.current?.getBoundingClientRect().top ?? 0;
+      const mainsTop = mainsRef.current?.getBoundingClientRect().top ?? 0;
       const wrapperTop =
-        ingredientsWrapperRef.current?.getBoundingClientRect().top;
+        ingredientsWrapperRef.current?.getBoundingClientRect().top ?? 0;
 
       const distanceBuns = Math.abs(bunsTop - wrapperTop);
       const distanceSauces = Math.abs(saucesTop - wrapperTop);
@@ -83,41 +86,46 @@ function BurgerIngredients() {
       }
     };
 
-    const currentIngredients = ingredientsWrapperRef.current
+    const currentIngredients = ingredientsWrapperRef.current;
 
-    currentIngredients.addEventListener("scroll", handleScroll)
-
-    return () => currentIngredients.removeEventListener("scroll", handleScroll)
-  }, [dispatch])
+    if (currentIngredients) {
+      currentIngredients.addEventListener("scroll", handleScroll);
+      return () =>
+        currentIngredients.removeEventListener("scroll", handleScroll);
+    }
+  }, [dispatch]);
 
   return (
     <section className={styles["burger-ingredients"]}>
       <p className="text text_type_main-large pt-10 pb-5">Соберите бургер</p>
       <div className={`${styles["tab-container"]} pb-10`}>
-        <Tab
-          value="buns"
-          active={currentTab === "buns"}
-          className={styles.tab}
-          onClick={() => switchTab("buns")}
-        >
-          Булки
-        </Tab>
-        <Tab
-          value="sauces"
-          active={currentTab === "sauces"}
-          className={styles.tab}
-          onClick={() => switchTab("sauces")}
-        >
-          Соусы
-        </Tab>
-        <Tab
-          value="mains"
-          active={currentTab === "mains"}
-          className={styles.tab}
-          onClick={() => switchTab("mains")}
-        >
-          Начинки
-        </Tab>
+        <div className={styles.tab}>
+          <Tab
+            value="buns"
+            active={currentTab === "buns"}
+            onClick={() => switchTab("buns")}
+          >
+            Булки
+          </Tab>
+        </div>
+        <div className={styles.tab}>
+          <Tab
+            value="sauces"
+            active={currentTab === "sauces"}
+            onClick={() => switchTab("sauces")}
+          >
+            Соусы
+          </Tab>
+        </div>
+        <div className={styles.tab}>
+          <Tab
+            value="mains"
+            active={currentTab === "mains"}
+            onClick={() => switchTab("mains")}
+          >
+            Начинки
+          </Tab>
+        </div>
       </div>
       <div ref={ingredientsWrapperRef} className={styles.ingredients}>
         <section id="buns" ref={bunsRef}>
@@ -127,7 +135,7 @@ function BurgerIngredients() {
             Булки
           </p>
           <ul className={`${styles["ingredients-list"]} mt-6 mb-15 ml-4 pl-0`}>
-            {buns.map((ingredient) => (
+            {buns.map((ingredient: IIngredient) => (
               <Ingredient
                 key={ingredient._id}
                 ingredient={ingredient}
@@ -144,7 +152,7 @@ function BurgerIngredients() {
             Соусы
           </p>
           <ul className={`${styles["ingredients-list"]} mt-6 mb-15 ml-4 pl-0`}>
-            {sauces.map((ingredient) => (
+            {sauces.map((ingredient: IIngredient) => (
               <Ingredient
                 key={ingredient._id}
                 ingredient={ingredient}
@@ -161,7 +169,7 @@ function BurgerIngredients() {
             Начинки
           </p>
           <ul className={`${styles["ingredients-list"]} mt-6 mb-15 ml-4 pl-0`}>
-            {mains.map((ingredient) => (
+            {mains.map((ingredient: IIngredient) => (
               <Ingredient
                 key={ingredient._id}
                 ingredient={ingredient}

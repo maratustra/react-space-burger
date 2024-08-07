@@ -23,23 +23,22 @@ import { componentMap } from "../../services/reducers/modal";
 import { checkUserAuth } from "../../services/actions/auth";
 import { ProtectedRouteElement } from "../protected-route";
 import IngredientDetailsWrapper from "../ingredient-details/ingredient-details-wrapper";
+import { ModalContentType, ModalContentProps, IIngredient } from "../../types";
 
-function App() {
-  const dispatch = useDispatch();
+const App: React.FC = () => {
+  const dispatch: any = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const background = location.state?.background;
 
-  const { isOpen, contentType, contentProps, title } = useSelector(
-    (state) => state.modal
-  );
+  const { isOpen, contentType, contentProps, title } = useSelector((state: any) => state.modal);
 
   useEffect(() => {
     dispatch(checkUserAuth());
     dispatch(getIngredients());
   }, [dispatch]);
 
-  const handleIngredientClick = (ingredient) => {
+  const handleIngredientClick = (ingredient: IIngredient) => {
     dispatch(
       openModal({
         contentType: "ingredientDetails",
@@ -64,7 +63,7 @@ function App() {
     navigate(-1);
   };
 
-  const ContentComponent = componentMap[contentType];
+  const ContentComponent = componentMap[contentType as ModalContentType] as React.ComponentType<ModalContentProps>;
 
   return (
     <div className={styles.main}>
@@ -76,10 +75,7 @@ function App() {
               <Route
                 path="/"
                 element={
-                  <HomePage
-                    onIngredientClick={handleIngredientClick}
-                    onOrderClick={handleOrderClick}
-                  />
+                  <HomePage />
                 }
               />
               <Route

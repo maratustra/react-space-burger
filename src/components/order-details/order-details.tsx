@@ -3,8 +3,8 @@ import styles from "./order-details.module.css";
 
 import acceptedPic from "../../images/order_accpeted.svg";
 
-const OrderDetails = () => {
-  const orderNumber = useSelector((state) => state.order.orderNumber);
+const OrderDetails: React.FC = () => {
+  const orderNumber = useSelector((state: any) => state.order.orderNumber);
   
   return (
     <div className={`${styles["order-details"]} pt-4`}>

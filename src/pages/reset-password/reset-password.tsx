@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../forgot-password/forgot.module.css";
@@ -10,24 +10,24 @@ import {
 import { resetPasswordWithToken } from "../../utils/api";
 import Loader from "../../components/loader";
 
-function ResetPasswordPage() {
+const ResetPasswordPage: React.FC = () => {
   const navigate = useNavigate();
-  const [code, setCode] = useState("");
-  const [password, setPassword] = useState("");
-  const { loading, error } = useSelector((state) => state.user);
+  const [code, setCode] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const { loading } = useSelector((state: any) => state.user);
 
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const onChangePassword = (e) => {
+  const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const onChangeCode = (e) => {
+  const onChangeCode = (e: ChangeEvent<HTMLInputElement>) => {
     setCode(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");

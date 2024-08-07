@@ -4,11 +4,12 @@ import { useParams } from "react-router";
 import Loader from '../loader';
 
 import IngredientDetails from "./ingredient-details";
+import { IIngredient } from "../../types";
 
-const IngredientDetailsWrapper = () => {
+const IngredientDetailsWrapper: React.FC = () => {
   const { id } = useParams();
-  const ingredient = useSelector((store) =>
-    store.ingredients.ingredients.find((item) => item._id === id)
+  const ingredient = useSelector((store: any) =>
+    store.ingredients.ingredients.find((item: IIngredient) => item._id === id)
   );
 
   if (!ingredient) {

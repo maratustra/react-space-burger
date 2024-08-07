@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./login.module.css";
@@ -10,35 +10,35 @@ import {
 import { login } from "../../services/actions/auth";
 import Loader from "../../components/loader";
 
-function LoginPage() {
-  const dispatch = useDispatch();
+const LoginPage: React.FC = () => {
+  const dispatch: any = useDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useSelector((state) => state.user);
-  const [errorMessage, setErrorMessage] = useState('');
+  const { loading } = useSelector((state: any) => state.user);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-  const onChangeEmail = (e) => {
+  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
-  const onChangePassword = (e) => {
+  const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage('');
     dispatch(login(email, password))
-      .then((res) => {
+      .then((res: { success: boolean }) => {
         if (res.success) {
           navigate('/');
         } else {
           setErrorMessage('Неправильная почта или пароль');
         }
       })
-      .catch((err) => setErrorMessage('Неправильная почта или пароль'));
+      .catch(() => setErrorMessage('Неправильная почта или пароль'));
   };
 
   return (
