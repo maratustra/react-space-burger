@@ -23,15 +23,12 @@ export const ItemTypes = {
   MOVABLEINGREDIENT: "movableIngredient"
 };
 
-// Определяем типы контента модальных окон
 export type ModalContentType = "ingredientDetails" | "orderDetails";
 
-// Определяем типы пропсов для модальных компонентов
 export interface ModalContentProps {
-  ingredient?: any; // Замените `any` на реальный тип ингредиента
+  ingredient?: any; 
 }
 
-// Определяем карту компонентов
 export type ComponentMap = {
   [key in ModalContentType]: ComponentType<ModalContentProps>;
 };
