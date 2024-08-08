@@ -1,7 +1,12 @@
-import PropTypes from "prop-types";
 import styles from "./ingredient-details.module.css";
 
-const IngredientDetails = ({ ingredient }) => {
+import { IIngredient } from "../../types";
+
+interface IngredientDetailsProps {
+  ingredient: IIngredient;
+}
+
+const IngredientDetails: React.FC<IngredientDetailsProps> = ({ ingredient }) => {
   return (
     <section className={styles['ingredient-details']}>
       <div className={styles['ingredient-card']}>
@@ -42,17 +47,6 @@ const IngredientDetails = ({ ingredient }) => {
       </div>
     </section>
   );
-};
-
-IngredientDetails.propTypes = {
-  ingredient: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    image_large: PropTypes.string,
-    calories: PropTypes.number.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-  }).isRequired,
 };
 
 export default IngredientDetails;

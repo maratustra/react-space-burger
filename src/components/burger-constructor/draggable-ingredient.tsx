@@ -1,30 +1,43 @@
 import { useRef } from 'react';
-import { useDrag, useDrop } from "react-dnd";
+import { useDrag, useDrop, DragSourceMonitor, DropTargetMonitor } from "react-dnd";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./draggable-ingredient.module.css";
 import { useDispatch } from "react-redux";
 import { removeIngredient, decrementCount } from "../../services/actions/constructor";
+import { IIngredient, ItemTypes } from "../../types";
+
+interface DraggableIngredientProps {
+  ingredient: IIngredient;
+  index: number;
+  id: string;
+  moveCard: (dragIndex: number, hoverIndex: number) => void;
+}
+
+interface DraggedItem {
+  index: number;
+  id: string;
+}
  
-const DraggableIngredient = ({ ingredient, index, id, moveCard }) => {
-  const ref = useRef(null)
+const DraggableIngredient: React.FC<DraggableIngredientProps> = ({ ingredient, index, id, moveCard }) => {
+  const ref = useRef<HTMLDivElement | null>(null)
   const dispatch = useDispatch();
 
-  const [{ isDragging }, dragRef] = useDrag({
-    type: "movableIngredient",
+  const [{ isDragging }, dragRef] = useDrag<DraggedItem, void, { isDragging: boolean }>({
+    type: ItemTypes.MOVABLEINGREDIENT,
     item: () => ({ ...ingredient, index, id }),
-    collect: (monitor) => ({
+    collect: (monitor: DragSourceMonitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
 
-  const [{ handlerId }, dropRef] = useDrop({
-    accept: "movableIngredient",
-    collect(monitor) {
+  const [{ handlerId }, dropRef] = useDrop<DraggedItem, void, { handlerId: string | symbol | null }>({
+    accept: ItemTypes.MOVABLEINGREDIENT,
+    collect(monitor: DropTargetMonitor) {
       return {
         handlerId: monitor.getHandlerId(),
       }
     },
-    hover: (draggedItem, monitor) => {
+    hover: (draggedItem: DraggedItem, monitor: DropTargetMonitor) => {
       if (!ref.current) {
         return
       }

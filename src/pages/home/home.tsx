@@ -1,11 +1,11 @@
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 
-function HomePage({ onIngredientClick, onOrderClick }) {
+const HomePage: React.FC = () => {
   return (
     <>
-      <BurgerIngredients onIngredientClick={onIngredientClick} />
-      <BurgerConstructor onOrderClick={onOrderClick} />
+      <BurgerIngredients />
+      <BurgerConstructor />
     </>
   );
 }

@@ -1,4 +1,4 @@
-function ProfileOrdersPage() {
+const ProfileOrdersPage: React.FC = () => {
   return <h1>ProfileOrdersPage</h1>;
 }
 

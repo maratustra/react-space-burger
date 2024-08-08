@@ -18,53 +18,38 @@ import ProfileOrdersPage from "../../pages/profile/profile-orders";
 import NotFoundPage from "../../pages/not-found/not-found";
 
 import { getIngredients } from "../../services/actions/ingredients";
-import { openModal, closeModal } from "../../services/actions/modal";
+import { closeModal } from "../../services/actions/modal";
 import { componentMap } from "../../services/reducers/modal";
 import { checkUserAuth } from "../../services/actions/auth";
 import { ProtectedRouteElement } from "../protected-route";
 import IngredientDetailsWrapper from "../ingredient-details/ingredient-details-wrapper";
+import { IIngredient } from "../../types";
 
-function App() {
-  const dispatch = useDispatch();
+export type ModalContentType = "ingredientDetails" | "orderDetails";
+
+export interface ModalContentProps {
+  ingredient?: IIngredient; 
+}
+
+const App: React.FC = () => {
+  const dispatch: any = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const background = location.state?.background;
 
-  const { isOpen, contentType, contentProps, title } = useSelector(
-    (state) => state.modal
-  );
+  const { isOpen, contentType, contentProps, title } = useSelector((state: any) => state.modal);
 
   useEffect(() => {
     dispatch(checkUserAuth());
     dispatch(getIngredients());
   }, [dispatch]);
 
-  const handleIngredientClick = (ingredient) => {
-    dispatch(
-      openModal({
-        contentType: "ingredientDetails",
-        contentProps: { ingredient },
-        title: "Детали ингредиента",
-      })
-    );
-  };
-
-  const handleOrderClick = () => {
-    dispatch(
-      openModal({
-        contentType: "orderDetails",
-        contentProps: {},
-        title: "",
-      })
-    );
-  };
-
   const handleCloseModal = () => {
     dispatch(closeModal());
     navigate(-1);
   };
 
-  const ContentComponent = componentMap[contentType];
+  const ContentComponent = componentMap[contentType as ModalContentType] as React.ComponentType<ModalContentProps>;
 
   return (
     <div className={styles.main}>
@@ -76,10 +61,7 @@ function App() {
               <Route
                 path="/"
                 element={
-                  <HomePage
-                    onIngredientClick={handleIngredientClick}
-                    onOrderClick={handleOrderClick}
-                  />
+                  <HomePage />
                 }
               />
               <Route

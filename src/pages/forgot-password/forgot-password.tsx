@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./forgot.module.css";
@@ -9,17 +9,17 @@ import {
 import { resetPassword } from "../../utils/api";
 import Loader from "../../components/loader";
 
-function ForgotPasswordPage() {
+const ForgotPasswordPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
-  const { loading, error } = useSelector((state) => state.user);
+  const [email, setEmail] = useState<string>('');
+  const { loading } = useSelector((state: any) => state.user);
 
-  const onChangeEmail = (e) => {
+  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     resetPassword(email)
       .then(() => {

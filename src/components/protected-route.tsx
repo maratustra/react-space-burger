@@ -1,9 +1,18 @@
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
-export const ProtectedRouteElement = ({ onlyUnAuth = false, component }) => {
-  const isAuthChecked = useSelector((store) => store.user.isAuthChecked);
-  const user = useSelector((store) => store.user.user);
+interface IProtectedRouteElement {
+  onlyUnAuth?: boolean;
+  component: JSX.Element;
+}
+
+interface IComponent {
+  component: JSX.Element;
+}
+
+export const ProtectedRouteElement = ({ onlyUnAuth = false, component }: IProtectedRouteElement): JSX.Element | null => {
+  const isAuthChecked = useSelector((store: any) => store.user.isAuthChecked);
+  const user = useSelector((store: any) => store.user.user);
   const location = useLocation();
 
   // isAuthChecked показывает, что проверка токена произведена
@@ -28,4 +37,4 @@ export const ProtectedRouteElement = ({ onlyUnAuth = false, component }) => {
 };
 
 export const OnlyAuth = ProtectedRouteElement;
-export const OnlyUnAuth = ({ component }) => <ProtectedRouteElement onlyUnAuth={true} component={component} />;
+export const OnlyUnAuth = ({ component }: IComponent): JSX.Element | null => <ProtectedRouteElement onlyUnAuth={true} component={component} />;

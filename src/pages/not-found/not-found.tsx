@@ -1,7 +1,7 @@
 import styles from "./not-found.module.css";
 import { Link } from "react-router-dom";
 
-function NotFoundPage() {
+const NotFoundPage: React.FC = () => {
   return (
     <main className={styles.wrapper}>
       <div className={styles.container}>

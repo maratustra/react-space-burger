@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./profile-form.module.css";
 import {
@@ -10,18 +10,18 @@ import {
 import { getUser, updateUser } from "../../services/actions/auth";
 import Loader from "../../components/loader";
 
-function ProfileFormPage() {
-  const dispatch = useDispatch();
+const ProfileFormPage: React.FC = () => {
+  const dispatch: any = useDispatch();
   const { user, loading, updateSuccess, error } = useSelector(
-    (state) => state.user
+    (state: any) => state.user
   );
 
-  const [name, setName] = useState("");
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState<string>("");
+  const [login, setLogin] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isModified, setIsModified] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [isModified, setIsModified] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(getUser());
@@ -43,22 +43,22 @@ function ProfileFormPage() {
     }
   }, [updateSuccess]);
 
-  const onChangeName = (e) => {
+  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
     setIsModified(true);
   };
 
-  const onChangeLogin = (e) => {
+  const onChangeLogin = (e: ChangeEvent<HTMLInputElement>) => {
     setLogin(e.target.value);
     setIsModified(true);
   };
 
-  const onChangePassword = (e) => {
+  const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     setIsModified(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(updateUser(login, name, password));
   };
@@ -111,7 +111,7 @@ function ProfileFormPage() {
               {loading ? <Loader /> : "Сохранить"}
             </Button>
 
-            <Button type="secondary" size="medium" onClick={handleCancel}>
+            <Button type="secondary" size="medium" onClick={handleCancel} htmlType={"submit"}>
               Отмена
             </Button>
           </div>
