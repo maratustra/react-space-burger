@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./burger-ingredients.module.css";
 import { openModal } from "../../services/actions/modal";
-import { TAB_SWITCH } from "../../services/actions/tabs";
+import { TAB_SWITCH } from "../../services/constants/tabs";
 import Ingredient from "./ingredient";
 import { IIngredient } from "../../types";
 

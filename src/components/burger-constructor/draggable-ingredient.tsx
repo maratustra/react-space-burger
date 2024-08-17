@@ -5,6 +5,7 @@ import styles from "./draggable-ingredient.module.css";
 import { useDispatch } from "react-redux";
 import { removeIngredient, decrementCount } from "../../services/actions/constructor";
 import { IIngredient, ItemTypes } from "../../types";
+import { AppDispatch } from "../../services/store";
 
 interface DraggableIngredientProps {
   ingredient: IIngredient;
@@ -20,7 +21,7 @@ interface DraggedItem {
  
 const DraggableIngredient: React.FC<DraggableIngredientProps> = ({ ingredient, index, id, moveCard }) => {
   const ref = useRef<HTMLDivElement | null>(null)
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch<AppDispatch>();
 
   const [{ isDragging }, dragRef] = useDrag<DraggedItem, void, { isDragging: boolean }>({
     type: ItemTypes.MOVABLEINGREDIENT,

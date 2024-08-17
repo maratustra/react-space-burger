@@ -23,13 +23,7 @@ import { componentMap } from "../../services/reducers/modal";
 import { checkUserAuth } from "../../services/actions/auth";
 import { ProtectedRouteElement } from "../protected-route";
 import IngredientDetailsWrapper from "../ingredient-details/ingredient-details-wrapper";
-import { IIngredient } from "../../types";
-
-export type ModalContentType = "ingredientDetails" | "orderDetails";
-
-export interface ModalContentProps {
-  ingredient?: IIngredient; 
-}
+import { type ModalContentType, type ModalContentProps } from "../../types";
 
 const App: React.FC = () => {
   const dispatch: any = useDispatch();

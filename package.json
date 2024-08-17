@@ -55,6 +55,8 @@
     ]
   },
   "devDependencies": {
+    "@types/redux": "^3.6.0",
+    "@types/redux-thunk": "^2.1.0",
     "@types/uuid": "^10.0.0"
   }
 }

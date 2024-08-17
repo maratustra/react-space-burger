@@ -1,3 +1,5 @@
+import { TUser } from '../types/data';
+import { TAuthActions } from '../actions/auth';
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -13,9 +15,17 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
-} from "../actions/auth";
+} from "../constants/auth";
 
-const initialState = {
+export type TAuthState = NonNullable<{
+  user: TUser | null;
+  isAuthChecked: boolean;
+  updateSuccess: boolean;
+  loading: boolean;
+  error: string | null;
+}>;
+
+const initialState: TAuthState = {
   user: null,
   isAuthChecked: false,
   updateSuccess: false,
@@ -23,7 +33,7 @@ const initialState = {
   error: null,
 };
 
-const authReducer = (state = initialState, action) => {
+const authReducer = (state: TAuthState = initialState, action: TAuthActions): TAuthState => {
   switch (action.type) {
     case LOGIN_REQUEST:
     case REGISTER_REQUEST:

@@ -21,4 +21,13 @@ export const ItemTypes = {
   MOVABLEINGREDIENT: "movableIngredient"
 };
 
+export type ModalContentType = "ingredientDetails" | "orderDetails";
+
+export interface IngredientDetailsProps {
+  ingredient: IIngredient;
+}
+
+export type ModalContentProps = { ingredient: IIngredient } | {};
+
+
 export {};
