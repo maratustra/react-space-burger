@@ -28,30 +28,47 @@
 
 .ingredients {
   display: flex;
-  width: 436px;
+  width: 304px;
   position: relative;
+  height: 64px;
 }
 
 .ingredient {
+  display: flex;
+  position: absolute;
   width: 64px;
   height: 64px;
   background-color: #131316;
   border-radius: 50%;
-  border: 2px solid transparent;
-  background-clip: padding-box; 
-  margin-left: -16px;
+  border: 2px solid #801AB2;
+  overflow: hidden;
 }
 
-.ingredient::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
+.ingredient img {
+  position: relative;
+  z-index: 1;
   border-radius: 50%;
-  background: linear-gradient(135deg, #801AB2, #4C4CFF);
-  z-index: -1;
+  object-fit: cover;
+}
+
+.remainingCount {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  background-color: rgba(19, 19, 22, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  border-radius: 50%;
+}
+
+.remainingCount span {
+  color: #F2F2F3;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .total-price {

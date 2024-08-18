@@ -1,0 +1,154 @@
+{
+  "orders": [
+    {
+      "orderNumber": "#034535",
+      "completionDate": "Сегодня, 16:20",
+      "burgerName": "Death Star Starship Main бургер",
+      "burgerPrice": 480,
+      "ingredients": [
+        {
+          "name": "Краторная булка N-200i",
+          "image": "https://code.s3.yandex.net/react/code/bun-02.png"
+        },
+        {
+          "name": "Говяжий метеорит (отбивная)",
+          "image": "https://code.s3.yandex.net/react/code/meat-04.png"
+        },
+        {
+          "name": "Соус Spicy-X",
+          "image": "https://code.s3.yandex.net/react/code/sauce-02.png"
+        },
+        {
+          "name": "Мясо бессмертных моллюсков Protostomia",
+          "image": "https://code.s3.yandex.net/react/code/meat-02.png"
+        },
+        {
+          "name": "Соус традиционный галактический",
+          "image": "https://code.s3.yandex.net/react/code/sauce-03.png"
+        }
+      ],
+      "orderStatus": "выполнен"
+    },
+    {
+      "orderNumber": "#034536",
+      "completionDate": "Сегодня, 17:05",
+      "burgerName": "Galaxy Double Deluxe бургер",
+      "burgerPrice": 650,
+      "ingredients": [
+        {
+          "name": "Флюоресцентная булка R2-D3",
+          "image": "https://code.s3.yandex.net/react/code/bun-01.png"
+        },
+        {
+          "name": "Биокотлета из марсианской Магнолии",
+          "image": "https://code.s3.yandex.net/react/code/meat-01.png"
+        },
+        {
+          "name": "Соус с шипами Антарианского плоскоходца",
+          "image": "https://code.s3.yandex.net/react/code/sauce-01.png"
+        }
+      ],
+      "orderStatus": "выполнен"
+    },
+    {
+      "orderNumber": "#034537",
+      "completionDate": "Сегодня, 17:30",
+      "burgerName": "Martian Veggie бургер",
+      "burgerPrice": 540,
+      "ingredients": [
+        {
+          "name": "Мини-салат Экзо-Плантаго",
+          "image": "https://code.s3.yandex.net/react/code/salad.png"
+        },
+        {
+          "name": "Плоды Фалленианского дерева",
+          "image": "https://code.s3.yandex.net/react/code/sp_1.png"
+        },
+        {
+          "name": "Соус традиционный галактический",
+          "image": "https://code.s3.yandex.net/react/code/sauce-03.png"
+        },
+        {
+          "name": "Кристаллы марсианских альфа-сахаридов",
+          "image": "https://code.s3.yandex.net/react/code/core.png"
+        }
+      ],
+      "orderStatus": "готовится"
+    },
+    {
+      "orderNumber": "#034538",
+      "completionDate": "Сегодня, 18:00",
+      "burgerName": "Meteorite Meat Special бургер",
+      "burgerPrice": 720,
+      "ingredients": [
+        {
+          "name": "Говяжий метеорит (отбивная)",
+          "image": "https://code.s3.yandex.net/react/code/meat-04.png"
+        },
+        {
+          "name": "Филе Люминесцентного тетраодонтимформа",
+          "image": "https://code.s3.yandex.net/react/code/meat-03.png"
+        },
+        {
+          "name": "Соус Spicy-X",
+          "image": "https://code.s3.yandex.net/react/code/sauce-02.png"
+        },
+        {
+          "name": "Соус фирменный Space Sauce",
+          "image": "https://code.s3.yandex.net/react/code/sauce-04.png"
+        }
+      ],
+      "orderStatus": "выполнен"
+    },
+    {
+      "orderNumber": "#034539",
+      "completionDate": "Сегодня, 18:45",
+      "burgerName": "Cheese Extravaganza бургер",
+      "burgerPrice": 480,
+      "ingredients": [
+        {
+          "name": "Краторная булка N-200i",
+          "image": "https://code.s3.yandex.net/react/code/bun-02.png"
+        },
+        {
+          "name": "Сыр с астероидной плесенью",
+          "image": "https://code.s3.yandex.net/react/code/cheese.png"
+        },
+        {
+          "name": "Соус традиционный галактический",
+          "image": "https://code.s3.yandex.net/react/code/sauce-03.png"
+        }
+      ],
+      "orderStatus": "готовится"
+    },
+    {
+      "orderNumber": "#034540",
+      "completionDate": "Сегодня, 19:10",
+      "burgerName": "Cosmic Spicy Supreme бургер",
+      "burgerPrice": 500,
+      "ingredients": [
+        {
+          "name": "Соус Spicy-X",
+          "image": "https://code.s3.yandex.net/react/code/sauce-02.png"
+        },
+        {
+          "name": "Говяжий метеорит (отбивная)",
+          "image": "https://code.s3.yandex.net/react/code/meat-04.png"
+        },
+        {
+          "name": "Соус с шипами Антарианского плоскоходца",
+          "image": "https://code.s3.yandex.net/react/code/sauce-01.png"
+        },
+        {
+          "name": "Филе Люминесцентного тетраодонтимформа",
+          "image": "https://code.s3.yandex.net/react/code/meat-03.png"
+        },
+        {
+          "name": "Соус фирменный Space Sauce",
+          "image": "https://code.s3.yandex.net/react/code/sauce-04.png"
+        }
+      ],
+      "orderStatus": "выполнен"
+    }
+  ]
+}
