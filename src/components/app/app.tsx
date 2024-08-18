@@ -15,7 +15,10 @@ import ResetPasswordPage from "../../pages/reset-password/reset-password";
 import ProfilePage from "../../pages/profile/profile";
 import ProfileFormPage from "../../pages/profile/profile-form";
 import ProfileOrdersPage from "../../pages/profile/profile-orders";
+import ProfileOrderDetailsPage from "../../pages/profile/profile-order-details";
 import NotFoundPage from "../../pages/not-found/not-found";
+import FeedPage from "../../pages/feed/feed";
+import FeedDetailsPage from "../../pages/feed/feed-details";
 
 import { getIngredients } from "../../services/actions/ingredients";
 import { closeModal } from "../../services/actions/modal";
@@ -99,8 +102,20 @@ const App: React.FC = () => {
                 element={<ProtectedRouteElement component={<ProfilePage />} />}
               >
                 <Route index element={<ProfileFormPage />} />
-                <Route path="orders" element={<ProfileOrdersPage />} />
+                <Route path="orders" element={
+                  <ProtectedRouteElement component={<ProfileOrdersPage />} />
+                } />
+                <Route
+                path="/profile/orders/:number"
+                element={
+                  <ProtectedRouteElement component={<ProfileOrderDetailsPage />} />
+                }
+              />
               </Route>
+
+              <Route path="/feed" element={<FeedPage />} />
+              <Route path="/feed/:number" element={<FeedDetailsPage />} />
+
               <Route
                 path="/ingredients/:id"
                 element={<IngredientDetailsWrapper />}

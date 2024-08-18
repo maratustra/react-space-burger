@@ -139,7 +139,6 @@ const BurgerConstructor: React.FC = () => {
             size="default"
             extraClass={styles.counter}
           />
-          {/* <CurrencyIcon type="primary" size="36" /> TODO fix */} 
           <CurrencyIcon type="primary" /> 
         </div>
         <Button

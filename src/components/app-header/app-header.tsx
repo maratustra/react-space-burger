@@ -21,10 +21,15 @@ const Header: React.FC = () => {
             <BurgerIcon type="primary" />
             <p className="text text_type_main-default">Конструктор</p>
           </NavLink>
-          <li className={styles["nav-link"]}>
+          <NavLink
+            to="/feed"
+            className={({ isActive }) =>
+              `${styles["nav-link"]} p-4 ${isActive ? styles.active : ""}`
+            }
+          >
             <ListIcon type="primary" />
             <p className="text text_type_main-default">Лента заказов</p>
-          </li>
+          </NavLink>
         </ul>
         <NavLink
           to="/"

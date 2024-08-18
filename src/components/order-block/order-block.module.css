@@ -1,0 +1,66 @@
+.orderBlock {
+  width: 584px;
+  max-height: 214px;
+  background-color: #1C1C21;
+  border-radius: 40px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.orderInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timeStamp {
+  color: #8585AD;
+}
+
+.ingredientsSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.ingredients {
+  display: flex;
+  width: 436px;
+  position: relative;
+}
+
+.ingredient {
+  width: 64px;
+  height: 64px;
+  background-color: #131316;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background-clip: padding-box; 
+  margin-left: -16px;
+}
+
+.ingredient::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #801AB2, #4C4CFF);
+  z-index: -1;
+}
+
+.total-price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.total-price > .counter {
+  position: relative !important;
+  background: transparent !important;
+}
