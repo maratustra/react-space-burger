@@ -17,13 +17,13 @@ import {
   UPDATE_USER_FAILURE,
 } from "../constants/auth";
 
-export type TAuthState = NonNullable<{
+export type TAuthState = {
   user: TUser | null;
   isAuthChecked: boolean;
   updateSuccess: boolean;
   loading: boolean;
   error: string | null;
-}>;
+};
 
 const initialState: TAuthState = {
   user: null,

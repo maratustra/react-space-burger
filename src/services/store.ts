@@ -1,39 +1,21 @@
 import {
   applyMiddleware,
   combineReducers,
-  legacy_createStore as createStore,
-  Reducer
+  legacy_createStore as createStore
 } from "redux";
-import { thunk, ThunkAction, ThunkDispatch, ThunkMiddleware } from "redux-thunk";
+import { thunk, ThunkAction, ThunkDispatch } from "redux-thunk";
 import {
   TypedUseSelectorHook,
   useDispatch,
   useSelector,
 } from "react-redux";
 import { TApplicationActions } from "./types/index";
-import ingredientsReducer, { TIngredientsState } from "./reducers/ingredients";
-import modalReducer, { TModalState } from "./reducers/modal";
-import orderReducer, { TOrderState } from "./reducers/order";
-import tabReducer, { TTabState } from "./reducers/tabs";
-import constructorReducer, { TConstructorState } from "./reducers/constructor";
-import authReducer, { TAuthState } from "./reducers/auth";
-
-// const rootReducer = combineReducers<{
-//   user: TAuthState;
-//   ingredients: TIngredientsState;
-//   modal: TModalState;
-//   order: TOrderState;
-//   tabs: TTabState;
-//   constructorReducer: TConstructorState;
-// }>({
-//   user: authReducer,
-//   ingredients: ingredientsReducer,
-//   modal: modalReducer,
-//   order: orderReducer,
-//   tabs: tabReducer,
-//   constructorReducer: constructorReducer,
-// });
-
+import ingredientsReducer from "./reducers/ingredients";
+import modalReducer from "./reducers/modal";
+import orderReducer from "./reducers/order";
+import tabReducer from "./reducers/tabs";
+import constructorReducer from "./reducers/constructor";
+import authReducer from "./reducers/auth";
 
 const rootReducer = combineReducers({
   user: authReducer,
