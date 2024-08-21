@@ -17,7 +17,7 @@ import ProfileFormPage from "../../pages/profile/profile-form";
 import ProfileOrdersPage from "../../pages/profile/profile-orders";
 import ProfileOrderDetailsPage from "../../pages/profile/profile-order-details";
 import NotFoundPage from "../../pages/not-found/not-found";
-import FeedPage from "../../pages/feed/feed";
+import OrderFeedPage from "../../pages/feed/feed";
 import FeedDetailsPage from "../../pages/feed/feed-details";
 
 import { getIngredients } from "../../services/actions/ingredients";
@@ -27,6 +27,15 @@ import { checkUserAuth } from "../../services/actions/auth";
 import { ProtectedRouteElement } from "../protected-route";
 import IngredientDetailsWrapper from "../ingredient-details/ingredient-details-wrapper";
 import { type ModalContentType, type ModalContentProps } from "../../types";
+import {
+  orderFeedWsConnect,
+  orderFeedWsDisconnect,
+  orderHistoryWsConnect,
+  orderHistoryWsDisconnect
+} from "../../services/actions/wsActions";
+
+export const LIVE_TABLE_SERVER_URL = 'wss://norma.nomoreparties.space/orders/all'
+export const USER_ORDER_SERVER_URL = 'wss://norma.nomoreparties.space/orders';
 
 const App: React.FC = () => {
   const dispatch: any = useDispatch();
@@ -34,19 +43,39 @@ const App: React.FC = () => {
   const location = useLocation();
   const background = location.state?.background;
 
-  const { isOpen, contentType, contentProps, title } = useSelector((state: any) => state.modal);
+  const { isOpen, contentType, contentProps, title } = useSelector(
+    (state: any) => state.modal
+  );
 
   useEffect(() => {
     dispatch(checkUserAuth());
     dispatch(getIngredients());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (location.pathname === "/feed") {
+      dispatch(orderFeedWsConnect(LIVE_TABLE_SERVER_URL));
+    } else if (location.pathname.startsWith("/profile/orders")) {
+      dispatch(orderHistoryWsConnect(USER_ORDER_SERVER_URL));
+    }
+
+    return () => {
+      if (location.pathname === "/feed") {
+        dispatch(orderFeedWsDisconnect());
+      } else if (location.pathname.startsWith("/profile/orders")) {
+        dispatch(orderHistoryWsDisconnect());
+      }
+    };
+  }, [dispatch, location.pathname]);
+
   const handleCloseModal = () => {
     dispatch(closeModal());
     navigate(-1);
   };
 
-  const ContentComponent = componentMap[contentType as ModalContentType] as React.ComponentType<ModalContentProps>;
+  const ContentComponent = componentMap[
+    contentType as ModalContentType
+  ] as React.ComponentType<ModalContentProps>;
 
   return (
     <div className={styles.main}>
@@ -55,12 +84,7 @@ const App: React.FC = () => {
         <div className={styles.content}>
           <DndProvider backend={HTML5Backend}>
             <Routes location={background || location}>
-              <Route
-                path="/"
-                element={
-                  <HomePage />
-                }
-              />
+              <Route path="/" element={<HomePage />} />
               <Route
                 path="/login"
                 element={
@@ -102,18 +126,23 @@ const App: React.FC = () => {
                 element={<ProtectedRouteElement component={<ProfilePage />} />}
               >
                 <Route index element={<ProfileFormPage />} />
-                <Route path="orders" element={
-                  <ProtectedRouteElement component={<ProfileOrdersPage />} />
-                } />
                 <Route
-                path="/profile/orders/:number"
-                element={
-                  <ProtectedRouteElement component={<ProfileOrderDetailsPage />} />
-                }
-              />
+                  path="orders"
+                  element={
+                    <ProtectedRouteElement component={<ProfileOrdersPage />} />
+                  }
+                />
+                <Route
+                  path="orders/:number"
+                  element={
+                    <ProtectedRouteElement
+                      component={<ProfileOrderDetailsPage />}
+                    />
+                  }
+                />
               </Route>
 
-              <Route path="/feed" element={<FeedPage />} />
+              <Route path="/feed" element={<OrderFeedPage />} />
               <Route path="/feed/:number" element={<FeedDetailsPage />} />
 
               <Route
@@ -144,6 +173,6 @@ const App: React.FC = () => {
       </main>
     </div>
   );
-}
+};
 
 export default App;

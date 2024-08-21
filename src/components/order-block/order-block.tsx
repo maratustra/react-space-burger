@@ -1,43 +1,54 @@
+import { useNavigate } from "react-router-dom";
 import styles from "./order-block.module.css";
 import {
   Counter,
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
-interface Ingredient {
-  name: string;
-  image: string;
-}
+import { IIngredient } from "../../types";
 
 interface OrderBlockProps {
-  orderNumber: string;
-  completionDate: string;
-  burgerName: string;
-  burgerPrice: number;
-  ingredients: Ingredient[];
+  orderNumber: number;
+  createdAt: string;
+  updatedAt: string;
+  status: string;
+  allIngredientsData?: IIngredient[];
+  ingredients: string[];
 }
 
 const OrderBlock: React.FC<OrderBlockProps> = ({
   orderNumber,
-  completionDate,
-  burgerName,
-  burgerPrice,
+  createdAt,
+  updatedAt,
+  status,
   ingredients,
+  allIngredientsData
 }) => {
+  const navigate = useNavigate();
+
   const maxVisibleIngredients = 4;
   const remainingCount = ingredients.length - maxVisibleIngredients;
 
+  const handleClick = () => {
+    navigate(`/feed/${orderNumber}`);
+  };
+
+  const ingredientDetails = ingredients.map(ingredientId => 
+    allIngredientsData?.find(ingredient => ingredient._id === ingredientId)
+  ).filter(Boolean) as IIngredient[];
+
+  const burgerPrice = ingredientDetails.reduce((total, ingredient) => total + ingredient.price, 0);
+
   return (
-    <div className={styles.orderBlock}>
+    <div className={styles.orderBlock} onClick={handleClick}>
       <div className={styles.orderInfo}>
-        <p className="text text_type_digits-default">{orderNumber}</p>
+        <p className="text text_type_digits-default">#{orderNumber}</p>
         <FormattedDate
-          date={new Date(completionDate)}
+          date={new Date(createdAt)}
           className={styles.timeStamp}
         />
       </div>
-      <p className="text text_type_main-medium">{burgerName}</p>
+      <p className="text text_type_main-medium">Название бургера</p>
       <div className={styles.ingredientsSection}>
         <div className={styles.ingredients}>
           {ingredients.slice(0, maxVisibleIngredients).map((ingredient, index) => (
@@ -49,7 +60,7 @@ const OrderBlock: React.FC<OrderBlockProps> = ({
                 zIndex: maxVisibleIngredients - index,
               }}
             >
-              <img src={ingredient.image} alt={ingredient.name} />
+              {/* <img src={ingredient.image} alt={ingredient.name} /> */}
               {index === maxVisibleIngredients - 1 && remainingCount > 0 && (
                 <div className={styles.remainingCount}>
                   <span>+{remainingCount}</span>

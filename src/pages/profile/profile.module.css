@@ -7,7 +7,7 @@
 .nav-container {
   display: flex;
   flex-direction: column;
-  width: 320px;
+  width: 370px;
   gap: 80px;
 }
 

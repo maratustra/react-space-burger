@@ -11,6 +11,7 @@
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #8585AD transparent;
+  margin: 0;
 }
 
 .ingredients-list::-webkit-scrollbar-track {

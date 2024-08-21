@@ -1,13 +1,13 @@
-import BlocksPage from "../../components/order-feed/blocks";
+import OrderListPage from "../../components/order-feed/order-list";
 import CalculationsPage from "../../components/order-feed/calcluations";
 
-const FeedPage: React.FC = () => {
+const OrderFeedPage: React.FC = () => {
   return (
     <>
-      <BlocksPage />
+      {/* <OrderListPage title="Лента заказов" /> */}
       <CalculationsPage />
     </>
   );
 }
 
-export default FeedPage;
+export default OrderFeedPage;
