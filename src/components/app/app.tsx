@@ -19,7 +19,6 @@ import ProfileOrderDetailsPage from "../../pages/profile/profile-order-details";
 import NotFoundPage from "../../pages/not-found/not-found";
 import OrderFeedPage from "../../pages/feed/feed";
 import FeedDetailsPage from "../order-info/order-info";
-import FeedDetailsPage from "../order-info/order-info";
 
 import { getIngredients } from "../../services/actions/ingredients";
 import { closeModal } from "../../services/actions/modal";
@@ -171,24 +170,7 @@ const App: React.FC = () => {
               path="/ingredients/:id"
               element={
                 <Modal title="Детали заказа" onClose={handleCloseModal}>
-                <Modal title="Детали заказа" onClose={handleCloseModal}>
                   <IngredientDetailsWrapper />
-                </Modal>
-              }
-            />
-            <Route
-              path="/feed/:number"
-              element={
-                <Modal onClose={handleCloseModal}>
-                  <FeedDetailsPage />
-                </Modal>
-              }
-            />
-            <Route
-              path="/profile/orders/:number"
-              element={
-                <Modal onClose={handleCloseModal}>
-                  <ProfileOrderDetailsPage />
                 </Modal>
               }
             />

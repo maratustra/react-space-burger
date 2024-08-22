@@ -1,5 +1,4 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./order-block.module.css";
 import {
   Counter,
@@ -24,17 +23,12 @@ const OrderBlock: React.FC<OrderBlockProps> = ({
   createdAt,
   updatedAt,
   name,
-  name,
   ingredients,
-  allIngredientsData,
-  status,
-  isProfileOrders = false,
   allIngredientsData,
   status,
   isProfileOrders = false,
 }) => {
   const navigate = useNavigate();
-  const location = useLocation();
   const location = useLocation();
 
   const maxVisibleIngredients = 4;
@@ -45,13 +39,6 @@ const OrderBlock: React.FC<OrderBlockProps> = ({
     navigate(`${basePath}/${orderNumber}`, { state: { background: location } });
   };
 
-  const ingredientDetails = ingredients
-    .map((ingredientId) =>
-      allIngredientsData?.find(
-        (ingredient) => ingredient._id === ingredientId.toString()
-      )
-    )
-    .filter(Boolean) as IIngredient[];
   const ingredientDetails = ingredients
     .map((ingredientId) =>
       allIngredientsData?.find(
@@ -101,29 +88,8 @@ const OrderBlock: React.FC<OrderBlockProps> = ({
       </div>
       <p className={`${styles.orderName} text text_type_main-medium`}>{name}</p>
       {isProfileOrders && renderStatus()}
-      <p className={`${styles.orderName} text text_type_main-medium`}>{name}</p>
-      {isProfileOrders && renderStatus()}
       <div className={styles.ingredientsSection}>
         <div className={styles.ingredients}>
-          {ingredientDetails
-            .slice(0, maxVisibleIngredients)
-            .map((ingredient, index) => (
-              <div
-                key={index}
-                className={styles.ingredient}
-                style={{
-                  left: `${index * 55}px`,
-                  zIndex: maxVisibleIngredients - index,
-                }}
-              >
-                <img src={ingredient.image} alt={ingredient.name} />
-                {index === maxVisibleIngredients - 1 && remainingCount > 0 && (
-                  <div className={styles.remainingCount}>
-                    <span>+{remainingCount}</span>
-                  </div>
-                )}
-              </div>
-            ))}
           {ingredientDetails
             .slice(0, maxVisibleIngredients)
             .map((ingredient, index) => (
