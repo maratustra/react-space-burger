@@ -48,6 +48,7 @@ export const sendOrder = (ingredients: IIngredient[]): AppThunk => (dispatch: Ap
   }
 
   dispatch(createOrderRequest());
+  
   createOrder(ingredients)
     .then((orderNumber) => {
       dispatch(createOrderSuccess(orderNumber));

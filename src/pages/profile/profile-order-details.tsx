@@ -1,10 +1,7 @@
-const ProfileOrdersDetailsPage: React.FC = () => {
+import OrderInfo from "../../components/order-info/order-info";
 
-  return (
-    <div>
-      ProfileOrdersDetailsPage
-    </div>
-  ) 
+const ProfileOrdersDetailsPage: React.FC = () => {
+  return <OrderInfo />; 
 }
 
 export default ProfileOrdersDetailsPage

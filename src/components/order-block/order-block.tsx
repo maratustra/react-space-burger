@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./order-block.module.css";
 import {
   Counter,
@@ -11,33 +11,59 @@ interface OrderBlockProps {
   orderNumber: number;
   createdAt: string;
   updatedAt: string;
-  status: string;
-  allIngredientsData?: IIngredient[];
-  ingredients: string[];
+  name: string;
+  allIngredientsData: IIngredient[];
+  ingredients: IIngredient[];
+  status?: string,
+  isProfileOrders?: boolean
 }
 
 const OrderBlock: React.FC<OrderBlockProps> = ({
   orderNumber,
   createdAt,
   updatedAt,
-  status,
+  name,
   ingredients,
-  allIngredientsData
+  allIngredientsData,
+  status,
+  isProfileOrders = false,
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const maxVisibleIngredients = 4;
   const remainingCount = ingredients.length - maxVisibleIngredients;
 
   const handleClick = () => {
-    navigate(`/feed/${orderNumber}`);
+    const basePath = isProfileOrders ? '/profile/orders' : '/feed';
+    navigate(`${basePath}/${orderNumber}`, { state: { background: location } });
   };
 
-  const ingredientDetails = ingredients.map(ingredientId => 
-    allIngredientsData?.find(ingredient => ingredient._id === ingredientId)
-  ).filter(Boolean) as IIngredient[];
+  const ingredientDetails = ingredients
+    .map((ingredientId) =>
+      allIngredientsData?.find(
+        (ingredient) => ingredient._id === ingredientId.toString()
+      )
+    )
+    .filter(Boolean) as IIngredient[];
 
-  const burgerPrice = ingredientDetails.reduce((total, ingredient) => total + ingredient.price, 0);
+  const burgerPrice = ingredientDetails.reduce(
+    (total, ingredient) => total + ingredient.price,
+    0
+  );
+
+  const renderStatus = () => {
+    switch (status) {
+      case 'done':
+        return <p className="text text_type_main-default text_color_success">Выполнен</p>;
+      case 'pending':
+        return <p className="text text_type_main-default text_color_inactive">Готовится</p>;
+      case 'created':
+        return <p className="text text_type_main-default text_color_inactive">Создан</p>;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className={styles.orderBlock} onClick={handleClick}>
@@ -48,26 +74,29 @@ const OrderBlock: React.FC<OrderBlockProps> = ({
           className={styles.timeStamp}
         />
       </div>
-      <p className="text text_type_main-medium">Название бургера</p>
+      <p className={`${styles.orderName} text text_type_main-medium`}>{name}</p>
+      {isProfileOrders && renderStatus()}
       <div className={styles.ingredientsSection}>
         <div className={styles.ingredients}>
-          {ingredients.slice(0, maxVisibleIngredients).map((ingredient, index) => (
-            <div
-              key={index}
-              className={styles.ingredient}
-              style={{
-                left: `${index * 55}px`,
-                zIndex: maxVisibleIngredients - index,
-              }}
-            >
-              {/* <img src={ingredient.image} alt={ingredient.name} /> */}
-              {index === maxVisibleIngredients - 1 && remainingCount > 0 && (
-                <div className={styles.remainingCount}>
-                  <span>+{remainingCount}</span>
-                </div>
-              )}
-            </div>
-          ))}
+          {ingredientDetails
+            .slice(0, maxVisibleIngredients)
+            .map((ingredient, index) => (
+              <div
+                key={index}
+                className={styles.ingredient}
+                style={{
+                  left: `${index * 55}px`,
+                  zIndex: maxVisibleIngredients - index,
+                }}
+              >
+                <img src={ingredient.image} alt={ingredient.name} />
+                {index === maxVisibleIngredients - 1 && remainingCount > 0 && (
+                  <div className={styles.remainingCount}>
+                    <span>+{remainingCount}</span>
+                  </div>
+                )}
+              </div>
+            ))}
         </div>
         <div className={styles["total-price"]}>
           <Counter

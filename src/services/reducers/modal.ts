@@ -26,7 +26,6 @@ const componentMap = {
 const modalReducer = (state: TModalState = initialState, action: TModalActions): TModalState => {
   switch (action.type) {
     case OPEN_MODAL:
-      console.log('contentProps in OPEN_MODAL action:', action.payload.contentProps);
       return {
         ...state,
         isOpen: true,

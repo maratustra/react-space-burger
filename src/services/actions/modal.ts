@@ -22,7 +22,6 @@ export type TModalActions =
   | ICloseModalAction;
 
 export const openModal = (contentType: ModalContentType, contentProps: ModalContentProps, title: string): IOpenModalAction => {
-  console.log('contentProps in openModal action creator:', contentProps);
   return {
   type: OPEN_MODAL,
   payload: { contentType, contentProps, title },

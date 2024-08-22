@@ -21,6 +21,12 @@
   flex: 1;
 }
 
+.columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
 .orderList {
   display: flex;
   flex-direction: column;

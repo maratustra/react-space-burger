@@ -18,7 +18,7 @@ import ProfileOrdersPage from "../../pages/profile/profile-orders";
 import ProfileOrderDetailsPage from "../../pages/profile/profile-order-details";
 import NotFoundPage from "../../pages/not-found/not-found";
 import OrderFeedPage from "../../pages/feed/feed";
-import FeedDetailsPage from "../../pages/feed/feed-details";
+import FeedDetailsPage from "../order-info/order-info";
 
 import { getIngredients } from "../../services/actions/ingredients";
 import { closeModal } from "../../services/actions/modal";
@@ -33,9 +33,7 @@ import {
   orderHistoryWsConnect,
   orderHistoryWsDisconnect
 } from "../../services/actions/wsActions";
-
-export const LIVE_TABLE_SERVER_URL = 'wss://norma.nomoreparties.space/orders/all'
-export const USER_ORDER_SERVER_URL = 'wss://norma.nomoreparties.space/orders';
+import { LIVE_TABLE_SERVER_URL, USER_ORDER_SERVER_URL } from '../../utils/apiClient';
 
 const App: React.FC = () => {
   const dispatch: any = useDispatch();
@@ -158,8 +156,24 @@ const App: React.FC = () => {
             <Route
               path="/ingredients/:id"
               element={
-                <Modal title="Детали ингредиента" onClose={handleCloseModal}>
+                <Modal title="Детали заказа" onClose={handleCloseModal}>
                   <IngredientDetailsWrapper />
+                </Modal>
+              }
+            />
+            <Route
+              path="/feed/:number"
+              element={
+                <Modal onClose={handleCloseModal}>
+                  <FeedDetailsPage />
+                </Modal>
+              }
+            />
+            <Route
+              path="/profile/orders/:number"
+              element={
+                <Modal onClose={handleCloseModal}>
+                  <ProfileOrderDetailsPage />
                 </Modal>
               }
             />

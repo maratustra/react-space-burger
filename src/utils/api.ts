@@ -1,7 +1,7 @@
 import request from "./apiClient";
 
 import { TUser } from '../services/types/data';
-import { IIngredient } from "../types";
+import { IIngredient, type IOrder } from "../types";
 
 interface IAuthResponse {
   success: boolean;
@@ -20,12 +20,13 @@ interface ResetPasswordResponse {
   message?: string;
 }
 
-const getHeaders = (): Record<string, string> => {
+export const getHeaders = (): Record<string, string> => {
   let accessToken = localStorage.getItem("accessToken");
 
   if (accessToken && !accessToken.startsWith("Bearer ")) {
     accessToken = `Bearer ${accessToken}`;
   }
+  console.log('accessToken: ', accessToken);
   return {
     "Content-Type": "application/json",
     Authorization: accessToken || "",
@@ -112,4 +113,13 @@ export const updateUser = (
     headers: getHeaders(),
     body: JSON.stringify({ email, name, password }),
   });
+};
+
+export const getOrderDetails = (orderNumber: string): Promise<IOrder> => {
+  const token = localStorage.getItem("accessToken")?.replace("Bearer ", "");
+
+  return request(`orders/${orderNumber}?${token}`, {
+    method: "GET",
+    headers: getHeaders(),
+  }).then((data) => data.orders[0]);
 };

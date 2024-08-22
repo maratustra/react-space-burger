@@ -29,5 +29,15 @@ export interface IngredientDetailsProps {
 
 export type ModalContentProps = { ingredient: IIngredient } | {};
 
+export interface IOrder {
+  _id: string;
+  number: number;
+  name: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  ingredients: string[];
+}
+
 
 export {};

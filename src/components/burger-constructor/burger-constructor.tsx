@@ -102,6 +102,7 @@ const BurgerConstructor: React.FC = () => {
             text={burgerBun ? `${burgerBun.name} (верх)` : "Выберите булку"}
             price={burgerBun ? burgerBun.price : 0}
             thumbnail={burgerBun ? burgerBun.image : emptyBun}
+            extraClass={emptyBun ? styles.hiddenThumbnail : ""}
           />
         </div>
         <div
@@ -129,6 +130,7 @@ const BurgerConstructor: React.FC = () => {
             text={burgerBun ? `${burgerBun.name} (низ)` : "Выберите булку"}
             price={burgerBun ? burgerBun.price : 0}
             thumbnail={burgerBun ? burgerBun.image : emptyBun}
+            extraClass={emptyBun ? styles.hiddenThumbnail : ""}
           />
         </div>
       </div>

@@ -14,10 +14,7 @@ import {
   ORDER_HISTORY_WS_ERROR,
   ORDER_HISTORY_WS_MESSAGE,
 } from "../constants/wsConstants";
-import {
-  OrderFeedWsActions,
-  OrderHistoryWsActions,
-} from "../actions/wsActions";
+import { refreshToken } from '../../utils/apiClient';
 
 type TwsActions = {
   wsConnect: string;
@@ -28,8 +25,6 @@ type TwsActions = {
   wsMessage: string;
 };
 
-type WebSocketActions = OrderFeedWsActions | OrderHistoryWsActions;
-
 export const createSocketMiddleware = (
   wsActions: TwsActions,
   withTokenRefresh: boolean
@@ -39,61 +34,79 @@ export const createSocketMiddleware = (
     let url: string | null = null;
     let closing: boolean = false;
 
-    return (next: Dispatch<WebSocketActions>) => (action: WebSocketActions) => {
+    return (next) => (action) => {
       const { dispatch } = store;
+      const { type, payload } = action;
 
-      switch (action.type) {
-        case wsActions.wsConnect:
-          url = action.payload;
-          socket = new WebSocket(action.payload);
-          socket.onopen = () => dispatch({ type: wsActions.wsOpen });
-          socket.onclose = () => dispatch({ type: wsActions.wsClose });
-          socket.onerror = (event: Event) => {
-            const errorMessage =
-              (event as ErrorEvent).message || "Unknown error";
-            dispatch({ type: wsActions.wsError, payload: errorMessage });
-          };
-          socket.onmessage = (event) => {
-            const parsedData = JSON.parse(event.data);
+      if (type === wsActions.wsConnect) {
+        const token = localStorage.getItem("accessToken")?.replace("Bearer ", "");
 
-            if (
-              withTokenRefresh &&
-              parsedData.message === "Invalid or missing token"
-            ) {
-              // Получаем новый токен из localStorage
-              const newAccessToken = localStorage.getItem("accessToken");
-              if (newAccessToken) {
-                const wssUrl = new URL(url!);
-                wssUrl.searchParams.set(
-                  "token",
-                  newAccessToken.replace("Bearer ", "")
-                );
-                dispatch({
-                  type: wsActions.wsConnect,
-                  payload: wssUrl.toString(),
-                });
-              } else {
-                console.error("Failed to retrieve new access token");
-              }
-            } else {
-              dispatch({ type: wsActions.wsMessage, payload: parsedData });
-            }
-          };
-          break;
-
-        case wsActions.wsDisconnect:
-          closing = true;
-          if (socket) {
-            socket.close();
+        if (typeof payload === 'string') {
+          const urlObj = new URL(payload);
+          
+          if (token) {
+            urlObj.searchParams.set('token', token);
           }
-          break;
+          url = urlObj.toString();
+        } else {
+          url = payload;
+        }
 
-        default:
-          break;
+        socket = new WebSocket(payload);
+
+        socket.onopen = (event) => {
+          dispatch({ type: wsActions.wsOpen, payload: event });
+        };
+
+        socket.onerror = (event) => {
+          dispatch({ type: wsActions.wsError, payload: event });
+        };
+
+        socket.onmessage = async (event) => {
+          const parsedData = JSON.parse(event.data);
+          console.log("WebSocket message:", parsedData)
+
+          console.log('withTokenRefresh', withTokenRefresh);
+          console.log('parsedData.message', parsedData.message);
+          if (withTokenRefresh && parsedData.message === 'Invalid or missing token') {
+            try {
+              const refreshData = await refreshToken();
+              console.log('refreshData: ', refreshData);
+              const newToken = refreshData.accessToken.replace('Bearer ', '');
+              console.log('newToken: ', newToken);
+              
+              const urlObj = new URL(url!);
+              urlObj.searchParams.set('token', newToken);
+
+              dispatch({ type: wsActions.wsConnect, payload: urlObj.toString() });
+            } catch (error) {
+              console.error('Не получилось обновить токен:', error);
+              dispatch({ type: wsActions.wsError, payload: 'Не получилось обновить токен' });
+            }
+          } else {
+            dispatch({
+              type: wsActions.wsMessage,
+              payload: parsedData,
+            });
+          }
+        }
+
+        socket.onclose = (event) => {
+          if (closing) {
+            dispatch({ type: wsActions.wsClose, payload: event });
+          } else {
+            dispatch({ type: wsActions.wsClose, payload: url });
+          }
+        };
+      }
+
+      if (type === wsActions.wsDisconnect && socket) {
+        closing = true;
+        socket.close();
       }
 
       next(action);
-    };
+    }
   };
 };
 
