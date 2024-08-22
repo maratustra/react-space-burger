@@ -1,4 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./order-block.module.css";
 import {
   Counter,
@@ -14,8 +15,8 @@ interface OrderBlockProps {
   name: string;
   allIngredientsData: IIngredient[];
   ingredients: IIngredient[];
-  status?: string,
-  isProfileOrders?: boolean
+  status?: string;
+  isProfileOrders?: boolean;
 }
 
 const OrderBlock: React.FC<OrderBlockProps> = ({
@@ -23,22 +24,34 @@ const OrderBlock: React.FC<OrderBlockProps> = ({
   createdAt,
   updatedAt,
   name,
+  name,
   ingredients,
+  allIngredientsData,
+  status,
+  isProfileOrders = false,
   allIngredientsData,
   status,
   isProfileOrders = false,
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const location = useLocation();
 
   const maxVisibleIngredients = 4;
   const remainingCount = ingredients.length - maxVisibleIngredients;
 
   const handleClick = () => {
-    const basePath = isProfileOrders ? '/profile/orders' : '/feed';
+    const basePath = isProfileOrders ? "/profile/orders" : "/feed";
     navigate(`${basePath}/${orderNumber}`, { state: { background: location } });
   };
 
+  const ingredientDetails = ingredients
+    .map((ingredientId) =>
+      allIngredientsData?.find(
+        (ingredient) => ingredient._id === ingredientId.toString()
+      )
+    )
+    .filter(Boolean) as IIngredient[];
   const ingredientDetails = ingredients
     .map((ingredientId) =>
       allIngredientsData?.find(
@@ -54,12 +67,24 @@ const OrderBlock: React.FC<OrderBlockProps> = ({
 
   const renderStatus = () => {
     switch (status) {
-      case 'done':
-        return <p className="text text_type_main-default text_color_success">Выполнен</p>;
-      case 'pending':
-        return <p className="text text_type_main-default text_color_inactive">Готовится</p>;
-      case 'created':
-        return <p className="text text_type_main-default text_color_inactive">Создан</p>;
+      case "done":
+        return (
+          <p className="text text_type_main-default text_color_success">
+            Выполнен
+          </p>
+        );
+      case "pending":
+        return (
+          <p className="text text_type_main-default text_color_inactive">
+            Готовится
+          </p>
+        );
+      case "created":
+        return (
+          <p className="text text_type_main-default text_color_inactive">
+            Создан
+          </p>
+        );
       default:
         return null;
     }
@@ -76,8 +101,29 @@ const OrderBlock: React.FC<OrderBlockProps> = ({
       </div>
       <p className={`${styles.orderName} text text_type_main-medium`}>{name}</p>
       {isProfileOrders && renderStatus()}
+      <p className={`${styles.orderName} text text_type_main-medium`}>{name}</p>
+      {isProfileOrders && renderStatus()}
       <div className={styles.ingredientsSection}>
         <div className={styles.ingredients}>
+          {ingredientDetails
+            .slice(0, maxVisibleIngredients)
+            .map((ingredient, index) => (
+              <div
+                key={index}
+                className={styles.ingredient}
+                style={{
+                  left: `${index * 55}px`,
+                  zIndex: maxVisibleIngredients - index,
+                }}
+              >
+                <img src={ingredient.image} alt={ingredient.name} />
+                {index === maxVisibleIngredients - 1 && remainingCount > 0 && (
+                  <div className={styles.remainingCount}>
+                    <span>+{remainingCount}</span>
+                  </div>
+                )}
+              </div>
+            ))}
           {ingredientDetails
             .slice(0, maxVisibleIngredients)
             .map((ingredient, index) => (

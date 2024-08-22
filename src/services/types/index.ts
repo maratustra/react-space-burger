@@ -5,7 +5,6 @@ import { TIngredientsActions } from "../actions/ingredients";
 import { TModalActions } from "../actions/modal";
 import { TTabActions } from "../actions/tabs";
 
-// Общий тип всех actions
 export type TApplicationActions =
   | TAuthActions
   | TOrderActions
@@ -13,4 +12,3 @@ export type TApplicationActions =
   | TModalActions
   | TTabActions
   | TIngredientsActions;
-

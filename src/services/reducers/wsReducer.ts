@@ -3,13 +3,15 @@ import {
   ORDER_FEED_WS_CLOSE,
   ORDER_FEED_WS_ERROR,
   ORDER_FEED_WS_MESSAGE,
-
   ORDER_HISTORY_WS_OPEN,
   ORDER_HISTORY_WS_CLOSE,
   ORDER_HISTORY_WS_ERROR,
   ORDER_HISTORY_WS_MESSAGE,
-} from '../constants/wsConstants';
-import { OrderFeedWsActions, OrderHistoryWsActions } from '../actions/wsActions';
+} from "../constants/wsConstants";
+import {
+  OrderFeedWsActions,
+  OrderHistoryWsActions,
+} from "../actions/wsActions";
 
 type WebSocketState = {
   wsConnected: boolean;
@@ -27,7 +29,10 @@ const initialHistoryState: WebSocketState = {
   messages: [],
 };
 
-export const orderFeedWsReducer = (state = initialFeedState, action: OrderFeedWsActions): WebSocketState => {
+export const orderFeedWsReducer = (
+  state = initialFeedState,
+  action: OrderFeedWsActions
+): WebSocketState => {
   switch (action.type) {
     case ORDER_FEED_WS_OPEN:
       return {
@@ -47,16 +52,20 @@ export const orderFeedWsReducer = (state = initialFeedState, action: OrderFeedWs
         wsConnected: false,
       };
     case ORDER_FEED_WS_MESSAGE:
-      return {
+      const newState = {
         ...state,
         messages: [...state.messages, action.payload],
       };
+      return newState;
     default:
       return state;
   }
 };
 
-export const orderHistoryWsReducer = (state = initialHistoryState, action: OrderHistoryWsActions): WebSocketState => {
+export const orderHistoryWsReducer = (
+  state = initialHistoryState,
+  action: OrderHistoryWsActions
+): WebSocketState => {
   switch (action.type) {
     case ORDER_HISTORY_WS_OPEN:
       return {

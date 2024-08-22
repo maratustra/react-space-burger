@@ -18,7 +18,7 @@ export interface IIngredient {
 
 export const ItemTypes = {
   INGREDIENT: "ingredient",
-  MOVABLEINGREDIENT: "movableIngredient"
+  MOVABLEINGREDIENT: "movableIngredient",
 };
 
 export type ModalContentType = "ingredientDetails" | "orderDetails";

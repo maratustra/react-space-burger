@@ -14,7 +14,7 @@ import {
   ORDER_HISTORY_WS_ERROR,
   ORDER_HISTORY_WS_MESSAGE,
 } from "../constants/wsConstants";
-import { refreshToken } from '../../utils/apiClient';
+import { refreshToken } from "../../utils/apiClient";
 
 type TwsActions = {
   wsConnect: string;
@@ -39,13 +39,15 @@ export const createSocketMiddleware = (
       const { type, payload } = action;
 
       if (type === wsActions.wsConnect) {
-        const token = localStorage.getItem("accessToken")?.replace("Bearer ", "");
+        const token = localStorage
+          .getItem("accessToken")
+          ?.replace("Bearer ", "");
 
-        if (typeof payload === 'string') {
+        if (typeof payload === "string") {
           const urlObj = new URL(payload);
-          
+
           if (token) {
-            urlObj.searchParams.set('token', token);
+            urlObj.searchParams.set("token", token);
           }
           url = urlObj.toString();
         } else {
@@ -64,24 +66,28 @@ export const createSocketMiddleware = (
 
         socket.onmessage = async (event) => {
           const parsedData = JSON.parse(event.data);
-          console.log("WebSocket message:", parsedData)
 
-          console.log('withTokenRefresh', withTokenRefresh);
-          console.log('parsedData.message', parsedData.message);
-          if (withTokenRefresh && parsedData.message === 'Invalid or missing token') {
+          if (
+            withTokenRefresh &&
+            parsedData.message === "Invalid or missing token"
+          ) {
             try {
               const refreshData = await refreshToken();
-              console.log('refreshData: ', refreshData);
-              const newToken = refreshData.accessToken.replace('Bearer ', '');
-              console.log('newToken: ', newToken);
-              
-              const urlObj = new URL(url!);
-              urlObj.searchParams.set('token', newToken);
+              const newToken = refreshData.accessToken.replace("Bearer ", "");
 
-              dispatch({ type: wsActions.wsConnect, payload: urlObj.toString() });
+              const urlObj = new URL(url!);
+              urlObj.searchParams.set("token", newToken);
+
+              dispatch({
+                type: wsActions.wsConnect,
+                payload: urlObj.toString(),
+              });
             } catch (error) {
-              console.error('Не получилось обновить токен:', error);
-              dispatch({ type: wsActions.wsError, payload: 'Не получилось обновить токен' });
+              console.error("Не получилось обновить токен:", error);
+              dispatch({
+                type: wsActions.wsError,
+                payload: "Не получилось обновить токен",
+              });
             }
           } else {
             dispatch({
@@ -89,7 +95,7 @@ export const createSocketMiddleware = (
               payload: parsedData,
             });
           }
-        }
+        };
 
         socket.onclose = (event) => {
           if (closing) {
@@ -110,20 +116,26 @@ export const createSocketMiddleware = (
   };
 };
 
-export const feedSocketMiddleware = createSocketMiddleware({
-  wsConnect: ORDER_FEED_WS_CONNECT,
-  wsDisconnect: ORDER_FEED_WS_DISCONNECT,
-  wsOpen: ORDER_FEED_WS_OPEN,
-  wsClose: ORDER_FEED_WS_CLOSE,
-  wsError: ORDER_FEED_WS_ERROR,
-  wsMessage: ORDER_FEED_WS_MESSAGE,
-}, true);
+export const feedSocketMiddleware = createSocketMiddleware(
+  {
+    wsConnect: ORDER_FEED_WS_CONNECT,
+    wsDisconnect: ORDER_FEED_WS_DISCONNECT,
+    wsOpen: ORDER_FEED_WS_OPEN,
+    wsClose: ORDER_FEED_WS_CLOSE,
+    wsError: ORDER_FEED_WS_ERROR,
+    wsMessage: ORDER_FEED_WS_MESSAGE,
+  },
+  true
+);
 
-export const historySocketMiddleware = createSocketMiddleware({
-  wsConnect: ORDER_HISTORY_WS_CONNECT,
-  wsDisconnect: ORDER_HISTORY_WS_DISCONNECT,
-  wsOpen: ORDER_HISTORY_WS_OPEN,
-  wsClose: ORDER_HISTORY_WS_CLOSE,
-  wsError: ORDER_HISTORY_WS_ERROR,
-  wsMessage: ORDER_HISTORY_WS_MESSAGE,
-}, true);
+export const historySocketMiddleware = createSocketMiddleware(
+  {
+    wsConnect: ORDER_HISTORY_WS_CONNECT,
+    wsDisconnect: ORDER_HISTORY_WS_DISCONNECT,
+    wsOpen: ORDER_HISTORY_WS_OPEN,
+    wsClose: ORDER_HISTORY_WS_CLOSE,
+    wsError: ORDER_HISTORY_WS_ERROR,
+    wsMessage: ORDER_HISTORY_WS_MESSAGE,
+  },
+  true
+);

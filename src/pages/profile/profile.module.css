@@ -18,10 +18,14 @@
 
 .nav-link {
   padding: 20px 0;
-  color: #8585AD;
+  color: #8585ad;
   text-decoration: none;
 }
 
 .active {
-  color: #F2F2F3;
+  color: #f2f2f3;
+}
+
+.hidden {
+  visibility: hidden;
 }

@@ -1,6 +1,9 @@
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import styles from "./order-list.module.css";
 import OrderBlock from "../order-block/order-block";
 import { IIngredient } from "../../types";
+import Loader from "../loader";
 
 interface Order {
   number: number;
@@ -24,9 +27,23 @@ const OrderListPage: React.FC<OrderListProps> = ({
   orders = [],
   allIngredientsData,
 }) => {
+  const location = useLocation();
+  const [loading, setLoading] = useState(true);
   const sortedOrders = orders.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [orders]);
+
+  if (location.pathname === "/profile/orders" && loading) {
+    return <Loader />;
+  }
 
   return (
     <section className={styles["burger-ingredients"]}>

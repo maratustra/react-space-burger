@@ -1,6 +1,6 @@
 import { OPEN_MODAL, CLOSE_MODAL } from "../constants/modal";
 import { TModalActions } from "../actions/modal";
-import { type ModalContentType, type ModalContentProps } from '../../types';
+import { type ModalContentType, type ModalContentProps } from "../../types";
 import OrderDetails from "../../components/order-details/order-details";
 import IngredientDetails from "../../components/ingredient-details/ingredient-details";
 
@@ -23,7 +23,10 @@ const componentMap = {
   orderDetails: OrderDetails,
 };
 
-const modalReducer = (state: TModalState = initialState, action: TModalActions): TModalState => {
+const modalReducer = (
+  state: TModalState = initialState,
+  action: TModalActions
+): TModalState => {
   switch (action.type) {
     case OPEN_MODAL:
       return {

@@ -22,3 +22,14 @@
 .border-primary {
   border-color: #4C4CFF;
 }
+
+.containerModified {
+  margin-top: 100px;
+  margin-bottom: auto;
+}
+
+.contentModified {
+  margin-top: auto;
+  margin-bottom: auto;
+  justify-content: center;
+}

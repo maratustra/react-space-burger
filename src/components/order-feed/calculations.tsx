@@ -56,7 +56,7 @@ const CalculationsPage: React.FC<ICalculationsPageProps> = ({
               {inProgressOrderColumns.map((column, index) => (
                 <ul key={index} className={styles.orderList}>
                   {column.map((order) => (
-                    <li key={order._id} className={styles.orderItem}>
+                    <li key={order._id}>
                       <p className="text text_type_digits-default">
                         {order.number}
                       </p>

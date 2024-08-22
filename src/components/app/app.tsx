@@ -19,6 +19,7 @@ import ProfileOrderDetailsPage from "../../pages/profile/profile-order-details";
 import NotFoundPage from "../../pages/not-found/not-found";
 import OrderFeedPage from "../../pages/feed/feed";
 import FeedDetailsPage from "../order-info/order-info";
+import FeedDetailsPage from "../order-info/order-info";
 
 import { getIngredients } from "../../services/actions/ingredients";
 import { closeModal } from "../../services/actions/modal";
@@ -31,9 +32,12 @@ import {
   orderFeedWsConnect,
   orderFeedWsDisconnect,
   orderHistoryWsConnect,
-  orderHistoryWsDisconnect
+  orderHistoryWsDisconnect,
 } from "../../services/actions/wsActions";
-import { LIVE_TABLE_SERVER_URL, USER_ORDER_SERVER_URL } from '../../utils/apiClient';
+import {
+  LIVE_TABLE_SERVER_URL,
+  USER_ORDER_SERVER_URL,
+} from "../../utils/apiClient";
 
 const App: React.FC = () => {
   const dispatch: any = useDispatch();
@@ -75,11 +79,21 @@ const App: React.FC = () => {
     contentType as ModalContentType
   ] as React.ComponentType<ModalContentProps>;
 
+  const isFeedDetailsPage = location.pathname.match(/\/feed\/\d+/);
+
   return (
     <div className={styles.main}>
       <Header />
-      <main className={styles.container}>
-        <div className={styles.content}>
+      <main
+        className={`${styles.container} ${
+          isFeedDetailsPage ? styles.containerModified : ""
+        }`}
+      >
+        <div
+          className={`${styles.content} ${
+            isFeedDetailsPage ? styles.contentModified : ""
+          }`}
+        >
           <DndProvider backend={HTML5Backend}>
             <Routes location={background || location}>
               <Route path="/" element={<HomePage />} />
@@ -157,7 +171,24 @@ const App: React.FC = () => {
               path="/ingredients/:id"
               element={
                 <Modal title="Детали заказа" onClose={handleCloseModal}>
+                <Modal title="Детали заказа" onClose={handleCloseModal}>
                   <IngredientDetailsWrapper />
+                </Modal>
+              }
+            />
+            <Route
+              path="/feed/:number"
+              element={
+                <Modal onClose={handleCloseModal}>
+                  <FeedDetailsPage />
+                </Modal>
+              }
+            />
+            <Route
+              path="/profile/orders/:number"
+              element={
+                <Modal onClose={handleCloseModal}>
+                  <ProfileOrderDetailsPage />
                 </Modal>
               }
             />

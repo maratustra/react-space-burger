@@ -1,6 +1,6 @@
 import request from "./apiClient";
 
-import { TUser } from '../services/types/data';
+import { TUser } from "../services/types/data";
 import { IIngredient, type IOrder } from "../types";
 
 interface IAuthResponse {
@@ -19,6 +19,7 @@ interface ResetPasswordResponse {
   success: boolean;
   message?: string;
 }
+
 
 export const getHeaders = (): Record<string, string> => {
   let accessToken = localStorage.getItem("accessToken");
@@ -64,7 +65,10 @@ export const resetPasswordWithToken = (
   });
 };
 
-export const login = (email: string, password: string): Promise<IAuthResponse> => {
+export const login = (
+  email: string,
+  password: string
+): Promise<IAuthResponse> => {
   return request("auth/login", {
     method: "POST",
     headers: getHeaders(),

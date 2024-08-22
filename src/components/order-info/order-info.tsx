@@ -21,7 +21,6 @@ const OrderInfoPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // TODO ?
   useEffect(() => {
     const fetchOrder = async () => {
       try {

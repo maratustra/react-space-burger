@@ -23,42 +23,50 @@ interface ICreateOrderFailureAction {
   payload: string;
 }
 
-export type TOrderActions = 
+export type TOrderActions =
   | ICreateOrderRequestAction
   | ICreateOrderSuccessAction
   | ICreateOrderFailureAction;
 
-export const createOrderRequest = (): ICreateOrderRequestAction => ({ type: CREATE_ORDER_REQUEST });
+export const createOrderRequest = (): ICreateOrderRequestAction => ({
+  type: CREATE_ORDER_REQUEST,
+});
 
-export const createOrderSuccess = (orderNumber: number): ICreateOrderSuccessAction => ({
+export const createOrderSuccess = (
+  orderNumber: number
+): ICreateOrderSuccessAction => ({
   type: CREATE_ORDER_SUCCESS,
   payload: orderNumber,
 });
 
-export const createOrderFailure = (error: string): ICreateOrderFailureAction => ({
+export const createOrderFailure = (
+  error: string
+): ICreateOrderFailureAction => ({
   type: CREATE_ORDER_FAILURE,
   payload: error,
 });
 
-export const sendOrder = (ingredients: IIngredient[]): AppThunk => (dispatch: AppDispatch, getState) => {
-  const {user} = getState().user;
+export const sendOrder =
+  (ingredients: IIngredient[]): AppThunk =>
+  (dispatch: AppDispatch, getState) => {
+    const { user } = getState().user;
 
-  if (!user) {
-    return;
-  }
+    if (!user) {
+      return;
+    }
 
-  dispatch(createOrderRequest());
-  
-  createOrder(ingredients)
-    .then((orderNumber) => {
-      dispatch(createOrderSuccess(orderNumber));
-      dispatch(openModal("orderDetails", {}, ''));
-      setTimeout(() => {
-        dispatch(closeModal());
-        dispatch({ type: CLEAR_CONSTRUCTOR });
-      }, 3000);
-    })
-    .catch((error) => {
-      dispatch(createOrderFailure(error.message));
-    });
-};
+    dispatch(createOrderRequest());
+
+    createOrder(ingredients)
+      .then((orderNumber) => {
+        dispatch(createOrderSuccess(orderNumber));
+        dispatch(openModal("orderDetails", {}, ""));
+        setTimeout(() => {
+          dispatch(closeModal());
+          dispatch({ type: CLEAR_CONSTRUCTOR });
+        }, 3000);
+      })
+      .catch((error) => {
+        dispatch(createOrderFailure(error.message));
+      });
+  };
