@@ -1,5 +1,5 @@
 import { useRef, useState, ChangeEvent, FormEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./registration.module.css";
 import {
@@ -12,10 +12,10 @@ import { register } from "../../services/actions/auth";
 import Loader from "../../components/loader";
 
 const RegistrationPage: React.FC = () => {
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const { loading } = useSelector((state: any) => state.user);
+  const { loading } = useAppSelector((state) => state.user);
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -41,7 +41,7 @@ const RegistrationPage: React.FC = () => {
     setErrorMessage("");
     setSuccessMessage("");
     dispatch(register(email, password, name))
-      .then((res: { success: boolean }) => {
+      .then((res) => {
         if (res.success) {
           setSuccessMessage(
             "Регистрация успешна! Перенаправляем на страницу входа"

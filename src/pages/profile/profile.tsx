@@ -1,10 +1,10 @@
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../services/store";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import styles from "./profile.module.css";
 import { logout } from "../../services/actions/auth";
 
 const ProfilePage: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
 
   const handleLogout = () => {

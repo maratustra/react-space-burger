@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 import styles from "./app.module.css";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -27,47 +27,21 @@ import { checkUserAuth } from "../../services/actions/auth";
 import { ProtectedRouteElement } from "../protected-route";
 import IngredientDetailsWrapper from "../ingredient-details/ingredient-details-wrapper";
 import { type ModalContentType, type ModalContentProps } from "../../types";
-import {
-  orderFeedWsConnect,
-  orderFeedWsDisconnect,
-  orderHistoryWsConnect,
-  orderHistoryWsDisconnect,
-} from "../../services/actions/wsActions";
-import {
-  LIVE_TABLE_SERVER_URL,
-  USER_ORDER_SERVER_URL,
-} from "../../utils/apiClient";
 
 const App: React.FC = () => {
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const background = location.state?.background;
 
-  const { isOpen, contentType, contentProps, title } = useSelector(
-    (state: any) => state.modal
+  const { isOpen, contentType, contentProps, title } = useAppSelector(
+    (state) => state.modal
   );
 
   useEffect(() => {
     dispatch(checkUserAuth());
     dispatch(getIngredients());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (location.pathname === "/feed") {
-      dispatch(orderFeedWsConnect(LIVE_TABLE_SERVER_URL));
-    } else if (location.pathname.startsWith("/profile/orders")) {
-      dispatch(orderHistoryWsConnect(USER_ORDER_SERVER_URL));
-    }
-
-    return () => {
-      if (location.pathname === "/feed") {
-        dispatch(orderFeedWsDisconnect());
-      } else if (location.pathname.startsWith("/profile/orders")) {
-        dispatch(orderHistoryWsDisconnect());
-      }
-    };
-  }, [dispatch, location.pathname]);
 
   const handleCloseModal = () => {
     dispatch(closeModal());

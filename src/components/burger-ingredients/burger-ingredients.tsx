@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 import styles from "./burger-ingredients.module.css";
 import { openModal } from "../../services/actions/modal";
 import { TAB_SWITCH } from "../../services/constants/tabs";
@@ -9,11 +9,11 @@ import { IIngredient } from "../../types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const BurgerIngredients: React.FC = () => {
-  const dispatch: any = useDispatch();
-  const ingredients = useSelector(
-    (store: any) => store.ingredients.ingredients
+  const dispatch = useAppDispatch();
+  const ingredients = useAppSelector(
+    (store) => store.ingredients.ingredients
   );
-  const currentTab = useSelector((store: any) => store.tabs.currentTab);
+  const currentTab = useAppSelector((store) => store.tabs.currentTab);
 
   const buns = ingredients.filter((ingredient: IIngredient) =>
     ingredient.name.toLowerCase().includes("булка")

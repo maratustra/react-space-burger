@@ -1,9 +1,7 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../services/store";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 import {
-  orderFeedWsConnect,
-  orderFeedWsDisconnect,
+  orderFeedWsConnect, orderFeedWsDisconnect
 } from "../../services/actions/wsActions";
 import { LIVE_TABLE_SERVER_URL } from "../../utils/apiClient";
 import OrderListPage from "../../components/order-feed/order-list";
@@ -11,19 +9,19 @@ import CalculationsPage from "../../components/order-feed/calculations";
 import { type IOrder } from "../../types";
 
 const OrderFeedPage: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const orders = useSelector(
-    (state: RootState) => state.orderFeed.messages.slice(-1)[0]?.orders || []
+  const orders = useAppSelector(
+    (state) => state.orderFeed.messages.slice(-1)[0]?.orders || []
   );
-  const total = useSelector(
-    (state: RootState) => state.orderFeed.messages.slice(-1)[0]?.total || 0
+  const total = useAppSelector(
+    (state) => state.orderFeed.messages.slice(-1)[0]?.total || 0
   );
-  const totalToday = useSelector(
-    (state: RootState) => state.orderFeed.messages.slice(-1)[0]?.totalToday ?? 0
+  const totalToday = useAppSelector(
+    (state) => state.orderFeed.messages.slice(-1)[0]?.totalToday ?? 0
   );
-  const allIngredientsData = useSelector(
-    (state: RootState) => state.ingredients.ingredients ?? []
+  const allIngredientsData = useAppSelector(
+    (state) => state.ingredients.ingredients ?? []
   );
   const readyOrders: IOrder[] = orders.filter(
     (order: IOrder) => order.status === "done"

@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { useDrag, useDrop, DragSourceMonitor, DropTargetMonitor } from "react-dnd";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./draggable-ingredient.module.css";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../services/store";
 import { removeIngredient, decrementCount } from "../../services/actions/constructor";
 import { IIngredient, ItemTypes } from "../../types";
 import { AppDispatch } from "../../services/store";
@@ -21,7 +21,7 @@ interface DraggedItem {
  
 const DraggableIngredient: React.FC<DraggableIngredientProps> = ({ ingredient, index, id, moveCard }) => {
   const ref = useRef<HTMLDivElement | null>(null)
-  const dispatch: AppDispatch = useDispatch<AppDispatch>();
+  const dispatch: AppDispatch = useAppDispatch();
 
   const [{ isDragging }, dragRef] = useDrag<DraggedItem, void, { isDragging: boolean }>({
     type: ItemTypes.MOVABLEINGREDIENT,

@@ -27,7 +27,6 @@ export const getHeaders = (): Record<string, string> => {
   if (accessToken && !accessToken.startsWith("Bearer ")) {
     accessToken = `Bearer ${accessToken}`;
   }
-  console.log('accessToken: ', accessToken);
   return {
     "Content-Type": "application/json",
     Authorization: accessToken || "",
@@ -38,7 +37,7 @@ export const fetchIngredients = (): Promise<IIngredient[]> => {
   return request("ingredients").then((data) => data.data);
 };
 
-export const createOrder = (ingredients: IIngredient[]): Promise<number> => {
+export const createOrder = (ingredients: string[]): Promise<number> => {
   return request("orders", {
     method: "POST",
     headers: getHeaders(),

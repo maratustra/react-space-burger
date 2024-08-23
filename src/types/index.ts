@@ -27,7 +27,9 @@ export interface IngredientDetailsProps {
   ingredient: IIngredient;
 }
 
-export type ModalContentProps = { ingredient: IIngredient } | {};
+export type ModalContentProps = { 
+  ingredient?: IIngredient 
+} | {};
 
 export interface IOrder {
   _id: string;

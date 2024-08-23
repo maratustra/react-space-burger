@@ -9,8 +9,8 @@ import {
   ORDER_HISTORY_WS_MESSAGE,
 } from "../constants/wsConstants";
 import {
-  OrderFeedWsActions,
-  OrderHistoryWsActions,
+  TOrderFeedWsActions,
+  TOrderHistoryWsActions,
 } from "../actions/wsActions";
 
 type WebSocketState = {
@@ -31,7 +31,7 @@ const initialHistoryState: WebSocketState = {
 
 export const orderFeedWsReducer = (
   state = initialFeedState,
-  action: OrderFeedWsActions
+  action: TOrderFeedWsActions
 ): WebSocketState => {
   switch (action.type) {
     case ORDER_FEED_WS_OPEN:
@@ -64,7 +64,7 @@ export const orderFeedWsReducer = (
 
 export const orderHistoryWsReducer = (
   state = initialHistoryState,
-  action: OrderHistoryWsActions
+  action: TOrderHistoryWsActions
 ): WebSocketState => {
   switch (action.type) {
     case ORDER_HISTORY_WS_OPEN:

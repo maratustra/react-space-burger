@@ -21,8 +21,8 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
 } from "../constants/auth";
-import { TUser } from '../types/data';
-import { AppDispatch, AppThunk } from '../store';
+import { TUser } from "../types/data";
+import { AppDispatch, AppThunk } from "../store";
 
 interface ISetAuthCheckedAction {
   readonly type: typeof SET_AUTH_CHECKED;
@@ -114,37 +114,51 @@ export const setUser = (user: TUser | null): ISetUserAction => ({
   payload: user,
 });
 
-export const login = (email: string, password: string): AppThunk => {
-  return (dispatch: AppDispatch) => {
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) return error.message;
+  return String(error);
+}
+
+export const login = (
+  email: string,
+  password: string
+): AppThunk<Promise<{ success: boolean }>> => {
+  return async (dispatch: AppDispatch) => {
     dispatch({ type: LOGIN_REQUEST });
-    return apiLogin(email, password)
-      .then((res) => {
-        localStorage.setItem("accessToken", res.accessToken);
-        localStorage.setItem("refreshToken", res.refreshToken);
-        dispatch(setUser(res.user));
-        dispatch(setAuthChecked(true));
-        dispatch({ type: LOGIN_SUCCESS });
-      })
-      .catch((error) => {
-        dispatch({ type: LOGIN_FAILURE, payload: error.message });
-      });
+    try {
+      const res = await apiLogin(email, password);
+      localStorage.setItem("accessToken", res.accessToken);
+      localStorage.setItem("refreshToken", res.refreshToken);
+      dispatch(setUser(res.user));
+      dispatch(setAuthChecked(true));
+      dispatch({ type: LOGIN_SUCCESS });
+      return { success: true };
+    } catch (error) {
+      dispatch({ type: LOGIN_FAILURE, payload: getErrorMessage(error) });
+      return { success: false };
+    }
   };
 };
 
-export const register = (email: string, password: string, name: string): AppThunk => {
-  return (dispatch: AppDispatch) => {
+export const register = (
+  email: string,
+  password: string,
+  name: string
+): AppThunk<Promise<{ success: boolean }>> => {
+  return async (dispatch: AppDispatch) => {
     dispatch({ type: REGISTER_REQUEST });
-    return apiRegister({ email, password, name })
-      .then((res) => {
-        localStorage.setItem("accessToken", res.accessToken);
-        localStorage.setItem("refreshToken", res.refreshToken);
-        dispatch(setUser(res.user));
-        dispatch(setAuthChecked(true));
-        dispatch({ type: REGISTER_SUCCESS });
-      })
-      .catch((error) => {
-        dispatch({ type: REGISTER_FAILURE, payload: error.message });
-      });
+    try {
+      const res = await apiRegister({ email, password, name });
+      localStorage.setItem("accessToken", res.accessToken);
+      localStorage.setItem("refreshToken", res.refreshToken);
+      dispatch(setUser(res.user));
+      dispatch(setAuthChecked(true));
+      dispatch({ type: REGISTER_SUCCESS });
+      return { success: true };
+    } catch (error) {
+      dispatch({ type: REGISTER_FAILURE, payload: getErrorMessage(error) });
+      return { success: false };
+    }
   };
 };
 
@@ -184,13 +198,17 @@ export const getUser = (): AppThunk<Promise<void>> => {
         dispatch({ type: GET_USER_SUCCESS, payload: res.user });
       })
       .catch((error) => {
-        dispatch({ type: GET_USER_FAILURE, payload: error.message });
+        dispatch({ type: GET_USER_FAILURE, payload: getErrorMessage(error) });
       });
     return promise;
   };
 };
 
-export const updateUser = (email: string, name: string, password: string): AppThunk => {
+export const updateUser = (
+  email: string,
+  name: string,
+  password: string
+): AppThunk => {
   return (dispatch: AppDispatch) => {
     dispatch({ type: UPDATE_USER_REQUEST });
     return apiUpdateUser(email, name, password)
@@ -198,7 +216,10 @@ export const updateUser = (email: string, name: string, password: string): AppTh
         dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
       })
       .catch((error) => {
-        dispatch({ type: UPDATE_USER_FAILURE, payload: error.message });
+        dispatch({
+          type: UPDATE_USER_FAILURE,
+          payload: getErrorMessage(error),
+        });
       });
   };
 };

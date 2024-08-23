@@ -15,87 +15,85 @@ import {
   ORDER_HISTORY_WS_MESSAGE,
 } from "../constants/wsConstants";
 
-interface OrderFeedWsConnectAction {
+interface IOrderFeedWsConnectAction {
   type: typeof ORDER_FEED_WS_CONNECT;
   payload: string;
 }
-interface OrderFeedWsDisconnectAction {
+interface IOrderFeedWsDisconnectAction {
   type: typeof ORDER_FEED_WS_DISCONNECT;
-  payload: string;
 }
-interface OrderFeedWsConnectingAction {
+interface IOrderFeedWsConnectingAction {
   type: typeof ORDER_FEED_WS_CONNECTING;
   payload: string;
 }
-interface OrderFeedWsOpenAction {
+interface IOrderFeedWsOpenAction {
   type: typeof ORDER_FEED_WS_OPEN;
   payload: string;
 }
-interface OrderFeedWsCloseAction {
+interface IOrderFeedWsCloseAction {
   type: typeof ORDER_FEED_WS_CLOSE;
   payload: string;
 }
-interface OrderFeedWsErrorAction {
+interface IOrderFeedWsErrorAction {
   type: typeof ORDER_FEED_WS_ERROR;
   payload: string;
 }
-interface OrderFeedWsMessageAction {
+interface IOrderFeedWsMessageAction {
   type: typeof ORDER_FEED_WS_MESSAGE;
   payload: any;
 }
 
-export type OrderFeedWsActions =
-  | OrderFeedWsConnectAction
-  | OrderFeedWsDisconnectAction
-  | OrderFeedWsConnectingAction
-  | OrderFeedWsOpenAction
-  | OrderFeedWsCloseAction
-  | OrderFeedWsErrorAction
-  | OrderFeedWsMessageAction;
+export type TOrderFeedWsActions =
+  | IOrderFeedWsConnectAction
+  | IOrderFeedWsDisconnectAction
+  | IOrderFeedWsConnectingAction
+  | IOrderFeedWsOpenAction
+  | IOrderFeedWsCloseAction
+  | IOrderFeedWsErrorAction
+  | IOrderFeedWsMessageAction;
 
-interface OrderHistoryWsConnectAction {
+interface IOrderHistoryWsConnectAction {
   type: typeof ORDER_HISTORY_WS_CONNECT;
   payload: string;
 }
 
-interface OrderHistoryWsDisconnectAction {
+interface IOrderHistoryWsDisconnectAction {
   type: typeof ORDER_HISTORY_WS_DISCONNECT;
-  payload: string;
 }
 
-interface OrderHistoryWsConnectingAction {
+interface IOrderHistoryWsConnectingAction {
   type: typeof ORDER_HISTORY_WS_CONNECTING;
   payload: string;
 }
 
-interface OrderHistoryWsOpenAction {
+interface IOrderHistoryWsOpenAction {
   type: typeof ORDER_HISTORY_WS_OPEN;
   payload: string;
 }
 
-interface OrderHistoryWsCloseAction {
+interface IOrderHistoryWsCloseAction {
   type: typeof ORDER_HISTORY_WS_CLOSE;
   payload: string;
 }
 
-interface OrderHistoryWsErrorAction {
+interface IOrderHistoryWsErrorAction {
   type: typeof ORDER_HISTORY_WS_ERROR;
   payload: string;
 }
 
-interface OrderHistoryWsMessageAction {
+interface IOrderHistoryWsMessageAction {
   type: typeof ORDER_HISTORY_WS_MESSAGE;
   payload: any;
 }
 
-export type OrderHistoryWsActions =
-  | OrderHistoryWsConnectAction
-  | OrderHistoryWsDisconnectAction
-  | OrderHistoryWsConnectingAction
-  | OrderHistoryWsOpenAction
-  | OrderHistoryWsCloseAction
-  | OrderHistoryWsErrorAction
-  | OrderHistoryWsMessageAction;
+export type TOrderHistoryWsActions =
+  | IOrderHistoryWsConnectAction
+  | IOrderHistoryWsDisconnectAction
+  | IOrderHistoryWsConnectingAction
+  | IOrderHistoryWsOpenAction
+  | IOrderHistoryWsCloseAction
+  | IOrderHistoryWsErrorAction
+  | IOrderHistoryWsMessageAction;
 
 export const orderFeedWsConnect = (url: string) => ({
   type: ORDER_FEED_WS_CONNECT,

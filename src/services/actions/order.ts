@@ -47,7 +47,7 @@ export const createOrderFailure = (
 });
 
 export const sendOrder =
-  (ingredients: IIngredient[]): AppThunk =>
+  (ingredients: string[]): AppThunk =>
   (dispatch: AppDispatch, getState) => {
     const { user } = getState().user;
 

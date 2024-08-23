@@ -1,5 +1,5 @@
 import { useEffect, useRef, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 import { useNavigate } from "react-router-dom";
 import { useDrop, DropTargetMonitor } from "react-dnd";
 import styles from "./burger-constructor.module.css";
@@ -24,15 +24,15 @@ import { IIngredient, ItemTypes } from "../../types";
 import emptyBun from "../../images/burger.svg";
 
 const BurgerConstructor: React.FC = () => {
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const burgerBun = useSelector((store: any) => store.constructorReducer.bun);
-  const ingredients = useSelector(
-    (store: any) => store.constructorReducer?.constructorIngredients
+  const burgerBun = useAppSelector((store) => store.constructorReducer.bun);
+  const ingredients = useAppSelector(
+    (store) => store.constructorReducer?.constructorIngredients
   );
-  const orderTotal = useSelector(selectOrderTotal);
-  const isUserAuth = useSelector((store: any) => store.user.user);
-  const isOrderSending = useSelector((store: any) => store.order.isLoading);
+  const orderTotal = useAppSelector(selectOrderTotal);
+  const isUserAuth = useAppSelector((store) => store.user.user);
+  const isOrderSending = useAppSelector((store) => store.order.isLoading);
   const constructorWrapperRef = useRef<HTMLDivElement | null>(null);
 
   const [{ handlerId }, dropRef] = useDrop(() => ({
@@ -58,7 +58,7 @@ const BurgerConstructor: React.FC = () => {
     if (!isUserAuth) {
       navigate("/login");
     }
-    const ingredientIds = ingredients.map((ingredient: IIngredient) => ingredient._id);
+    const ingredientIds = ingredients.map((ingredient) => ingredient._id);
     dispatch(sendOrder(ingredientIds));
   };
 

@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, FormEvent } from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../services/store";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../forgot-password/forgot.module.css";
 import {
@@ -14,7 +14,7 @@ const ResetPasswordPage: React.FC = () => {
   const navigate = useNavigate();
   const [code, setCode] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const { loading } = useSelector((state: any) => state.user);
+  const { loading } = useAppSelector((state) => state.user);
 
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");

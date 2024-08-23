@@ -1,10 +1,10 @@
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../services/store";
 import styles from "./order-details.module.css";
 
 import acceptedPic from "../../images/order_accpeted.svg";
 
 const OrderDetails: React.FC = () => {
-  const orderNumber = useSelector((state: any) => state.order.orderNumber);
+  const orderNumber = useAppSelector((state) => state.order.orderNumber);
   
   return (
     <div className={`${styles["order-details"]} pt-4`}>

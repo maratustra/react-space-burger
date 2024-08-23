@@ -1,8 +1,9 @@
 import { createSelector } from 'reselect';
+import { RootState } from '../../services/store'; 
 import { IIngredient } from "../../types";
 
-const selectBun = (state: any) => state.constructorReducer.bun;
-const selectConstructorIngredients = (state: any)  => state.constructorReducer.constructorIngredients;
+const selectBun = (state: RootState) => state.constructorReducer.bun;
+const selectConstructorIngredients = (state: RootState)  => state.constructorReducer.constructorIngredients;
 
 export const selectOrderTotal = createSelector(
   [selectBun, selectConstructorIngredients],

@@ -4,6 +4,7 @@ import { TConstructorActions } from "../actions/constructor";
 import { TIngredientsActions } from "../actions/ingredients";
 import { TModalActions } from "../actions/modal";
 import { TTabActions } from "../actions/tabs";
+import { TOrderFeedWsActions, TOrderHistoryWsActions } from "../actions/wsActions";
 
 export type TApplicationActions =
   | TAuthActions
@@ -11,4 +12,6 @@ export type TApplicationActions =
   | TConstructorActions
   | TModalActions
   | TTabActions
-  | TIngredientsActions;
+  | TIngredientsActions
+  | TOrderFeedWsActions
+  | TOrderHistoryWsActions;

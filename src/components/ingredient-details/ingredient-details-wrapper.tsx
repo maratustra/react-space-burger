@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../services/store";
 import { useParams } from "react-router";
 
 import Loader from '../loader';
@@ -8,7 +8,7 @@ import { IIngredient } from "../../types";
 
 const IngredientDetailsWrapper: React.FC = () => {
   const { id } = useParams();
-  const ingredient = useSelector((store: any) =>
+  const ingredient = useAppSelector((store) =>
     store.ingredients.ingredients.find((item: IIngredient) => item._id === id)
   );
 

@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, FormEvent } from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../services/store";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./forgot.module.css";
 import {
@@ -13,7 +13,7 @@ const ForgotPasswordPage: React.FC = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState<string>('');
-  const { loading } = useSelector((state: any) => state.user);
+  const { loading } = useAppSelector((state) => state.user);
 
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
