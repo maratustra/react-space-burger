@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, FormEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./login.module.css";
 import {
@@ -11,9 +11,9 @@ import { login } from "../../services/actions/auth";
 import Loader from "../../components/loader";
 
 const LoginPage: React.FC = () => {
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loading } = useSelector((state: any) => state.user);
+  const { loading } = useAppSelector((state) => state.user);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   const [email, setEmail] = useState<string>("");
@@ -31,7 +31,7 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     setErrorMessage('');
     dispatch(login(email, password))
-      .then((res: { success: boolean }) => {
+      .then((res) => {
         if (res.success) {
           navigate('/');
         } else {

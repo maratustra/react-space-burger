@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../services/store";
 import { Navigate, useLocation } from "react-router-dom";
 
 interface IProtectedRouteElement {
@@ -11,8 +11,8 @@ interface IComponent {
 }
 
 export const ProtectedRouteElement = ({ onlyUnAuth = false, component }: IProtectedRouteElement): JSX.Element | null => {
-  const isAuthChecked = useSelector((store: any) => store.user.isAuthChecked);
-  const user = useSelector((store: any) => store.user.user);
+  const isAuthChecked = useAppSelector((store) => store.user.isAuthChecked);
+  const user = useAppSelector((store) => store.user.user);
   const location = useLocation();
 
   // isAuthChecked показывает, что проверка токена произведена

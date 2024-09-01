@@ -1,13 +1,27 @@
 import request from "./apiClient";
 
-import { IIngredient } from "../types";
+import { TUser } from "../services/types/data";
+import { IIngredient, type IOrder } from "../types";
+
+interface IAuthResponse {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+  user: TUser;
+}
+
+interface IUserResponse {
+  success: boolean;
+  user: TUser;
+}
 
 interface ResetPasswordResponse {
   success: boolean;
   message?: string;
 }
 
-const getHeaders = (): Record<string, string> => {
+
+export const getHeaders = (): Record<string, string> => {
   let accessToken = localStorage.getItem("accessToken");
 
   if (accessToken && !accessToken.startsWith("Bearer ")) {
@@ -50,7 +64,10 @@ export const resetPasswordWithToken = (
   });
 };
 
-export const login = (email: string, password: string): Promise<string> => {
+export const login = (
+  email: string,
+  password: string
+): Promise<IAuthResponse> => {
   return request("auth/login", {
     method: "POST",
     headers: getHeaders(),
@@ -66,7 +83,7 @@ export const register = ({
   email: string;
   password: string;
   name: string;
-}): Promise<string> => {
+}): Promise<IAuthResponse> => {
   return request("auth/register", {
     method: "POST",
     headers: getHeaders(),
@@ -82,7 +99,7 @@ export const logout = (): Promise<string> => {
   });
 };
 
-export const getUser = (): Promise<string> => {
+export const getUser = (): Promise<IUserResponse> => {
   return request("auth/user", {
     method: "GET",
     headers: getHeaders(),
@@ -93,10 +110,19 @@ export const updateUser = (
   email: string,
   name: string,
   password: string
-): Promise<string> => {
+): Promise<IUserResponse> => {
   return request("auth/user", {
     method: "PATCH",
     headers: getHeaders(),
     body: JSON.stringify({ email, name, password }),
   });
+};
+
+export const getOrderDetails = (orderNumber: string): Promise<IOrder> => {
+  const token = localStorage.getItem("accessToken")?.replace("Bearer ", "");
+
+  return request(`orders/${orderNumber}?${token}`, {
+    method: "GET",
+    headers: getHeaders(),
+  }).then((data) => data.orders[0]);
 };

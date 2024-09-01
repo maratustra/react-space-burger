@@ -1,0 +1,59 @@
+.statisticsContainer {
+  flex: 1;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 120px 0 20px 20px;
+  gap: 60px;
+}
+
+.orderSummary {
+  display: flex;
+  gap: 36px;
+}
+
+.orderSection {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  flex: 1;
+}
+
+.columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.orderList {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+  gap: 8px;
+}
+
+.orderItem {
+  color: #00cccc;
+}
+
+.totalSummary, .dailySummary {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.totalSummary p, .dailySummary p {
+  margin: 0;
+}
+
+.totalSummary p.text, .dailySummary p.text {
+  font-size: 18px;
+}
+
+.totalSummary p.text_type_digits-large, .dailySummary p.text_type_digits-large {
+  font-size: 48px;
+}
+
+

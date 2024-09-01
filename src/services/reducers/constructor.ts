@@ -1,19 +1,31 @@
+import { TConstructorActions } from "../actions/constructor";
+import { IIngredient } from "../../types/index";
 import {
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
+  MOVE_INGREDIENT,
   INCREMENT_COUNT,
   DECREMENT_COUNT,
-  MOVE_INGREDIENT,
-  CLEAR_CONSTRUCTOR
-} from "../actions/constructor";
+  CLEAR_CONSTRUCTOR,
+} from "../constants/constructor";
 import update from "immutability-helper";
 
-const initialState = {
+export type TConstructorState = {
+  ingredients: Array<IIngredient & { key: string }>;
+  bun: IIngredient | null;
+  constructorIngredients: Array<IIngredient & { key: string }>;
+};
+
+const initialState: TConstructorState = {
+  ingredients: [],
   bun: null,
   constructorIngredients: [],
 };
 
-const constructorReducer = (state = initialState, action) => {
+const constructorReducer = (
+  state: TConstructorState = initialState,
+  action: TConstructorActions
+): TConstructorState => {
   switch (action.type) {
     case ADD_INGREDIENT:
       if (action.payload.type === "bun") {
@@ -69,7 +81,7 @@ const constructorReducer = (state = initialState, action) => {
 
       return newState;
     case CLEAR_CONSTRUCTOR:
-        return initialState;
+      return initialState;
 
     default:
       return state;

@@ -1,17 +1,25 @@
+import { TOrderActions } from "../actions/order";
 import {
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
   CREATE_ORDER_FAILURE
-} from "../actions/order";
+} from "../constants/order";
 
-const initialState = {
+export type TOrderState = {
+  orderNumber: number | null;
+  orderTotal: number;
+  isLoading: boolean;
+  error: string | null;
+}
+
+const initialState: TOrderState = {
   orderNumber: null,
   orderTotal: 0,
   isLoading: false,
   error: null,
 };
 
-const orderReducer = (state = initialState, action) => {
+const orderReducer = (state: TOrderState = initialState, action: TOrderActions): TOrderState => {
   switch (action.type) {
     case CREATE_ORDER_REQUEST:
       return {

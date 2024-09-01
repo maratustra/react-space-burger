@@ -1,5 +1,5 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 import styles from "./profile-form.module.css";
 import {
   Button,
@@ -11,9 +11,9 @@ import { getUser, updateUser } from "../../services/actions/auth";
 import Loader from "../../components/loader";
 
 const ProfileFormPage: React.FC = () => {
-  const dispatch: any = useDispatch();
-  const { user, loading, updateSuccess, error } = useSelector(
-    (state: any) => state.user
+  const dispatch = useAppDispatch();
+  const { user, loading, updateSuccess, error } = useAppSelector(
+    (state) => state.user
   );
 
   const [name, setName] = useState<string>("");

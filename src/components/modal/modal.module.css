@@ -8,13 +8,16 @@
   padding: 40px 40px 0;
   border-radius: 40px;
   width: 720px;
-  height: 620px;
+  /* height: 620px; */
+  min-height: 400px; /* Заменяем height на min-height */
+  max-height: 90vh;
   color: #F2F2F3;
   text-align: center;
 }
 
 .modal-no-title {
-  height: 539px;
+  /* height: 539px; */
+  padding-top: 20px;
 }
 
 .modal-header {
@@ -33,4 +36,10 @@
   color: #F2F2F3;
   font-size: 24px;
   cursor: pointer;
+}
+
+.modalContent {
+  flex: 1; /* Позволяет этому блоку занимать все свободное пространство */
+  overflow-y: auto; /* Добавляем прокрутку для контента, если он превышает высоту */
+  margin-top: 20px;
 }

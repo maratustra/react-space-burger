@@ -5,7 +5,7 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredients.module.css";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../services/store";
 import { Link, useLocation } from "react-router-dom";
 import { IIngredient } from "../../types";
 
@@ -17,7 +17,7 @@ interface IngredientProps {
 const Ingredient: React.FC<IngredientProps> = ({ ingredient, onIngredientClick }) => {
   const location = useLocation();
 
-  const count = useSelector((store: any) => {
+  const count = useAppSelector((store) => {
     const ingredientCount =
       store.constructorReducer.constructorIngredients.filter(
         (item: IIngredient) => item._id === ingredient._id

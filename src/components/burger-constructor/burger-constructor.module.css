@@ -60,6 +60,10 @@
   bottom: 0;
 }
 
+.hiddenThumbnail img  {
+  visibility: hidden;
+}
+
 .main-constructor {
   display: flex;
   flex-direction: column;
