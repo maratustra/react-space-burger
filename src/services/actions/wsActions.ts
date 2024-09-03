@@ -44,6 +44,7 @@ interface IOrderFeedWsMessageAction {
 }
 
 export type TOrderFeedWsActions =
+  | {}
   | IOrderFeedWsConnectAction
   | IOrderFeedWsDisconnectAction
   | IOrderFeedWsConnectingAction
@@ -87,6 +88,7 @@ interface IOrderHistoryWsMessageAction {
 }
 
 export type TOrderHistoryWsActions =
+  | {}
   | IOrderHistoryWsConnectAction
   | IOrderHistoryWsDisconnectAction
   | IOrderHistoryWsConnectingAction

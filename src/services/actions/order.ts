@@ -6,7 +6,6 @@ import {
   CREATE_ORDER_SUCCESS,
   CREATE_ORDER_FAILURE,
 } from "../constants/order";
-import { IIngredient } from "../../types/index";
 import { AppThunk, AppDispatch } from "../store";
 
 interface ICreateOrderRequestAction {
@@ -24,6 +23,7 @@ interface ICreateOrderFailureAction {
 }
 
 export type TOrderActions =
+  | {}
   | ICreateOrderRequestAction
   | ICreateOrderSuccessAction
   | ICreateOrderFailureAction;

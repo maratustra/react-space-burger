@@ -41,6 +41,7 @@ export interface IGetIngredientsFailureAction {
 }
 
 export type TIngredientsActions =
+  | {}
   | ISetIngredientsAction
   | ISetCurrentIngredientAction
   | ISetOrderAction

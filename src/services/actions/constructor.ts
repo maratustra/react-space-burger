@@ -43,6 +43,7 @@ export interface IClearConstructorAction {
 }
 
 export type TConstructorActions =
+  | {}
   | IAddIngredientAction
   | IRemoveIngredientAction
   | IMoveIngredientAction
