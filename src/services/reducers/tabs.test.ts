@@ -7,7 +7,7 @@ describe('tabReducer', () => {
   };
 
   test('should return the initial state', () => {
-    expect(tabReducer(undefined, {})).toEqual(initialState);
+    expect(tabReducer(undefined, {} as any)).toEqual(initialState);
   });
 
   test('should handle TAB_SWITCH', () => {

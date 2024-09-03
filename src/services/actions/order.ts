@@ -22,8 +22,7 @@ interface ICreateOrderFailureAction {
   payload: string;
 }
 
-export type TOrderActions =
-  | {}
+export type TOrderActions = 
   | ICreateOrderRequestAction
   | ICreateOrderSuccessAction
   | ICreateOrderFailureAction;

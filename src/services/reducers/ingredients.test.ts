@@ -38,7 +38,7 @@ describe('ingredientsReducer', () => {
   };
 
   test('should return the initial state', () => {
-    expect(ingredientsReducer(undefined, {})).toEqual(initialState);
+    expect(ingredientsReducer(undefined, {} as any)).toEqual(initialState);
   });
 
   test('should handle GET_INGREDIENTS_REQUEST', () => {

@@ -14,7 +14,7 @@ describe('orderReducer', () => {
   };
 
   test('should return the initial state', () => {
-    expect(orderReducer(undefined, {})).toEqual(initialState);
+    expect(orderReducer(undefined, {} as any)).toEqual(initialState);
   });
 
   test('should handle CREATE_ORDER_REQUEST', () => {

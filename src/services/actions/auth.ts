@@ -89,7 +89,6 @@ interface IUpdateUserFailureAction {
 }
 
 export type TAuthActions =
-  | {}
   | ISetAuthCheckedAction
   | ISetUserAction
   | ILoginRequestAction

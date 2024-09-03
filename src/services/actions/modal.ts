@@ -14,7 +14,7 @@ export interface ICloseModalAction {
   readonly type: typeof CLOSE_MODAL;
 }
 
-export type TModalActions = | {} | IOpenModalAction | ICloseModalAction;
+export type TModalActions = IOpenModalAction | ICloseModalAction;
 
 export const openModal = (
   contentType: ModalContentType,

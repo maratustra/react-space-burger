@@ -17,7 +17,7 @@ describe('modalReducer', () => {
   };
 
   test('should return the initial state', () => {
-    expect(modalReducer(undefined, {})).toEqual(initialState);
+    expect(modalReducer(undefined, {} as any)).toEqual(initialState);
   });
 
   test('should handle OPEN_MODAL', () => {

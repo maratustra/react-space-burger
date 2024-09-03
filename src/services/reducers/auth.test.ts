@@ -26,7 +26,7 @@ describe("auth reducer", () => {
   };
 
   test("should return the initial state", () => {
-    expect(authReducer(undefined, {})).toEqual(initialState);
+    expect(authReducer(undefined, {} as any)).toEqual(initialState);
   });
 
   test("should handle LOGIN_REQUEST", () => {

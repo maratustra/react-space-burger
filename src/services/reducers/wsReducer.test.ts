@@ -20,7 +20,7 @@ describe('orderFeedWsReducer', () => {
   const webSocketUrl = 'wss://test/feed';
 
   test('should return the initial state', () => {
-    expect(orderFeedWsReducer(undefined, {})).toEqual(initialState);
+    expect(orderFeedWsReducer(undefined, {} as any)).toEqual(initialState);
   });
 
   test('should handle ORDER_FEED_WS_OPEN', () => {
@@ -78,20 +78,24 @@ describe('orderHistoryWsReducer', () => {
     error: undefined,
   };
 
+  const webSocketUrl = 'wss://test/feed';
+
   test('should return the initial state', () => {
-    expect(orderHistoryWsReducer(undefined, {})).toEqual(initialState);
+    expect(orderHistoryWsReducer(undefined, {} as any)).toEqual(initialState);
   });
 
   test('should handle ORDER_HISTORY_WS_OPEN', () => {
+    const action = { type: ORDER_HISTORY_WS_OPEN, payload: webSocketUrl };
     const expectedState = {
       ...initialState,
       wsConnected: true,
     };
 
-    expect(orderHistoryWsReducer(initialState, { type: ORDER_HISTORY_WS_OPEN })).toEqual(expectedState);
+    expect(orderHistoryWsReducer(initialState, action)).toEqual(expectedState);
   });
 
   test('should handle ORDER_HISTORY_WS_CLOSE', () => {
+    const action = { type: ORDER_HISTORY_WS_CLOSE, payload: webSocketUrl };
     const stateWithConnection = {
       ...initialState,
       wsConnected: true,
@@ -101,7 +105,7 @@ describe('orderHistoryWsReducer', () => {
       wsConnected: false,
     };
 
-    expect(orderHistoryWsReducer(stateWithConnection, { type: ORDER_HISTORY_WS_CLOSE })).toEqual(expectedState);
+    expect(orderHistoryWsReducer(stateWithConnection, action)).toEqual(expectedState);
   });
 
   test('should handle ORDER_HISTORY_WS_ERROR', () => {

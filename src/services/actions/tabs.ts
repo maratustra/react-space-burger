@@ -10,4 +10,4 @@ export const switchTab = (tab: string): ITabSwitchAction => ({
   payload: tab,
 });
 
-export type TTabActions = | {} | ITabSwitchAction;
+export type TTabActions = ITabSwitchAction;

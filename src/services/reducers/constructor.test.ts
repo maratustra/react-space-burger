@@ -38,7 +38,7 @@ describe("constructorReducer", () => {
   const sauce = createIngredient('sauce', '3');
 
   test("should return the initial state", () => {
-    expect(constructorReducer(undefined, {})).toEqual(
+    expect(constructorReducer(undefined, {} as any)).toEqual(
       initialState
     );
   });
