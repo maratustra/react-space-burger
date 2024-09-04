@@ -76,7 +76,7 @@ const DraggableIngredient: React.FC<DraggableIngredientProps> = ({ ingredient, i
   dragRef(dropRef(ref))
 
   return (
-    <div ref={ref} className={styles["constructor-item"]} style={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId}>
+    <div ref={ref} className={styles["constructor-item"]} style={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId} data-testid="draggable-ingredient">
       <DragIcon type="primary" />
       <ConstructorElement
         text={ingredient.name}

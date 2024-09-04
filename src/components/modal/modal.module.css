@@ -8,7 +8,7 @@
   padding: 40px 40px 0;
   border-radius: 40px;
   width: 720px;
-  /* height: 620px; */
+  height: 620px;
   min-height: 400px; /* Заменяем height на min-height */
   max-height: 90vh;
   color: #F2F2F3;
@@ -16,7 +16,7 @@
 }
 
 .modal-no-title {
-  /* height: 539px; */
+  height: 539px;
   padding-top: 20px;
 }
 
