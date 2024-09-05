@@ -128,7 +128,7 @@ const BurgerIngredients: React.FC = () => {
         </div>
       </div>
       <div ref={ingredientsWrapperRef} className={styles.ingredients}>
-        <section id="buns" ref={bunsRef}>
+        <section id="buns" ref={bunsRef} data-testid="buns">
           <p
             className={`${styles["ingredient-header"]} text text_type_main-medium`}
           >
@@ -145,7 +145,7 @@ const BurgerIngredients: React.FC = () => {
           </ul>
         </section>
 
-        <section id="sauces" ref={saucesRef}>
+        <section id="sauces" ref={saucesRef} data-testid="sauces">
           <p
             className={`${styles["ingredient-header"]} text text_type_main-medium`}
           >
@@ -162,7 +162,7 @@ const BurgerIngredients: React.FC = () => {
           </ul>
         </section>
 
-        <section id="mains" ref={mainsRef}>
+        <section id="mains" ref={mainsRef} data-testid="mains">
           <p
             className={`${styles["ingredient-header"]} text text_type_main-medium`}
           >

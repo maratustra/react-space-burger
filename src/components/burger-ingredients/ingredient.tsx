@@ -35,6 +35,7 @@ const Ingredient: React.FC<IngredientProps> = ({ ingredient, onIngredientClick }
   return (
     <li
       ref={dragRef}
+      data-testid="ingredient"
       className={styles["ingredient-item"]}
       onClick={() => onIngredientClick(ingredient)}
     >
@@ -52,12 +53,13 @@ const Ingredient: React.FC<IngredientProps> = ({ ingredient, onIngredientClick }
           <img src={ingredient.image} alt={ingredient.name} />
         </div>
         <div className={styles.price}>
-          <span className="text text_type_digits-default">
+          <span className="text text_type_digits-default" data-testid="ingredient-price">
             {ingredient.price}
           </span>
           <CurrencyIcon type="primary" />
         </div>
         <p
+          data-testid="ingredient-name"
           className={`${styles["ingredient-text"]} text text_type_main-default`}
         >
           {ingredient.name}

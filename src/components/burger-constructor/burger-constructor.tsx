@@ -89,13 +89,14 @@ const BurgerConstructor: React.FC = () => {
   const isOrderButtonDisabled = !burgerBun || ingredients.length === 0;
 
   return (
-    <section className={styles["burger-components"]}>
+    <section className={styles["burger-components"]} data-testid="burger-constructor">
       <div
         ref={dropRef}
         className={styles["main-block-components"]}
         data-handler-id={handlerId}
+        data-testid="constructor-dropzone"
       >
-        <div className={`${styles["constructor-fixed-top"]} mt-25`}>
+        <div className={`${styles["constructor-fixed-top"]} mt-25`} data-testid="constructor-bun-top">
           <ConstructorElement
             type="top"
             isLocked={true}
@@ -108,6 +109,7 @@ const BurgerConstructor: React.FC = () => {
         <div
           className={styles["constructor-wrapper"]}
           ref={constructorWrapperRef}
+          data-testid="constructor-ingredients"
         >
           <div className={styles["main-constructor"]}>
             {ingredients
@@ -123,7 +125,7 @@ const BurgerConstructor: React.FC = () => {
               ))}
           </div>
         </div>
-        <div className={styles["constructor-fixed-bottom"]}>
+        <div className={styles["constructor-fixed-bottom"]} data-testid="constructor-bun-bottom">
           <ConstructorElement
             type="bottom"
             isLocked={true}

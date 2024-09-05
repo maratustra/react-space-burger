@@ -20,7 +20,7 @@ import constructorReducer from "./reducers/constructor";
 import { orderFeedWsReducer, orderHistoryWsReducer } from "./reducers/wsReducer";
 import { feedSocketMiddleware, historySocketMiddleware } from "./middleware/socketMiddleware";
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   user: authReducer,
   ingredients: ingredientsReducer,
   modal: modalReducer,

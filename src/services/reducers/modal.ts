@@ -11,7 +11,7 @@ export type TModalState = {
   title: string;
 };
 
-const initialState: TModalState = {
+export const initialState: TModalState = {
   isOpen: false,
   contentType: null,
   contentProps: null,
