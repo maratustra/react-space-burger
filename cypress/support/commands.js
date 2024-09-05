@@ -33,7 +33,7 @@ Cypress.Commands.add('prepare', (email, password) => {
     window.localStorage.setItem('accessToken', authData.accessToken);
   });
 
-  cy.visit('http://localhost:3000/');
+  cy.visit('/');
 });
 
 Cypress.Commands.add('login', (email, password) => {

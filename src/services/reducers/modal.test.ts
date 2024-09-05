@@ -1,4 +1,4 @@
-import modalReducer, { TModalState } from '../reducers/modal';
+import modalReducer, { initialState } from '../reducers/modal';
 import { OPEN_MODAL, CLOSE_MODAL } from '../constants/modal';
 import { ModalContentType } from '../../types';
 
@@ -9,13 +9,6 @@ const modalPayload = {
 };
 
 describe('modalReducer', () => {
-  const initialState: TModalState = {
-    isOpen: false,
-    contentType: null,
-    contentProps: null,
-    title: '',
-  };
-
   test('should return the initial state', () => {
     expect(modalReducer(undefined, {} as any)).toEqual(initialState);
   });

@@ -1,11 +1,7 @@
-import tabReducer, { TTabState } from '../reducers/tabs';
+import tabReducer, { initialState } from '../reducers/tabs';
 import { TAB_SWITCH } from '../constants/tabs';
 
 describe('tabReducer', () => {
-  const initialState: TTabState = {
-    currentTab: 'buns',
-  };
-
   test('should return the initial state', () => {
     expect(tabReducer(undefined, {} as any)).toEqual(initialState);
   });

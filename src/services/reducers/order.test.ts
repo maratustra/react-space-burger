@@ -1,4 +1,4 @@
-import orderReducer, { TOrderState } from '../reducers/order';
+import orderReducer, { initialState } from '../reducers/order';
 import {
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
@@ -6,13 +6,6 @@ import {
 } from '../constants/order';
 
 describe('orderReducer', () => {
-  const initialState: TOrderState = {
-    orderNumber: null,
-    orderTotal: 0,
-    isLoading: false,
-    error: null,
-  };
-
   test('should return the initial state', () => {
     expect(orderReducer(undefined, {} as any)).toEqual(initialState);
   });

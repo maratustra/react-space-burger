@@ -1,4 +1,4 @@
-import ingredientsReducer, { TIngredientsState } from '../reducers/ingredients';
+import ingredientsReducer, { initialState } from '../reducers/ingredients';
 import {
   SET_INGREDIENTS,
   SET_CURRENT_INGREDIENT,
@@ -28,15 +28,6 @@ const createIngredient = (): IIngredient => ({
 });
 
 describe('ingredientsReducer', () => {
-  const initialState: TIngredientsState = {
-    ingredients: [],
-    constructorIngredients: [],
-    currentIngredient: null,
-    order: null,
-    error: null,
-    isLoading: false,
-  };
-
   test('should return the initial state', () => {
     expect(ingredientsReducer(undefined, {} as any)).toEqual(initialState);
   });

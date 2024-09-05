@@ -1,4 +1,4 @@
-import authReducer, { TAuthState } from "../reducers/auth";
+import authReducer, { initialState } from "../reducers/auth";
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -17,14 +17,6 @@ import {
 } from "../constants/auth";
 
 describe("auth reducer", () => {
-  const initialState: TAuthState = {
-    user: null,
-    isAuthChecked: false,
-    updateSuccess: false,
-    loading: false,
-    error: null,
-  };
-
   test("should return the initial state", () => {
     expect(authReducer(undefined, {} as any)).toEqual(initialState);
   });

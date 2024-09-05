@@ -8,39 +8,33 @@ import {
   ORDER_HISTORY_WS_ERROR,
   ORDER_HISTORY_WS_MESSAGE,
 } from '../constants/wsConstants';
-import { orderFeedWsReducer, orderHistoryWsReducer } from './wsReducer';
+import { initialFeedState, initialHistoryState, orderFeedWsReducer, orderHistoryWsReducer } from './wsReducer';
 
 describe('orderFeedWsReducer', () => {
-  const initialState = {
-    wsConnected: false,
-    messages: [],
-    error: undefined,
-  };
-
   const webSocketUrl = 'wss://test/feed';
 
   test('should return the initial state', () => {
-    expect(orderFeedWsReducer(undefined, {} as any)).toEqual(initialState);
+    expect(orderFeedWsReducer(undefined, {} as any)).toEqual(initialFeedState);
   });
 
   test('should handle ORDER_FEED_WS_OPEN', () => {
     const action = { type: ORDER_FEED_WS_OPEN, payload: webSocketUrl };
     const expectedState = {
-      ...initialState,
+      ...initialFeedState,
       wsConnected: true,
     };
 
-    expect(orderFeedWsReducer(initialState, action)).toEqual(expectedState);
+    expect(orderFeedWsReducer(initialFeedState, action)).toEqual(expectedState);
   });
 
   test('should handle ORDER_FEED_WS_CLOSE', () => {
     const stateWithConnection = {
-      ...initialState,
+      ...initialFeedState,
       wsConnected: true,
     };
     const action = { type: ORDER_FEED_WS_CLOSE, payload: webSocketUrl };
     const expectedState = {
-      ...initialState,
+      ...initialFeedState,
       wsConnected: false,
     };
 
@@ -51,57 +45,51 @@ describe('orderFeedWsReducer', () => {
     const error = 'WebSocket error';
     const action = { type: ORDER_FEED_WS_ERROR, payload: error };
     const expectedState = {
-      ...initialState,
+      ...initialFeedState,
       wsConnected: false,
       error: error,
     };
 
-    expect(orderFeedWsReducer(initialState, action)).toEqual(expectedState);
+    expect(orderFeedWsReducer(initialFeedState, action)).toEqual(expectedState);
   });
 
   test('should handle ORDER_FEED_WS_MESSAGE', () => {
     const message = { data: 'test' };
     const action = { type: ORDER_FEED_WS_MESSAGE, payload: message };
     const expectedState = {
-      ...initialState,
+      ...initialFeedState,
       messages: [message],
     };
 
-    expect(orderFeedWsReducer(initialState, action)).toEqual(expectedState);
+    expect(orderFeedWsReducer(initialFeedState, action)).toEqual(expectedState);
   });
 });
 
 describe('orderHistoryWsReducer', () => {
-  const initialState = {
-    wsConnected: false,
-    messages: [],
-    error: undefined,
-  };
-
   const webSocketUrl = 'wss://test/feed';
 
   test('should return the initial state', () => {
-    expect(orderHistoryWsReducer(undefined, {} as any)).toEqual(initialState);
+    expect(orderHistoryWsReducer(undefined, {} as any)).toEqual(initialHistoryState);
   });
 
   test('should handle ORDER_HISTORY_WS_OPEN', () => {
     const action = { type: ORDER_HISTORY_WS_OPEN, payload: webSocketUrl };
     const expectedState = {
-      ...initialState,
+      ...initialHistoryState,
       wsConnected: true,
     };
 
-    expect(orderHistoryWsReducer(initialState, action)).toEqual(expectedState);
+    expect(orderHistoryWsReducer(initialHistoryState, action)).toEqual(expectedState);
   });
 
   test('should handle ORDER_HISTORY_WS_CLOSE', () => {
     const action = { type: ORDER_HISTORY_WS_CLOSE, payload: webSocketUrl };
     const stateWithConnection = {
-      ...initialState,
+      ...initialHistoryState,
       wsConnected: true,
     };
     const expectedState = {
-      ...initialState,
+      ...initialHistoryState,
       wsConnected: false,
     };
 
@@ -112,22 +100,22 @@ describe('orderHistoryWsReducer', () => {
     const error = 'WebSocket error';
     const action = { type: ORDER_HISTORY_WS_ERROR, payload: error };
     const expectedState = {
-      ...initialState,
+      ...initialHistoryState,
       wsConnected: false,
       error: error,
     };
 
-    expect(orderHistoryWsReducer(initialState, action)).toEqual(expectedState);
+    expect(orderHistoryWsReducer(initialHistoryState, action)).toEqual(expectedState);
   });
 
   test('should handle ORDER_HISTORY_WS_MESSAGE', () => {
     const message = { data: 'test' };
     const action = { type: ORDER_HISTORY_WS_MESSAGE, payload: message };
     const expectedState = {
-      ...initialState,
+      ...initialHistoryState,
       messages: [message],
     };
 
-    expect(orderHistoryWsReducer(initialState, action)).toEqual(expectedState);
+    expect(orderHistoryWsReducer(initialHistoryState, action)).toEqual(expectedState);
   });
 });

@@ -1,4 +1,4 @@
-import constructorReducer, { TConstructorState } from "../reducers/constructor";
+import constructorReducer, { initialState } from "../reducers/constructor";
 import {
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
@@ -27,12 +27,6 @@ const createIngredient = (type: string, key: string) => ({
 });
 
 describe("constructorReducer", () => {
-  const initialState: TConstructorState = {
-    ingredients: [],
-    bun: null,
-    constructorIngredients: [],
-  };
-
   const bun = createIngredient('bun', '1');
   const main = createIngredient('main', '2');
   const sauce = createIngredient('sauce', '3');
