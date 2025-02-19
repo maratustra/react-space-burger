@@ -1,9 +1,3 @@
-## Демо версия
-
-Вы можете посмотреть демо версию приложения по следующей ссылке:
-
-[React Space Burger Demo](https://maratustraa.github.io/react-space-burger)
-
 # React Space Burger
 
 Этот проект был создан с помощью [Create React App](https://github.com/facebook/create-react-app).
