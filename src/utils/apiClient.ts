@@ -8,14 +8,14 @@ interface SuccessResponse extends Response {
   success: boolean;
 }
 
-const checkResponse = (res: Response): Promise<any> => {
+export const checkResponse = (res: Response): Promise<any> => {
   if (res.ok) {
     return res.json();
   }
   return Promise.reject(`Ошибка ${res.status}`);
 };
 
-const checkSuccess = (res: SuccessResponse): SuccessResponse => {
+export const checkSuccess = (res: SuccessResponse): SuccessResponse => {
   if (res && res.success) {
     return res;
   }

@@ -23,6 +23,7 @@ const Modal = ({ title, children, onClose }: ModalProps) => {
     : `${styles["modal-header"]} ${styles["modal-header-no-title"]}`;
 
   useEffect(() => {
+
     const handleEscKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
@@ -36,12 +37,13 @@ const Modal = ({ title, children, onClose }: ModalProps) => {
   }, [onClose]);
 
   return ReactDOM.createPortal(
-    <>
+    <div data-testid="modal">
       <ModalOverlay onClose={onClose} />
       <div className={modalClasses}>
         <div className={modalHeaderClasses}>
-          {title && <p className="text text_type_main-large">{title}</p>}
+          {title && <p data-testid="modal-title" className="text text_type_main-large">{title}</p>}
           <button
+            data-testid="close-modal-button"
             onClick={onClose}
             className={styles["modal-close"]}
           >
@@ -50,7 +52,7 @@ const Modal = ({ title, children, onClose }: ModalProps) => {
         </div>
         <div>{children}</div>
       </div>
-    </>,
+    </div>,
     modalRoot
   );
 };

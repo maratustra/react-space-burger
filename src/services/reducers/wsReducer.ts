@@ -19,12 +19,12 @@ type WebSocketState = {
   error?: string;
 };
 
-const initialFeedState: WebSocketState = {
+export const initialFeedState: WebSocketState = {
   wsConnected: false,
   messages: [],
 };
 
-const initialHistoryState: WebSocketState = {
+export const initialHistoryState: WebSocketState = {
   wsConnected: false,
   messages: [],
 };

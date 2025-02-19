@@ -86,7 +86,7 @@ interface IOrderHistoryWsMessageAction {
   payload: any;
 }
 
-export type TOrderHistoryWsActions =
+export type TOrderHistoryWsActions = 
   | IOrderHistoryWsConnectAction
   | IOrderHistoryWsDisconnectAction
   | IOrderHistoryWsConnectingAction

@@ -9,6 +9,7 @@ const OrderDetails: React.FC = () => {
   return (
     <div className={`${styles["order-details"]} pt-4`}>
       <span
+        data-testid="order-number"
         className={`${styles["order-counter"]} text text_type_main-large mb-8`}
       >
         {orderNumber}
