@@ -1,4 +1,4 @@
-🔗 https://maratustraa.github.io/react-space-burger/
+🔗 https://maratustra.github.io/react-space-burger/
 
 # React Space Burger
 
