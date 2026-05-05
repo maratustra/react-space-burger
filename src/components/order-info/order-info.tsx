@@ -33,7 +33,7 @@ const OrderInfoPage: React.FC = () => {
         setOrder(orderDetails);
         setIngredientsData(allIngredients);
       } catch (err) {
-        setError("Ошибка загрузки данных заказа");
+        setError("Error loading order data");
       } finally {
         setLoading(false);
       }
@@ -51,7 +51,7 @@ const OrderInfoPage: React.FC = () => {
   }
 
   if (!order) {
-    return <p>Заказ не найден</p>;
+    return <p>Order not found</p>;
   }
 
   const ingredientDetails = order.ingredients
@@ -83,7 +83,7 @@ const OrderInfoPage: React.FC = () => {
           <p
             className={`${styles.status} text text_type_main-default text_color_success`}
           >
-            Выполнен
+            Done
           </p>
         );
       case "pending":
@@ -91,7 +91,7 @@ const OrderInfoPage: React.FC = () => {
           <p
             className={`${styles.status} text text_type_main-default text_color_inactive`}
           >
-            Готовится
+            In progress
           </p>
         );
       case "created":
@@ -99,7 +99,7 @@ const OrderInfoPage: React.FC = () => {
           <p
             className={`${styles.status} text text_type_main-default text_color_inactive`}
           >
-            Создан
+            Created
           </p>
         );
       default:
@@ -121,7 +121,7 @@ const OrderInfoPage: React.FC = () => {
 
       <div>
         <p className={`${styles.orderName} text text_type_main-medium`}>
-          Состав:
+          Ingredients:
         </p>
         <div className={styles.ingredientsList}>
           {groupedIngredients.map((ingredient) => (

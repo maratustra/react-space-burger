@@ -44,24 +44,24 @@ const RegistrationPage: React.FC = () => {
       .then((res) => {
         if (res.success) {
           setSuccessMessage(
-            "Регистрация успешна! Перенаправляем на страницу входа"
+            "Registration successful! Redirecting to the login page"
           );
           setTimeout(() => navigate("/login"), 3000);
         } else {
-          setErrorMessage("Ошибка регистрации");
+          setErrorMessage("Registration error");
         }
       })
-      .catch(() => setErrorMessage("Ошибка регистрации"));
+      .catch(() => setErrorMessage("Registration error"));
   };
 
   return (
     <main className={styles.wrapper}>
       <div className={styles.container}>
-        <p className="text text_type_main-medium">Регистрация</p>
+        <p className="text text_type_main-medium">Sign up</p>
         <form className={styles.form} onSubmit={handleSubmit}>
           <Input
             type={"text"}
-            placeholder={"Имя"}
+            placeholder={"Name"}
             onChange={onChangeName}
             value={name}
             name={"name"}
@@ -77,21 +77,21 @@ const RegistrationPage: React.FC = () => {
             onChange={onChangePassword}
             value={password}
             name={"password"}
-            placeholder="Пароль"
+            placeholder="Password"
           />
           {successMessage && <p className='input__error text_type_main-default'>{successMessage}</p>}
           {errorMessage && <p className='input__error text_type_main-default'>{errorMessage}</p>}
 
           <Button htmlType="submit" type="primary" size="medium">
-            {loading ? <Loader /> : "Зарегистрироваться"}
+            {loading ? <Loader /> : "Sign up"}
           </Button>
         </form>
         <div className={styles.links}>
           <p className="text text_type_main-default text_color_inactive">
-            Уже зарегистрированы?
+            Already registered?
           </p>
           <Link to="/login" className={styles.link}>
-            Войти
+            Sign in
           </Link>
         </div>
       </div>

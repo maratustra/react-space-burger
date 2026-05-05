@@ -35,7 +35,7 @@ const CalculationsPage: React.FC<ICalculationsPageProps> = ({
       <div className={styles.contentWrapper}>
         <div className={styles.orderSummary}>
           <div className={styles.orderSection}>
-            <p className="text text_type_main-medium">Готовы:</p>
+            <p className="text text_type_main-medium">Ready:</p>
             <div className={styles.columns}>
               {readyOrderColumns.map((column, index) => (
                 <ul key={index} className={styles.orderList}>
@@ -51,7 +51,7 @@ const CalculationsPage: React.FC<ICalculationsPageProps> = ({
             </div>
           </div>
           <div className={styles.orderSection}>
-            <p className="text text_type_main-medium">В работе:</p>
+            <p className="text text_type_main-medium">In progress:</p>
             <div className={styles.columns}>
               {inProgressOrderColumns.map((column, index) => (
                 <ul key={index} className={styles.orderList}>
@@ -68,11 +68,11 @@ const CalculationsPage: React.FC<ICalculationsPageProps> = ({
           </div>
         </div>
         <div className={styles.totalSummary}>
-          <p className="text text_type_main-medium">Выполнено за все время:</p>
+          <p className="text text_type_main-medium">Completed all-time:</p>
           <p className="text text_type_digits-large">{total}</p>
         </div>
         <div className={styles.dailySummary}>
-          <p className="text text_type_main-medium">Выполнено за сегодня:</p>
+          <p className="text text_type_main-medium">Completed today:</p>
           <p className="text text_type_digits-large">{totalToday}</p>
         </div>
       </div>

@@ -5,7 +5,7 @@ import { ModalContentType } from '../../types';
 const modalPayload = {
   contentType: 'ingredientDetails' as ModalContentType,
   contentProps: { id: '123' },
-  title: 'Детали заказа',
+  title: 'Order details',
 };
 
 describe('modalReducer', () => {

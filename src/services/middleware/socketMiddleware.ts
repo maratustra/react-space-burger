@@ -83,10 +83,10 @@ export const createSocketMiddleware = (
                 payload: urlObj.toString(),
               });
             } catch (error) {
-              console.error("Не получилось обновить токен:", error);
+              console.error("Failed to refresh token:", error);
               dispatch({
                 type: wsActions.wsError,
-                payload: "Не получилось обновить токен",
+                payload: "Failed to refresh token",
               });
             }
           } else {

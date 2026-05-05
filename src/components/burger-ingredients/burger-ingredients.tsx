@@ -15,16 +15,14 @@ const BurgerIngredients: React.FC = () => {
   );
   const currentTab = useAppSelector((store) => store.tabs.currentTab);
 
-  const buns = ingredients.filter((ingredient: IIngredient) =>
-    ingredient.name.toLowerCase().includes("булка")
+  const buns = ingredients.filter(
+    (ingredient: IIngredient) => ingredient.type === "bun"
   );
-  const sauces = ingredients.filter((ingredient: IIngredient) =>
-    ingredient.name.toLowerCase().includes("соус")
+  const sauces = ingredients.filter(
+    (ingredient: IIngredient) => ingredient.type === "sauce"
   );
   const mains = ingredients.filter(
-    (ingredient: IIngredient) =>
-      !ingredient.name.toLowerCase().includes("булка") &&
-      !ingredient.name.toLowerCase().includes("соус")
+    (ingredient: IIngredient) => ingredient.type === "main"
   );
 
   const bunsRef = useRef<HTMLDivElement | null>(null);
@@ -55,7 +53,7 @@ const BurgerIngredients: React.FC = () => {
 
   const onIngredientClick = (ingredient: IIngredient) => {
     dispatch(
-      openModal("ingredientDetails", { ingredient }, "Детали ингредиента")
+      openModal("ingredientDetails", { ingredient }, "Ingredient details")
     );
   };
 
@@ -97,7 +95,7 @@ const BurgerIngredients: React.FC = () => {
 
   return (
     <section className={styles["burger-ingredients"]}>
-      <p className="text text_type_main-large pt-10 pb-5">Соберите бургер</p>
+      <p className="text text_type_main-large pt-10 pb-5">Assemble your burger</p>
       <div className={`${styles["tab-container"]} pb-10`}>
         <div className={styles.tab}>
           <Tab
@@ -105,7 +103,7 @@ const BurgerIngredients: React.FC = () => {
             active={currentTab === "buns"}
             onClick={() => switchTab("buns")}
           >
-            Булки
+            Buns
           </Tab>
         </div>
         <div className={styles.tab}>
@@ -114,7 +112,7 @@ const BurgerIngredients: React.FC = () => {
             active={currentTab === "sauces"}
             onClick={() => switchTab("sauces")}
           >
-            Соусы
+            Sauces
           </Tab>
         </div>
         <div className={styles.tab}>
@@ -123,7 +121,7 @@ const BurgerIngredients: React.FC = () => {
             active={currentTab === "mains"}
             onClick={() => switchTab("mains")}
           >
-            Начинки
+            Fillings
           </Tab>
         </div>
       </div>
@@ -132,7 +130,7 @@ const BurgerIngredients: React.FC = () => {
           <p
             className={`${styles["ingredient-header"]} text text_type_main-medium`}
           >
-            Булки
+            Buns
           </p>
           <ul className={`${styles["ingredients-list"]} mt-6 mb-15 ml-4 pl-0`}>
             {buns.map((ingredient: IIngredient) => (
@@ -149,7 +147,7 @@ const BurgerIngredients: React.FC = () => {
           <p
             className={`${styles["ingredient-header"]} text text_type_main-medium`}
           >
-            Соусы
+            Sauces
           </p>
           <ul className={`${styles["ingredients-list"]} mt-6 mb-15 ml-4 pl-0`}>
             {sauces.map((ingredient: IIngredient) => (
@@ -166,7 +164,7 @@ const BurgerIngredients: React.FC = () => {
           <p
             className={`${styles["ingredient-header"]} text text_type_main-medium`}
           >
-            Начинки
+            Fillings
           </p>
           <ul className={`${styles["ingredients-list"]} mt-6 mb-15 ml-4 pl-0`}>
             {mains.map((ingredient: IIngredient) => (

@@ -9,7 +9,7 @@
   border-radius: 40px;
   width: 720px;
   height: 620px;
-  min-height: 400px; /* Заменяем height на min-height */
+  min-height: 400px;
   max-height: 90vh;
   color: #F2F2F3;
   text-align: center;
@@ -39,7 +39,7 @@
 }
 
 .modalContent {
-  flex: 1; /* Позволяет этому блоку занимать все свободное пространство */
-  overflow-y: auto; /* Добавляем прокрутку для контента, если он превышает высоту */
+  flex: 1; /* fill remaining space */
+  overflow-y: auto; /* scroll when content exceeds the height */
   margin-top: 20px;
 }

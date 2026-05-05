@@ -19,7 +19,7 @@ const Header: React.FC = () => {
             }
           >
             <BurgerIcon type="primary" />
-            <p className="text text_type_main-default">Конструктор</p>
+            <p className="text text_type_main-default">Constructor</p>
           </NavLink>
           <NavLink
             to="/feed"
@@ -28,7 +28,7 @@ const Header: React.FC = () => {
             }
           >
             <ListIcon type="primary" />
-            <p className="text text_type_main-default">Лента заказов</p>
+            <p className="text text_type_main-default">Order Feed</p>
           </NavLink>
         </ul>
         <NavLink
@@ -46,7 +46,7 @@ const Header: React.FC = () => {
           }
         >
           <ProfileIcon type="primary" />
-          <p className="text text_type_main-default">Личный кабинет</p>
+          <p className="text text_type_main-default">Profile</p>
         </NavLink>
       </nav>
     </header>

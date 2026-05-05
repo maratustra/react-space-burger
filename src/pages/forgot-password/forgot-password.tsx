@@ -30,24 +30,24 @@ const ForgotPasswordPage: React.FC = () => {
   return (
     <main className={styles.wrapper}>
       <div className={styles.container}>
-        <p className="text text_type_main-medium">Восстановление пароля</p>
+        <p className="text text_type_main-medium">Forgot password</p>
         <form className={styles.form} onSubmit={handleSubmit}>
           <EmailInput
             onChange={onChangeEmail}
             value={email}
             name={"email"}
-            placeholder="Укажите e-mail"
+            placeholder="Enter your e-mail"
           />
           <Button htmlType="submit" type="primary" size="medium" disabled={loading}>
-            {loading ? <Loader /> : "Восстановить"}
+            {loading ? <Loader /> : "Reset"}
           </Button>
         </form>
         <div className={styles.links}>
           <p className="text text_type_main-default text_color_inactive">
-            Вспомнили пароль?
+            Remembered your password?
           </p>
           <Link to="/login" className={styles.link}>
-            Войти
+            Sign in
           </Link>
         </div>
       </div>

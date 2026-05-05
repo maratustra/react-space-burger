@@ -38,7 +38,7 @@ const ProfileFormPage: React.FC = () => {
 
   useEffect(() => {
     if (updateSuccess) {
-      setSuccessMessage("Данные успешно изменены!");
+      setSuccessMessage("Data updated successfully!");
       setTimeout(() => setSuccessMessage(""), 3000);
     }
   }, [updateSuccess]);
@@ -77,7 +77,7 @@ const ProfileFormPage: React.FC = () => {
       <form className={styles.form} onSubmit={handleSubmit}>
         <Input
           type={"text"}
-          placeholder={"Имя"}
+          placeholder={"Name"}
           onChange={onChangeName}
           value={name}
           name={"name"}
@@ -87,14 +87,14 @@ const ProfileFormPage: React.FC = () => {
           onChange={onChangeLogin}
           value={login}
           name={"login"}
-          placeholder="Логин"
+          placeholder="Login"
           isIcon={true}
         />
         <PasswordInput
           onChange={onChangePassword}
           value={password}
           name={"password"}
-          placeholder="Пароль"
+          placeholder="Password"
           icon="EditIcon"
         />
         {successMessage && (
@@ -108,11 +108,11 @@ const ProfileFormPage: React.FC = () => {
         {isModified && (
           <div className={styles.buttons}>
             <Button htmlType="submit" type="primary" size="medium">
-              {loading ? <Loader /> : "Сохранить"}
+              {loading ? <Loader /> : "Save"}
             </Button>
 
             <Button type="secondary" size="medium" onClick={handleCancel} htmlType={"submit"}>
-              Отмена
+              Cancel
             </Button>
           </div>
         )}
