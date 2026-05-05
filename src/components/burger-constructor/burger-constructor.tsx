@@ -100,7 +100,7 @@ const BurgerConstructor: React.FC = () => {
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={burgerBun ? `${burgerBun.name} (верх)` : "Выберите булку"}
+            text={burgerBun ? `${burgerBun.name} (top)` : "Select a bun"}
             price={burgerBun ? burgerBun.price : 0}
             thumbnail={burgerBun ? burgerBun.image : emptyBun}
             extraClass={burgerBun ? "" : styles.hiddenThumbnail}
@@ -129,7 +129,7 @@ const BurgerConstructor: React.FC = () => {
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={burgerBun ? `${burgerBun.name} (низ)` : "Выберите булку"}
+            text={burgerBun ? `${burgerBun.name} (bottom)` : "Select a bun"}
             price={burgerBun ? burgerBun.price : 0}
             thumbnail={burgerBun ? burgerBun.image : emptyBun}
             extraClass={burgerBun ? "" : styles.hiddenThumbnail}
@@ -152,7 +152,7 @@ const BurgerConstructor: React.FC = () => {
           onClick={handleOrderClick}
           disabled={isOrderButtonDisabled || isOrderSending}
         >
-          {isOrderSending ? <Loader /> : 'Оформить заказ'}
+          {isOrderSending ? <Loader /> : 'Place order'}
         </Button>
       </div>
     </section>

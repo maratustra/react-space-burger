@@ -41,7 +41,7 @@ const OrderFeedPage: React.FC = () => {
   return (
     <>
       <OrderListPage
-        title="Лента заказов"
+        title="Order feed"
         orders={orders}
         allIngredientsData={allIngredientsData}
       />

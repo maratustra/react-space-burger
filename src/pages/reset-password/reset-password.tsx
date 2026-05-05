@@ -35,11 +35,11 @@ const ResetPasswordPage: React.FC = () => {
       .then((res) => {
         if (res.success) {
           setSuccessMessage(
-            "Пароль успешно перезаписан! Перенаправляем на страницу входа"
+            "Password reset successfully! Redirecting to the login page"
           );
           setTimeout(() => navigate("/login"), 3000);
         } else {
-          setErrorMessage("Ошибка сброса пароля");
+          setErrorMessage("Password reset error");
         }
       })
       .catch((err) => setErrorMessage(err.message));
@@ -48,17 +48,17 @@ const ResetPasswordPage: React.FC = () => {
   return (
     <main className={styles.wrapper}>
       <div className={styles.container}>
-        <p className="text text_type_main-medium">Восстановление пароля</p>
+        <p className="text text_type_main-medium">Reset password</p>
         <form className={styles.form} onSubmit={handleSubmit}>
           <PasswordInput
             onChange={onChangePassword}
             value={password}
             name={"password"}
-            placeholder="Введите новый пароль"
+            placeholder="Enter new password"
           />
           <Input
             type={"text"}
-            placeholder={"Введите код из письма"}
+            placeholder={"Enter code from the email"}
             onChange={onChangeCode}
             value={code}
             name={"code"}
@@ -71,16 +71,16 @@ const ResetPasswordPage: React.FC = () => {
             size="medium"
             disabled={loading}
           >
-            {loading ? <Loader /> : "Сохранить"}
+            {loading ? <Loader /> : "Save"}
           </Button>
         </form>
 
         <div className={styles.links}>
           <p className="text text_type_main-default text_color_inactive">
-            Вспомнили пароль?
+            Remembered your password?
           </p>
           <Link to="/login" className={styles.link}>
-            Войти
+            Sign in
           </Link>
         </div>
       </div>

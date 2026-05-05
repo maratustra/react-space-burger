@@ -7,12 +7,12 @@ const NotFoundPage: React.FC = () => {
       <div className={styles.container}>
         <div className={styles.illustration} />
         <h1 className={`${styles.title} text text_type_digits-large`}>404</h1>
-        <p className={styles.message}>Страница не найдена</p>
+        <p className={styles.message}>Page not found</p>
         <Link
           to="/"
           className={`${styles.link} text text_type_main-default text_color_inactive`}
         >
-          Вернуться на главную страницу
+          Back to home
         </Link>
       </div>
     </main>

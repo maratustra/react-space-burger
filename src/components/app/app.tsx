@@ -143,7 +143,7 @@ const App: React.FC = () => {
             <Route
               path="/ingredients/:id"
               element={
-                <Modal title="Детали заказа" onClose={handleCloseModal}>
+                <Modal title="Order details" onClose={handleCloseModal}>
                   <IngredientDetailsWrapper />
                 </Modal>
               }

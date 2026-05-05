@@ -3,7 +3,7 @@
   "data": [
     {
       "_id": "643d69a5c3f7b9001cfa093c",
-      "name": "Краторная булка N-200i",
+      "name": "Krator bun N-200i",
       "type": "bun",
       "proteins": 80,
       "fat": 24,
@@ -17,7 +17,7 @@
     },
     {
       "_id": "643d69a5c3f7b9001cfa0941",
-      "name": "Биокотлета из марсианской Магнолии",
+      "name": "Martian Magnolia bio-cutlet",
       "type": "main",
       "proteins": 420,
       "fat": 142,
@@ -31,7 +31,7 @@
     },
     {
       "_id": "643d69a5c3f7b9001cfa093e",
-      "name": "Филе Люминесцентного тетраодонтимформа",
+      "name": "Luminescent tetraodontimform fillet",
       "type": "main",
       "proteins": 44,
       "fat": 26,

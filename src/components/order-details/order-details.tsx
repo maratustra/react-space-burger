@@ -14,18 +14,18 @@ const OrderDetails: React.FC = () => {
       >
         {orderNumber}
       </span>
-      <p className="text text_type_main-medium">идентификатор заказа</p>
+      <p className="text text_type_main-medium">order ID</p>
 
       <div className={`${styles["accepted-icon"]} mt-15 mb-15`}>
-        <img src={acceptedPic} alt="Заказ принят" />
+        <img src={acceptedPic} alt="Order accepted" />
       </div>
       <span
         className={`${styles["order-status"]} text text_type_main-small mb-2`}
       >
-        Ваш заказ начали готовить
+        Your order is being prepared
       </span>
       <span className={`${styles["order-message"]} text text_type_main-small`}>
-        Дождитесь готовности на орбитальной станции
+        Wait for it on the orbital station
       </span>
     </div>
   );

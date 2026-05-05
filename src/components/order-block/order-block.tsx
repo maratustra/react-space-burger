@@ -57,19 +57,19 @@ const OrderBlock: React.FC<OrderBlockProps> = ({
       case "done":
         return (
           <p className="text text_type_main-default text_color_success">
-            Выполнен
+            Done
           </p>
         );
       case "pending":
         return (
           <p className="text text_type_main-default text_color_inactive">
-            Готовится
+            In progress
           </p>
         );
       case "created":
         return (
           <p className="text text_type_main-default text_color_inactive">
-            Создан
+            Created
           </p>
         );
       default:

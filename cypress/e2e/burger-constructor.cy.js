@@ -31,7 +31,7 @@ describe('Burger constructor', () => {
     let ingredientName;
     let ingredientPrice;
 
-    // Извлекаем название и цену ингредиента и сохраняем его в переменную
+    // Capture the ingredient name and price into variables
     cy.get('@firstIngredient').find('[data-testid=ingredient-name]').invoke('text').then((text) => {
       ingredientName = text;
     });
@@ -40,7 +40,7 @@ describe('Burger constructor', () => {
     });
 
     cy.get('@firstIngredient').click();
-    // Проверяем, что в модальном окне отображается правильный ингредиент
+    // Modal should show the correct ingredient
     cy.get(Selector.Modal).first().within(() => {
       cy.get('[data-testid=ingredient-name]').should('have.text', ingredientName);
       cy.get('[data-testid=ingredient-calories]').should('exist');
@@ -49,25 +49,25 @@ describe('Burger constructor', () => {
       cy.get('[data-testid=ingredient-carbohydrates]').should('exist');
     });
 
-    // Проверяем закрытие по клику на крестик
+    // Close via the close button
     cy.get(Selector.Modal).find(Selector.CloseModalButton).first().click({ force: true });
     cy.get(Selector.Modal).should('not.exist');
 
-    // Проверяем закрытие по клику на оверлей
+    // Close via overlay click
     cy.get(Selector.Ingredient).first().click();
-    cy.get(Selector.Modal).contains('Детали ингредиента').should('exist');
+    cy.get(Selector.Modal).contains('Ingredient details').should('exist');
     cy.get(Selector.ModalOverlay).should('exist').first().click({ force: true });
     cy.get(Selector.Modal).should('not.exist');
 
-    // Проверяем закрытие по клавише Escape
+    // Close via the Escape key
     cy.get(Selector.Ingredient).first().click();
-    cy.get(Selector.Modal).contains('Детали ингредиента').should('exist');
+    cy.get(Selector.Modal).contains('Ingredient details').should('exist');
     cy.get('body').trigger('keydown', { key: 'Escape' });
     cy.get(Selector.Modal).should('not.exist');
   });
 
   it('should create an order successfully', () => {
-    // Проверяем, что пользователь авторизован
+    // Confirm the user is authorized
     cy.wait('@getUser').its('response.statusCode').should('eq', 200);
 
     cy.get(Selector.Ingredient).first().as('bun');
@@ -79,7 +79,7 @@ describe('Burger constructor', () => {
     cy.get('@filling').trigger('dragstart');
     cy.get(Selector.ConstructorDropzone).trigger('drop');
 
-    cy.get('button').contains('Оформить заказ').click();
+    cy.get('button').contains('Place order').click();
 
     cy.wait('@createOrder');
 

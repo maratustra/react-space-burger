@@ -35,16 +35,16 @@ const LoginPage: React.FC = () => {
         if (res.success) {
           navigate('/');
         } else {
-          setErrorMessage('Неправильная почта или пароль');
+          setErrorMessage('Wrong email or password');
         }
       })
-      .catch(() => setErrorMessage('Неправильная почта или пароль'));
+      .catch(() => setErrorMessage('Wrong email or password'));
   };
 
   return (
     <main className={styles.wrapper}>
       <div className={styles.container}>
-        <p className="text text_type_main-medium">Вход</p>
+        <p className="text text_type_main-medium">Sign in</p>
         <form className={styles.form} onSubmit={handleSubmit}>
           <EmailInput
             onChange={onChangeEmail}
@@ -56,7 +56,7 @@ const LoginPage: React.FC = () => {
             onChange={onChangePassword}
             value={password}
             name={"password"}
-            placeholder="Пароль"
+            placeholder="Password"
           />
           {errorMessage && <p className='input__error text_type_main-default'>{errorMessage}</p>}
           <Button
@@ -65,24 +65,24 @@ const LoginPage: React.FC = () => {
             size="medium"
             disabled={loading}
           >
-            {loading ? <Loader /> : "Войти"}
+            {loading ? <Loader /> : "Sign in"}
           </Button>
         </form>
         <div className={`${styles["footer-links"]}`}>
           <div className={styles.links}>
             <p className="text text_type_main-default text_color_inactive">
-              Вы — новый пользователь?
+              New here?
             </p>
             <Link to="/registration" className={styles.link}>
-              Зарегистрироваться
+              Sign up
             </Link>
           </div>
           <div className={styles.links}>
             <p className="text text_type_main-default text_color_inactive">
-              Забыли пароль?
+              Forgot password?
             </p>
             <Link to="/forgot-password" className={styles.link}>
-              Восстановить пароль
+              Reset password
             </Link>
           </div>
         </div>

@@ -15,20 +15,19 @@ export const ProtectedRouteElement = ({ onlyUnAuth = false, component }: IProtec
   const user = useAppSelector((store) => store.user.user);
   const location = useLocation();
 
-  // isAuthChecked показывает, что проверка токена произведена
-  // Важно только, что сам факт проверки имел место
-  // Здесь возвращается просто null для экономии времени
+  // isAuthChecked indicates that the token check has run; we only care that it happened.
+  // Returning null here avoids a flash before the check completes.
   if (!isAuthChecked) {
     return null;
   }
 
-  // Пользователь авторизован, но роут предназначен для неавторизованного пользователя
+  // Authenticated user hitting an "unauth-only" route → bounce to where they came from (or home).
   if (onlyUnAuth && user) {
     const { from } = location.state || { from: { pathname: "/" } };
     return <Navigate to={from} />;
   }
 
-  // Пользователь не авторизован, но роут предназначен для авторизованного пользователя
+  // Unauthenticated user hitting a protected route → send to login, remember origin.
   if (!onlyUnAuth && !user) {
     return <Navigate to="/login" state={{ from: location }} />;
   }

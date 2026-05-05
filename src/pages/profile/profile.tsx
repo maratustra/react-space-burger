@@ -30,7 +30,7 @@ const ProfilePage: React.FC = () => {
               }`
             }
           >
-            Профиль
+            Profile
           </NavLink>
           <NavLink
             to="/profile/orders"
@@ -40,17 +40,17 @@ const ProfilePage: React.FC = () => {
               }`
             }
           >
-            История заказов
+            Order history
           </NavLink>
           <li
             className={`${styles["nav-link"]} text text_type_main-medium`}
             onClick={handleLogout}
           >
-            Выход
+            Logout
           </li>
         </ul>
         <p className="text text_type_main-default text_color_inactive">
-          В этом разделе вы можете изменить свои персональные данные
+          In this section you can update your personal information
         </p>
       </div>
 

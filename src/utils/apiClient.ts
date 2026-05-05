@@ -1,8 +1,8 @@
-export const BASE_URL = "https://norma.nomoreparties.space/api/";
+export const BASE_URL = "https://norma.education-services.ru/api/";
 export const LIVE_TABLE_SERVER_URL =
-  "wss://norma.nomoreparties.space/orders/all";
-export const USER_ORDER_SERVER_URL = "wss://norma.nomoreparties.space/orders";
-export const FETCH_TOKEN = "https://norma.nomoreparties.space/api/auth/token";
+  "wss://norma.education-services.ru/orders/all";
+export const USER_ORDER_SERVER_URL = "wss://norma.education-services.ru/orders";
+export const FETCH_TOKEN = "https://norma.education-services.ru/api/auth/token";
 
 interface SuccessResponse extends Response {
   success: boolean;
@@ -12,14 +12,14 @@ export const checkResponse = (res: Response): Promise<any> => {
   if (res.ok) {
     return res.json();
   }
-  return Promise.reject(`Ошибка ${res.status}`);
+  return Promise.reject(`Error ${res.status}`);
 };
 
 export const checkSuccess = (res: SuccessResponse): SuccessResponse => {
   if (res && res.success) {
     return res;
   }
-  throw new Error(`Ответ не success: ${res}`);
+  throw new Error(`Response not success: ${res}`);
 };
 
 const request = (endpoint: string, options?: RequestInit): Promise<any> => {
@@ -35,7 +35,7 @@ export const refreshToken = (): Promise<{
   const refreshToken = localStorage.getItem("refreshToken");
 
   if (!refreshToken) {
-    return Promise.reject("Refresh token не найден");
+    return Promise.reject("Refresh token not found");
   }
 
   return fetch(FETCH_TOKEN, {
@@ -60,7 +60,7 @@ export const refreshToken = (): Promise<{
       };
     })
     .catch((error) => {
-      console.error("Ошибка в процессе обновления токена:", error);
+      console.error("Error during token refresh:", error);
       throw error;
     });
 };
