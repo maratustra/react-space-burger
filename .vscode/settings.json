@@ -1,3 +1,6 @@
 {
-  "cSpell.words": ["praktikum", "uuidv"]
+  "cSpell.words": ["praktikum", "uuidv"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  }
 }
