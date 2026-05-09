@@ -1,6 +1,7 @@
 import modalReducer, { initialState } from '../reducers/modal';
 import { OPEN_MODAL, CLOSE_MODAL } from '../constants/modal';
 import { ModalContentType } from '../../types';
+import { describe, test, expect } from 'vitest'; 
 
 const modalPayload = {
   contentType: 'ingredientDetails' as ModalContentType,

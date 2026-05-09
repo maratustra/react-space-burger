@@ -15,6 +15,7 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
 } from "../constants/auth";
+import { describe, test, expect } from 'vitest'; 
 
 describe("auth reducer", () => {
   test("should return the initial state", () => {

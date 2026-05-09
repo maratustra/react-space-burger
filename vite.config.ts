@@ -1,7 +1,11 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from "vitest/config";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: '/react-space-burger/',
+  base: "/react-space-burger/",
+  test: {
+    environment: "jsdom",
+    setupFiles: ["./src/setupTests.ts"],
+  },
 });
