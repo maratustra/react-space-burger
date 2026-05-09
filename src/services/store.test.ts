@@ -1,17 +1,21 @@
-import fetchMock from "jest-fetch-mock";
+import createFetchMock from "vitest-fetch-mock";
+import { describe, it, test, expect, beforeEach, afterEach, vi } from 'vitest'; 
 import { rootReducer } from "./store";
 import { TIngredientsActions } from "./actions/ingredients";
 import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILURE } from "./constants/ingredients";
 import { IIngredient } from "../types/index";
 
+const fetchMocker = createFetchMock(vi);
+fetchMocker.enableMocks();      
+
 describe("Redux store and actions", () => {
   beforeEach(() => {
-    fetchMock.resetMocks();
-    fetchMock.mockResponseOnce(JSON.stringify({ result: "OK" }));
+    fetchMocker.resetMocks();
+    fetchMocker.mockResponseOnce(JSON.stringify({ result: "OK" }));
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   test("should return the initial state", () => {

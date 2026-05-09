@@ -9,6 +9,8 @@ import {
   ORDER_HISTORY_WS_MESSAGE,
 } from '../constants/wsConstants';
 import { initialFeedState, initialHistoryState, orderFeedWsReducer, orderHistoryWsReducer } from './wsReducer';
+import { describe, test, expect } from 'vitest'; 
+
 
 describe('orderFeedWsReducer', () => {
   const webSocketUrl = 'wss://test/feed';
