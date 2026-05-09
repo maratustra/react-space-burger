@@ -21,9 +21,9 @@ Users can compose custom burgers from a catalog of ingredients, place orders aut
 **Real-time:** WebSocket (custom Redux middleware)
 **Auth:** JWT with refresh-token rotation
 **Testing:** Jest, Cypress
-**Build:** Create React App
+**Build:** Create React App --> Vite
 
-> **Note:** This project is currently being modernized — Vite migration and Redux Toolkit refactor are planned next.
+Migrated from CRA to Vite for faster dev server startup, simpler configuration, and access to the modern ecosystem (Vitest, ESM-first tooling). CRA was officially deprecated.
 
 ## Engineering Highlights
 
@@ -51,7 +51,7 @@ src/
 ### Available Scripts
 
 ```bash
-npm start              # Start the dev server at http://localhost:3000
+npm run dev            # Start the dev server at http://localhost:3000
 npm run build          # Build for production
 npm test               # Run Jest unit tests
 npm run cypress        # Open Cypress test runner
@@ -75,7 +75,11 @@ npm run cypress:open
 ## Roadmap
 
 Active modernization plan for this project:
-- [ ] Migrate from Create React App to Vite
+- [x] Migrate from Create React App to Vite
+- [ ] Migrate Jest to Vitest (reuse Vite config, faster runs, ESM-native)
+- [ ] Eliminate `any` from the codebase:
+  - [ ] WebSocket layer — replace `any` payloads with discriminated unions and runtime validation at the boundary
+  - [ ] Tests — replace `any` with `unknown`, `Partial<T>`, or `jest.MockedFunction` where appropriate
 - [ ] Refactor classic Redux to Redux Toolkit (`createSlice`, typed `PayloadAction`)
 - [ ] Extend Cypress coverage to authentication and order-placement flows
 - [ ] Add selector tests
