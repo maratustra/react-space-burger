@@ -16,8 +16,10 @@ Users can compose custom burgers from a catalog of ingredients, place orders aut
 
 ## Tech Stack
 
+Built on a learning assignment spec; backend API and design system provided. All frontend architecture, state management, real-time layer, and tests are my own implementation.
+
 **Core:** React 18, TypeScript, Redux, React Router 6
-**UI & Interactions:** react-dnd, CSS Modules, Yandex Practicum design system
+**UI & Interactions:** react-dnd, CSS Modules
 **Real-time:** WebSocket (custom Redux middleware)
 **Auth:** JWT with refresh-token rotation
 **Testing:** Jest --> Vitest, Cypress
